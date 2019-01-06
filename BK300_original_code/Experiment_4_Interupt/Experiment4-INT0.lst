@@ -1,0 +1,461 @@
+
+
+HI-TECH Software PIC PRO Macro Assembler V9.83 build 10920 
+                                                                                               Mon Jul 07 10:06:34 2014
+
+HI-TECH Software Omniscient Code Generator (PRO mode) build 10920
+     1                           	processor	16F877A
+     2                           	opt	pw 120
+     3                           	opt	pm
+     4                           	psect	config,global,class=CONFIG,delta=2
+     5                           	psect	text36,local,class=CODE,delta=2
+     6                           	psect	cinit,global,class=CODE,delta=2
+     7                           	psect	cstackCOMMON,global,class=COMMON,space=1,delta=1
+     8                           	psect	maintext,global,class=CODE,delta=2
+     9                           	psect	text37,local,class=CODE,delta=2
+    10                           	psect	text38,local,class=CODE,delta=2
+    11                           	psect	intentry,global,class=CODE,delta=2
+    12                           	psect	text39,local,class=CODE,delta=2
+    13                           	psect	pa_nodes,global,class=CODE,delta=2
+    14                           	dabs	1,0x7E,2
+    15  000A                     	;#
+    16                           
+    17                           	psect	config
+    18  2007  3F32               	dw	16178	;#
+    19                           
+    20                           	psect	text36
+    21  0000                     __ptext36:	
+    22  000B                     _INTCON	set	11
+    23  0008                     _PORTD	set	8
+    24  005F                     _GIE	set	95
+    25  005C                     _INTE	set	92
+    26  0059                     _INTF	set	89
+    27  005E                     _PEIE	set	94
+    28  002B                     _RA3	set	43
+    29  003A                     _RC2	set	58
+    30  003B                     _RC3	set	59
+    31  003C                     _RC4	set	60
+    32  003D                     _RC5	set	61
+    33  0040                     _RD0	set	64
+    34  0048                     _RE0	set	72
+    35  0049                     _RE1	set	73
+    36  004A                     _RE2	set	74
+    37  0085                     _TRISA	set	133
+    38  0086                     _TRISB	set	134
+    39  0087                     _TRISC	set	135
+    40  0088                     _TRISD	set	136
+    41  0089                     _TRISE	set	137
+    42                           
+    43                           	psect	cinit
+    44  0051                     start_initialization:	
+    45  0051                     end_of_initialization:	
+    46                           ;End of C runtime variable initialization code
+    47                           
+    48  0051  0183               	clrf	3
+    49  0052  120A  118A  2843   	ljmp	_main	;jump to C main() function
+    50                           
+    51                           	psect	cstackCOMMON
+    52  0070                     __pcstackCOMMON:	
+    53  0070                     ?_Board_init:	
+    54  0070                     ?_main:	
+    55                           ; 0 bytes @ 0x0
+    56                           
+    57  0070                     ?_INT:	
+    58                           ; 0 bytes @ 0x0
+    59                           
+    60  0070                     ??_INT:	
+    61                           ; 0 bytes @ 0x0
+    62                           
+    63                           
+    64                           ; 0 bytes @ 0x0
+    65  0070                     	ds	2
+    66  0072                     ??_Board_init:	
+    67  0072                     ??_main:	
+    68                           ; 0 bytes @ 0x2
+    69                           
+    70                           
+    71                           	psect	maintext
+    72  0043                     __pmaintext:	
+    73                           ; 0 bytes @ 0x2
+    74 ;;Data sizes: Strings 0, constant 0, data 0, bss 0, persistent 0 stack 0
+    75 ;;Auto spaces:   Size  Autos    Used
+    76 ;; COMMON          14      2       2
+    77 ;; BANK0           80      0       0
+    78 ;; BANK1           80      0       0
+    79 ;; BANK3           96      0       0
+    80 ;; BANK2           96      0       0
+    81 ;;
+    82 ;; Pointer list with targets:
+    83 ;;
+    84 ;; Critical Paths under _main in COMMON
+    85 ;;
+    86 ;;   None.
+    87 ;;
+    88 ;; Critical Paths under _INT in COMMON
+    89 ;;
+    90 ;;   None.
+    91 ;;
+    92 ;; Critical Paths under _main in BANK0
+    93 ;;
+    94 ;;   None.
+    95 ;;
+    96 ;; Critical Paths under _INT in BANK0
+    97 ;;
+    98 ;;   None.
+    99 ;;
+   100 ;; Critical Paths under _main in BANK1
+   101 ;;
+   102 ;;   None.
+   103 ;;
+   104 ;; Critical Paths under _INT in BANK1
+   105 ;;
+   106 ;;   None.
+   107 ;;
+   108 ;; Critical Paths under _main in BANK3
+   109 ;;
+   110 ;;   None.
+   111 ;;
+   112 ;; Critical Paths under _INT in BANK3
+   113 ;;
+   114 ;;   None.
+   115 ;;
+   116 ;; Critical Paths under _main in BANK2
+   117 ;;
+   118 ;;   None.
+   119 ;;
+   120 ;; Critical Paths under _INT in BANK2
+   121 ;;
+   122 ;;   None.
+   123 ;;
+   124 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
+   125 ;;
+   126 ;;
+   127 ;;Call Graph Tables:
+   128 ;;
+   129 ;; ---------------------------------------------------------------------------------
+   130 ;; (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+   131 ;; ---------------------------------------------------------------------------------
+   132 ;; (0) _main                                                 1     1      0       0
+   133 ;;                         _Board_init
+   134 ;; ---------------------------------------------------------------------------------
+   135 ;; (1) _Board_init                                           0     0      0       0
+   136 ;; ---------------------------------------------------------------------------------
+   137 ;; Estimated maximum stack depth 1
+   138 ;; ---------------------------------------------------------------------------------
+   139 ;; (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+   140 ;; ---------------------------------------------------------------------------------
+   141 ;; (2) _INT                                                  2     2      0       0
+   142 ;;                                              0 COMMON     2     2      0
+   143 ;; ---------------------------------------------------------------------------------
+   144 ;; Estimated maximum stack depth 2
+   145 ;; ---------------------------------------------------------------------------------
+   146 ;; Call Graph Graphs:
+   147 ;; _main (ROOT)
+   148 ;;   _Board_init
+   149 ;;
+   150 ;; _INT (ROOT)
+   151 ;;
+   152 ;; Address spaces:
+   153 ;;Name               Size   Autos  Total    Cost      Usage
+   154 ;;BITCOMMON            E      0       0       0        0.0%
+   155 ;;EEDATA             100      0       0       0        0.0%
+   156 ;;NULL                 0      0       0       0        0.0%
+   157 ;;CODE                 0      0       0       0        0.0%
+   158 ;;COMMON               E      2       2       1       14.3%
+   159 ;;BITSFR0              0      0       0       1        0.0%
+   160 ;;SFR0                 0      0       0       1        0.0%
+   161 ;;BITSFR1              0      0       0       2        0.0%
+   162 ;;SFR1                 0      0       0       2        0.0%
+   163 ;;STACK                0      0       1       2        0.0%
+   164 ;;ABS                  0      0       0       3        0.0%
+   165 ;;BITBANK0            50      0       0       4        0.0%
+   166 ;;BITSFR3              0      0       0       4        0.0%
+   167 ;;SFR3                 0      0       0       4        0.0%
+   168 ;;BANK0               50      0       0       5        0.0%
+   169 ;;BITSFR2              0      0       0       5        0.0%
+   170 ;;SFR2                 0      0       0       5        0.0%
+   171 ;;BITBANK1            50      0       0       6        0.0%
+   172 ;;BANK1               50      0       0       7        0.0%
+   173 ;;BITBANK3            60      0       0       8        0.0%
+   174 ;;BANK3               60      0       0       9        0.0%
+   175 ;;BITBANK2            60      0       0      10        0.0%
+   176 ;;BANK2               60      0       0      11        0.0%
+   177 ;;DATA                 0      0       0      12        0.0%
+   178                           
+   179                           
+   180 ;; *************** function _main *****************
+   181 ;; Defined at:
+   182 ;;		line 18 in file "F:\Experiment_4\INT0.C"
+   183 ;; Parameters:    Size  Location     Type
+   184 ;;		None
+   185 ;; Auto vars:     Size  Location     Type
+   186 ;;  key             1    0        unsigned char 
+   187 ;; Return value:  Size  Location     Type
+   188 ;;		None               void
+   189 ;; Registers used:
+   190 ;;		wreg, status,2, status,0, pclath, cstack
+   191 ;; Tracked objects:
+   192 ;;		On entry : 17F/0
+   193 ;;		On exit  : 60/0
+   194 ;;		Unchanged: FFE00/0
+   195 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   196 ;;      Params:         0       0       0       0       0
+   197 ;;      Locals:         0       0       0       0       0
+   198 ;;      Temps:          0       0       0       0       0
+   199 ;;      Totals:         0       0       0       0       0
+   200 ;;Total ram usage:        0 bytes
+   201 ;; Hardware stack levels required when called:    2
+   202 ;; This function calls:
+   203 ;;		_Board_init
+   204 ;; This function is called by:
+   205 ;;		Startup code after reset
+   206 ;; This function uses a non-reentrant model
+   207 ;;
+   208  0043                     _main:	
+   209                           
+   210                           ;INT0.C: 19: unsigned char key;
+   211                           ;INT0.C: 20: Board_init();
+   212                           
+   213                           ; Regs used in _main: [wreg+status,2+status,0+pclath+cstack]
+   214  0043  120A  118A  200F   	fcall	_Board_init
+      +       120A  118A         
+   215                           
+   216                           ;INT0.C: 21: TRISB=0x01;
+   217  0048  3001               	movlw	1
+   218  0049  1683               	bsf	3,5	;RP0=1, select bank1
+   219  004A  0086               	movwf	6	;volatile
+   220                           
+   221                           ;INT0.C: 23: RC5=1;
+   222  004B  1283               	bcf	3,5	;RP0=0, select bank0
+   223  004C  1687               	bsf	7,5
+   224                           
+   225                           ;INT0.C: 25: INTE=1;
+   226  004D  160B               	bsf	11,4
+   227                           
+   228                           ;INT0.C: 26: GIE=1;
+   229  004E  178B               	bsf	11,7
+   230                           
+   231                           ;INT0.C: 27: PEIE=1;
+   232  004F  170B               	bsf	11,6
+   233  0050                     l689:	
+   234  0050  2850               	goto	l689
+   235  0051                     __end_of_main:	
+   236                           
+   237                           	psect	text37
+   238  000F                     __ptext37:	
+   239 ;; =============== function _main ends ============
+   240                           
+   241                           
+   242 ;; *************** function _Board_init *****************
+   243 ;; Defined at:
+   244 ;;		line 18 in file "F:\Experiment_4\BoardConfig.h"
+   245 ;; Parameters:    Size  Location     Type
+   246 ;;		None
+   247 ;; Auto vars:     Size  Location     Type
+   248 ;;		None
+   249 ;; Return value:  Size  Location     Type
+   250 ;;		None               void
+   251 ;; Registers used:
+   252 ;;		wreg, status,2
+   253 ;; Tracked objects:
+   254 ;;		On entry : 17F/0
+   255 ;;		On exit  : 60/0
+   256 ;;		Unchanged: FFE00/0
+   257 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   258 ;;      Params:         0       0       0       0       0
+   259 ;;      Locals:         0       0       0       0       0
+   260 ;;      Temps:          0       0       0       0       0
+   261 ;;      Totals:         0       0       0       0       0
+   262 ;;Total ram usage:        0 bytes
+   263 ;; Hardware stack levels used:    1
+   264 ;; Hardware stack levels required when called:    1
+   265 ;; This function calls:
+   266 ;;		Nothing
+   267 ;; This function is called by:
+   268 ;;		_main
+   269 ;; This function uses a non-reentrant model
+   270 ;;
+   271  000F                     _Board_init:	
+   272                           
+   273                           ;BoardConfig.h: 21: TRISA=0x00;
+   274                           
+   275                           ; Regs used in _Board_init: [wreg+status,2]
+   276  000F  1683               	bsf	3,5	;RP0=1, select bank1
+   277  0010  0185               	clrf	5	;volatile
+   278                           
+   279                           ;BoardConfig.h: 22: TRISB=0x00;
+   280  0011  0186               	clrf	6	;volatile
+   281                           
+   282                           ;BoardConfig.h: 23: TRISC=0x00;
+   283  0012  0187               	clrf	7	;volatile
+   284                           
+   285                           ;BoardConfig.h: 24: TRISD=0x00;
+   286  0013  0188               	clrf	8	;volatile
+   287                           
+   288                           ;BoardConfig.h: 25: TRISE=0X00;
+   289  0014  0189               	clrf	9	;volatile
+   290                           
+   291                           ;BoardConfig.h: 30: PORTD=0XFF;
+   292  0015  30FF               	movlw	255
+   293  0016  1283               	bcf	3,5	;RP0=0, select bank0
+   294  0017  0088               	movwf	8	;volatile
+   295                           
+   296                           ;BoardConfig.h: 31: RA3=0;
+   297  0018  1185               	bcf	5,3
+   298                           
+   299                           ;BoardConfig.h: 32: RC5=1;
+   300  0019  1687               	bsf	7,5
+   301  001A  0000               	nop	;#
+   302  001B  0000               	nop	;#
+   303                           
+   304                           ;BoardConfig.h: 35: RC5=0;
+   305  001C  1283               	bcf	3,5	;RP0=0, select bank0
+   306  001D  1303               	bcf	3,6	;RP1=0, select bank0
+   307  001E  1287               	bcf	7,5
+   308                           
+   309                           ;BoardConfig.h: 39: RC3=1;
+   310  001F  1587               	bsf	7,3
+   311  0020  0000               	nop	;#
+   312  0021  0000               	nop	;#
+   313                           
+   314                           ;BoardConfig.h: 42: RC3=0;
+   315  0022  1283               	bcf	3,5	;RP0=0, select bank0
+   316  0023  1303               	bcf	3,6	;RP1=0, select bank0
+   317  0024  1187               	bcf	7,3
+   318                           
+   319                           ;BoardConfig.h: 46: RC4=1;
+   320  0025  1607               	bsf	7,4
+   321                           
+   322                           ;BoardConfig.h: 47: PORTD=0X00;
+   323  0026  0188               	clrf	8	;volatile
+   324  0027  0000               	nop	;#
+   325  0028  0000               	nop	;#
+   326                           
+   327                           ;BoardConfig.h: 50: RC4=0;
+   328  0029  1283               	bcf	3,5	;RP0=0, select bank0
+   329  002A  1303               	bcf	3,6	;RP1=0, select bank0
+   330  002B  1207               	bcf	7,4
+   331                           
+   332                           ;BoardConfig.h: 52: PORTD=0XFF;
+   333  002C  0088               	movwf	8	;volatile
+   334                           
+   335                           ;BoardConfig.h: 54: RC2=1;
+   336  002D  1507               	bsf	7,2
+   337                           
+   338                           ;BoardConfig.h: 56: RE0=0;
+   339  002E  1009               	bcf	9,0
+   340                           
+   341                           ;BoardConfig.h: 57: RE1=0;
+   342  002F  1089               	bcf	9,1
+   343                           
+   344                           ;BoardConfig.h: 58: RE2=0;
+   345  0030  1109               	bcf	9,2
+   346  0031  0008               	return
+   347  0032                     __end_of_Board_init:	
+   348                           
+   349                           	psect	text38
+   350  0032                     __ptext38:	
+   351 ;; =============== function _Board_init ends ============
+   352                           
+   353                           
+   354 ;; *************** function _INT *****************
+   355 ;; Defined at:
+   356 ;;		line 35 in file "F:\Experiment_4\INT0.C"
+   357 ;; Parameters:    Size  Location     Type
+   358 ;;		None
+   359 ;; Auto vars:     Size  Location     Type
+   360 ;;		None
+   361 ;; Return value:  Size  Location     Type
+   362 ;;		None               void
+   363 ;; Registers used:
+   364 ;;		wreg
+   365 ;; Tracked objects:
+   366 ;;		On entry : 0/0
+   367 ;;		On exit  : 0/0
+   368 ;;		Unchanged: FFF9F/0
+   369 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   370 ;;      Params:         0       0       0       0       0
+   371 ;;      Locals:         0       0       0       0       0
+   372 ;;      Temps:          2       0       0       0       0
+   373 ;;      Totals:         2       0       0       0       0
+   374 ;;Total ram usage:        2 bytes
+   375 ;; Hardware stack levels used:    1
+   376 ;; This function calls:
+   377 ;;		Nothing
+   378 ;; This function is called by:
+   379 ;;		Interrupt level 1
+   380 ;; This function uses a non-reentrant model
+   381 ;;
+   382  0032                     _INT:	
+   383                           
+   384                           ;INT0.C: 36: if(INTE && INTCON)
+   385  0032  1E0B               	btfss	11,4
+   386  0033  283C               	goto	i1l695
+   387  0034  080B               	movf	11,w	;volatile
+   388  0035  1903               	btfsc	3,2
+   389  0036  283C               	goto	i1l695
+   390  0037  3001               	movlw	1
+   391                           
+   392                           ;INT0.C: 37: {
+   393                           ;INT0.C: 38: INTF=0;
+   394  0038  108B               	bcf	11,1
+   395                           
+   396                           ;INT0.C: 39: RD0=!RD0;
+   397  0039  1283               	bcf	3,5	;RP0=0, select bank0
+   398  003A  1303               	bcf	3,6	;RP1=0, select bank0
+   399  003B  0688               	xorwf	8,f
+   400  003C                     i1l695:	
+   401  003C  0871               	movf	??_INT+1,w
+   402  003D  008A               	movwf	10
+   403  003E  0E70               	swapf	??_INT^(0+-128),w
+   404  003F  0083               	movwf	3
+   405  0040  0EFE               	swapf	126,f
+   406  0041  0E7E               	swapf	126,w
+   407  0042  0009               	retfie
+   408  0043                     __end_of_INT:	
+   409                           
+   410                           	psect	intentry
+   411  0004                     __pintentry:	
+   412                           ; Regs used in _INT: [wreg]
+   413                           
+   414  0004                     interrupt_function:	
+   415  007E                     saved_w	set	btemp
+   416  0004  00FE               	movwf	btemp
+   417  0005  0E03               	swapf	3,w
+   418  0006  00F0               	movwf	??_INT
+   419  0007  080A               	movf	10,w
+   420  0008  00F1               	movwf	??_INT+1
+   421  0009  120A  118A  2832   	ljmp	_INT
+   422                           
+   423                           	psect	text39
+   424  0000                     __ptext39:	
+   425 ;; =============== function _INT ends ============
+   426                           
+   427  007E                     btemp	set	126	;btemp
+   428  007E                     wtemp0	set	126
+
+
+HI-TECH Software PICC Macro Assembler V9.83 build 10920 
+Symbol Table                                                                                   Mon Jul 07 10:06:34 2014
+
+                 l685 0000                   l689 0050                   _GIE 005F                   _RA3 002B  
+                 _RD0 0040                   _RC2 003A                   _RC3 003B                   _RE0 0048  
+                 _RC4 003C                   _RE1 0049                   _RC5 003D                   _RE2 004A  
+                 _INT 0032                  ?_INT 0070                  l1800 0000                  l1750 0000  
+                l1742 0000                  l1760 0000                  l1752 0000                  l1744 0000  
+                l1770 0000                  l1762 0000                  l1754 0000                  l1746 0000  
+                l1780 0000                  l1772 0000                  l1764 0000                  l1756 0000  
+                l1748 0000                  l1774 0000                  l1766 0000                  l1758 0000  
+                l1790 0000                  l1776 0000                  l1768 0000                  l1792 0000  
+                l1778 0000                  l1794 0000                  l1796 0000                  l1798 0000  
+                _PEIE 005E                  _INTE 005C                  _INTF 0059                  _main 0043  
+                btemp 007E                  start 000C            _Board_init 000F                 ??_INT 0070  
+               ?_main 0070                 i1l695 003C                 _PORTD 0008                 _TRISA 0085  
+               _TRISB 0086                 _TRISC 0087                 _TRISD 0088                 _TRISE 0089  
+               pclath 000A                 status 0003                 wtemp0 007E          __end_of_main 0051  
+              ??_main 0072                i1l1782 0000                i1l1786 0000                i1l1788 0000  
+              _INTCON 000B           ?_Board_init 0070                saved_w 007E        __pcstackCOMMON 0070  
+ __size_of_Board_init 0023            __pmaintext 0043            __pintentry 0004          __size_of_INT 0011  
+end_of_initialization 0051          ??_Board_init 0072    __end_of_Board_init 0032   start_initialization 0051  
+         __end_of_INT 0043     interrupt_function 0004              __ptext36 0000              __ptext37 000F  
+            __ptext38 0032              __ptext39 0000         __size_of_main 000E              intlevel1 0000  
