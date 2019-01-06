@@ -5,5 +5,4 @@ When time permits, I hope to load versions of these programs so that they can be
 
 <img src="BK300_Layout.jpg" alt="BK300 Dev board"/>
 
-
-<img src="BK300_Circuit_Diagram.pdf"/>
+<img src="BK300_Circuit_Diagram.jpg" alt="BK300 Dev Schematics"/>
