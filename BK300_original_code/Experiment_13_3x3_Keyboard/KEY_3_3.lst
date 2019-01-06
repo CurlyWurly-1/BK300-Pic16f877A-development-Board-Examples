@@ -1,0 +1,722 @@
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+                                                      Tue Apr 23 16:21:13 2013
+
+
+     1                           	processor	16F877A
+     2                           	opt	pw 79
+     3                           	psect	config,global,class=CONFIG,delta=2
+     4                           	psect	rdata_0,global,class=BANK0,space=1,delta
+      +                          =1
+     5                           	psect	idata_0,global,class=CODE,delta=2
+     6                           	psect	text2,local,class=CODE,delta=2
+     7                           	psect	text4,local,class=CODE,delta=2
+     8                           	psect	rbss_0,global,class=BANK0,space=1,delta=
+      +                          1
+     9                           	psect	temp,global,ovrld,class=BANK0,space=1,de
+      +                          lta=1
+    10  0000                     
+    11  0000                     
+    12  0000                     
+    13  0000                     
+    14  0000                     
+    15  0000                     
+    16  0000                     
+    17  0000                     
+    18  0000                     
+    19  0000                     
+    20                           
+    21                           	psect	config
+    22  2007  3F32               	dw	16178	;#
+    23                           
+    24                           	psect	rdata_0
+    25  0025                     _LED_CODE
+                     _LED_CODE
+    26  0025                     	ds	1
+                     	ds	1
+    27  0026                     	ds	1
+                     	ds	1
+    28  0027                     	ds	1
+                     	ds	1
+    29  0028                     	ds	1
+                     	ds	1
+    30  0029                     	ds	1
+                     	ds	1
+    31  002A                     	ds	1
+                     	ds	1
+    32  002B                     	ds	1
+                     	ds	1
+    33  002C                     	ds	1
+                     	ds	1
+    34  002D                     	ds	1
+                     	ds	1
+    35  002E                     	ds	1
+                     	ds	1
+    36  002F                     	ds	1
+                     	ds	1
+    37  0030                     	ds	1
+                     	ds	1
+    38  0031                     	ds	1
+                     	ds	1
+    39  0032                     	ds	1
+                     	ds	1
+    40  0033                     	ds	1
+                     	ds	1
+    41  0034                     	ds	1
+                     	ds	1
+    42  0035                     	ds	1
+    43                           
+    44                           	psect	idata_0
+    45  07EF  34C0               	retlw	-64
+    46  07F0  34F9               	retlw	-7
+    47  07F1  34A4               	retlw	-92
+    48  07F2  34B0               	retlw	-80
+    49  07F3  3499               	retlw	-103
+    50  07F4  3492               	retlw	-110
+    51  07F5  3482               	retlw	-126
+    52  07F6  34F8               	retlw	-8
+    53  07F7  3480               	retlw	-128
+    54  07F8  3490               	retlw	-112
+    55  07F9  3488               	retlw	-120
+    56  07FA  3483               	retlw	-125
+    57  07FB  34C6               	retlw	-58
+    58  07FC  34A1               	retlw	-95
+    59  07FD  3486               	retlw	-122
+    60  07FE  348E               	retlw	-114
+    61  07FF  34FF               	retlw	-1
+    62                           
+    63                           	psect	text2
+    64  071B                     _key_scan
+    65                           ;	_key_temp assigned to ?a_key_scan+0
+    66  0000                     _key_scan$key_temp	set	?a_key_scan
+    67                           ;	_i assigned to ?a_key_scan+1
+    68  0000                     _key_scan$i	set	?a_key_scan+1
+    69                           ;	_read_io assigned to ?a_key_scan+2
+    70  0000                     _key_scan$read_io	set	?a_key_scan+2
+    71                           ;KEY_3_3.C: 80: key_scan()
+    72  071B  0183               	clrf	3	;select bank 0
+    73  071C  01A2               	clrf	?a_key_scan
+    74  071D  30EF               	movlw	-17
+    75  071E  00A4               	movwf	?a_key_scan+2
+    76                           ;KEY_3_3.C: 83: unsigned char i;
+    77  071F  01A3               	clrf	?a_key_scan+1
+    78  0720                     l27
+    79                           ;KEY_3_3.C: 85: {
+    80  0720  1683               	bsf	3,5
+    81  0721  0186               	clrf	6	;volatile
+    82                           ;KEY_3_3.C: 87: PORTB=read_io |0x0F;
+    83  0722  1283               	bcf	3,5
+    84  0723  0824               	movf	?a_key_scan+2,w
+    85  0724  380F               	iorlw	15
+    86  0725  0086               	movwf	6	;volatile
+    87                           ;KEY_3_3.C: 88: TRISB=0X0F;
+    88  0726  300F               	movlw	15
+    89  0727  1683               	bsf	3,5
+    90  0728  0086               	movwf	6	;volatile
+    91                           ;KEY_3_3.C: 89: if((key_temp=PORTB & 0X0F)!=0X0
+      +                          F)
+    92  0729  1283               	bcf	3,5
+    93  072A  0806               	movf	6,w	;volatile
+    94  072B  390F               	andlw	15
+    95  072C  00A2               	movwf	?a_key_scan
+    96  072D  3A0F               	xorlw	15
+    97  072E  1903               	btfsc	3,2
+    98  072F  2F35               	goto	l30
+    99                           ;KEY_3_3.C: 90: return(read_io & 0xF0);
+   100  0730  0824               	movf	?a_key_scan+2,w
+   101  0731  39F0               	andlw	-16
+   102  0732  00FE               	movwf	btemp
+   103  0733  01FF               	clrf	btemp+1
+   104  0734  0008               	return
+   105  0735                     l30
+   106                           ;KEY_3_3.C: 91: read_io<<=1;
+   107  0735  1003               	bcf	3,0
+   108  0736  0DA4               	rlf	?a_key_scan+2
+   109  0737  0AA3               	incf	?a_key_scan+1
+   110  0738  3004               	movlw	4
+   111  0739  0223               	subwf	?a_key_scan+1,w
+   112  073A  1803               	btfsc	3,0
+   113  073B  0008               	return
+   114  073C  2F20               	goto	l27
+   115  073D                     _delay
+   116                           ;	_x_ms assigned to ?a_delay+0
+   117  0000                     _delay$x_ms	set	?a_delay
+   118                           ;	_ns assigned to ?a_delay+1
+   119  0000                     _delay$ns	set	?a_delay+1
+   120                           ;_x_ms stored from w
+   121  073D  0183               	clrf	3	;select bank 0
+   122  073E  00A2               	movwf	?a_delay
+   123                           ;KEY_3_3.C: 96: void delay(unsigned char x_ms)
+   124  073F  08A2               	movf	?a_delay
+   125  0740  1903               	btfsc	3,2
+   126  0741  0008               	return
+   127  0742                     l32
+   128                           ;KEY_3_3.C: 100: for(ns=0;ns<1000;ns++);
+   129  0742  01A3               	clrf	?a_delay+1
+   130  0743  01A4               	clrf	?a_delay+2
+   131  0744                     l35
+   132  0744  0AA3               	incf	?a_delay+1
+   133  0745  1903               	btfsc	3,2
+   134  0746  0AA4               	incf	?a_delay+2
+   135  0747  3003               	movlw	3
+   136  0748  0224               	subwf	?a_delay+2,w
+   137  0749  30E8               	movlw	232
+   138  074A  1903               	btfsc	3,2
+   139  074B  0223               	subwf	?a_delay+1,w
+   140  074C  1C03               	btfss	3,0
+   141  074D  2F44               	goto	l35
+   142  074E  0BA2               	decfsz	?a_delay
+   143  074F  2F42               	goto	l32
+   144  0750  0008               	return
+   145  0751                     _Board_init
+   146                           ;BoardConfig.h: 17: void Board_init(void)
+   147  0751  1683               	bsf	3,5
+   148  0752  1303               	bcf	3,6	;carry unused
+   149  0753  0185               	clrf	5	;volatile
+   150                           ;BoardConfig.h: 22: TRISB=0x00;
+   151  0754  0186               	clrf	6	;volatile
+   152                           ;BoardConfig.h: 23: TRISC=0x00;
+   153  0755  0187               	clrf	7	;volatile
+   154                           ;BoardConfig.h: 24: TRISD=0x00;
+   155  0756  0188               	clrf	8	;volatile
+   156                           ;BoardConfig.h: 25: TRISE=0X00;
+   157  0757  0189               	clrf	9	;volatile
+   158                           ;BoardConfig.h: 30: PORTD=0XFF;
+   159  0758  30FF               	movlw	-1
+   160  0759  1283               	bcf	3,5
+   161  075A  0088               	movwf	8	;volatile
+   162                           ;BoardConfig.h: 31: RA3=0;
+   163  075B  1185               	bcf	5,3
+   164                           ;BoardConfig.h: 32: RC5=1;
+   165  075C  1687               	bsf	7,5
+   166                           ;BoardConfig.h: 33: asm ("NOP");
+   167  075D  0000               	nop	;#
+   168                           ;BoardConfig.h: 34: asm ("NOP");
+   169  075E  0000               	nop	;#
+   170                           ;BoardConfig.h: 35: RC5=0;
+   171  075F  1287               	bcf	7,5
+   172                           ;BoardConfig.h: 39: RC3=1;
+   173  0760  1587               	bsf	7,3
+   174                           ;BoardConfig.h: 40: asm ("NOP");
+   175  0761  0000               	nop	;#
+   176                           ;BoardConfig.h: 41: asm ("NOP");
+   177  0762  0000               	nop	;#
+   178                           ;BoardConfig.h: 42: RC3=0;
+   179  0763  1187               	bcf	7,3
+   180                           ;BoardConfig.h: 46: RC4=1;
+   181  0764  1607               	bsf	7,4
+   182                           ;BoardConfig.h: 47: PORTD=0X00;
+   183  0765  0188               	clrf	8	;volatile
+   184                           ;BoardConfig.h: 48: asm ("NOP");
+   185  0766  0000               	nop	;#
+   186                           ;BoardConfig.h: 49: asm ("NOP");
+   187  0767  0000               	nop	;#
+   188                           ;BoardConfig.h: 50: RC4=0;
+   189  0768  1207               	bcf	7,4
+   190                           ;BoardConfig.h: 52: PORTD=0XFF;
+   191  0769  0088               	movwf	8	;volatile
+   192                           ;BoardConfig.h: 54: RC2=1;
+   193  076A  1507               	bsf	7,2
+   194                           ;BoardConfig.h: 56: RE0=0;
+   195  076B  1009               	bcf	9,0
+   196                           ;BoardConfig.h: 57: RE1=0;
+   197  076C  1089               	bcf	9,1
+   198                           ;BoardConfig.h: 58: RE2=0;
+   199  076D  1109               	bcf	9,2
+   200                           ;BoardConfig.h: 59: }
+   201  076E  0008               	return	;#
+   202  076F                     _main
+   203                           ;	_key_val assigned to ?a_main+0
+   204  0000                     _main$key_val	set	?a_main
+   205                           ;KEY_3_3.C: 22: void main(void)
+   206  076F  1283               	bcf	3,5
+   207  0770  1303               	bcf	3,6	;carry unused
+   208  0771  01A1               	clrf	?a_main
+   209                           ;KEY_3_3.C: 26: Board_init();
+   210  0772  2751               	fcall	_Board_init
+   211                           ;KEY_3_3.C: 29: RC4=1;
+   212  0773  1607               	bsf	7,4
+   213                           ;KEY_3_3.C: 30: PORTD=0X80;
+   214  0774  3080               	movlw	-128
+   215  0775  0088               	movwf	8	;volatile
+   216                           ;KEY_3_3.C: 31: RC4=0;
+   217  0776  1207               	bcf	7,4
+   218                           ;KEY_3_3.C: 34: RC3=1;
+   219  0777  1587               	bsf	7,3
+   220  0778                     l4
+   221                           ;KEY_3_3.C: 36: while(1)
+   222                           ;KEY_3_3.C: 37: {
+   223  0778  300F               	movlw	15
+   224  0779  1683               	bsf	3,5
+   225  077A  0086               	movwf	6	;volatile
+   226                           ;KEY_3_3.C: 39: PORTB=0X0F;
+   227  077B  1283               	bcf	3,5
+   228  077C  0086               	movwf	6	;volatile
+   229                           ;KEY_3_3.C: 40: key_num=PORTB & 0X0F;
+   230  077D  0806               	movf	6,w	;volatile
+   231  077E  390F               	andlw	15
+   232  077F  00A0               	movwf	_key_num
+   233                           ;KEY_3_3.C: 41: if(key_num !=0x0F)
+   234  0780  3A0F               	xorlw	15
+   235  0781  1903               	btfsc	3,2
+   236  0782  2FE4               	goto	l6
+   237                           ;KEY_3_3.C: 42: {
+   238  0783  3001               	movlw	1
+   239  0784  273D               	fcall	_delay
+   240                           ;KEY_3_3.C: 44: if((key_num=PORTB & 0X0F)!=0X0F
+      +                          )
+   241  0785  0806               	movf	6,w	;volatile
+   242  0786  390F               	andlw	15
+   243  0787  00A0               	movwf	_key_num
+   244  0788  3A0F               	xorlw	15
+   245  0789  1903               	btfsc	3,2
+   246  078A  2FB3               	goto	l9
+   247                           ;KEY_3_3.C: 45: {
+   248  078B  271B               	fcall	_key_scan
+   249  078C  087E               	movf	btemp,w
+   250  078D  00A1               	movwf	?a_main
+   251                           ;KEY_3_3.C: 47: key_val=key_val | key_num;
+   252  078E  0820               	movf	_key_num,w
+   253  078F  04A1               	iorwf	?a_main
+   254                           ;KEY_3_3.C: 48: }
+   255  0790  2FB3               	goto	l9
+   256  0791                     l10
+   257                           ;KEY_3_3.C: 50: {
+   258  0791  01A1               	clrf	?a_main
+   259  0792  0AA1               	incf	?a_main
+   260  0793  2FE4               	goto	l6
+   261  0794                     l11
+   262                           ;KEY_3_3.C: 52: case 0xED: key_val=0x02; break;
+   263  0794  3002               	movlw	2
+   264  0795  2FAF               	goto	L13
+   265  0796                     l12
+   266                           ;KEY_3_3.C: 53: case 0xEB: key_val=0x03; break;
+   267  0796  3003               	movlw	3
+   268  0797  2FAF               	goto	L13
+   269  0798                     l13
+   270                           ;KEY_3_3.C: 54: case 0xE7: key_val=0x04; break;
+   271  0798  3004               	movlw	4
+   272  0799  2FAF               	goto	L13
+   273  079A                     l14
+   274                           ;KEY_3_3.C: 56: case 0xDE: key_val=0x05; break;
+   275  079A  3005               	movlw	5
+   276  079B  2FAF               	goto	L13
+   277  079C                     l15
+   278                           ;KEY_3_3.C: 57: case 0xDD: key_val=0x06; break;
+   279  079C  3006               	movlw	6
+   280  079D  2FAF               	goto	L13
+   281  079E                     l16
+   282                           ;KEY_3_3.C: 58: case 0xDB: key_val=0x07; break;
+   283  079E  3007               	movlw	7
+   284  079F  2FAF               	goto	L13
+   285  07A0                     l17
+   286                           ;KEY_3_3.C: 59: case 0xD7: key_val=0x08; break;
+   287  07A0  3008               	movlw	8
+   288  07A1  2FAF               	goto	L13
+   289  07A2                     l18
+   290                           ;KEY_3_3.C: 61: case 0xBE: key_val=0x09; break;
+   291  07A2  3009               	movlw	9
+   292  07A3  2FAF               	goto	L13
+   293  07A4                     l19
+   294                           ;KEY_3_3.C: 62: case 0xBD: key_val=0x0A; break;
+   295  07A4  300A               	movlw	10
+   296  07A5  2FAF               	goto	L13
+   297  07A6                     l20
+   298                           ;KEY_3_3.C: 63: case 0xBB: key_val=0x0B; break;
+   299  07A6  300B               	movlw	11
+   300  07A7  2FAF               	goto	L13
+   301  07A8                     l21
+   302                           ;KEY_3_3.C: 64: case 0xB7: key_val=0x0C; break;
+   303  07A8  300C               	movlw	12
+   304  07A9  2FAF               	goto	L13
+   305  07AA                     l22
+   306                           ;KEY_3_3.C: 66: case 0x7E: key_val=0x0D; break;
+   307  07AA  300D               	movlw	13
+   308  07AB  2FAF               	goto	L13
+   309  07AC                     l23
+   310                           ;KEY_3_3.C: 67: case 0x7D: key_val=0x0E; break;
+   311  07AC  300E               	movlw	14
+   312  07AD  2FAF               	goto	L13
+   313  07AE                     l24
+   314                           ;KEY_3_3.C: 68: case 0x7B: key_val=0x0F; break;
+   315  07AE  300F               	movlw	15
+   316  07AF                     L13
+   317  07AF  00A1               	movwf	?a_main
+   318  07B0  2FE4               	goto	l6
+   319  07B1                     l25
+   320                           ;KEY_3_3.C: 69: case 0x77: key_val=0x00; break;
+   321  07B1  01A1               	clrf	?a_main
+   322  07B2  2FE4               	goto	l6
+   323  07B3                     l9
+   324  07B3  0821               	movf	?a_main,w
+   325  07B4  3A77               	xorlw	119
+   326  07B5  1903               	btfsc	3,2
+   327  07B6  2FB1               	goto	l25
+   328  07B7  3A0C               	xorlw	12
+   329  07B8  1903               	btfsc	3,2
+   330  07B9  2FAE               	goto	l24
+   331  07BA  3A06               	xorlw	6
+   332  07BB  1903               	btfsc	3,2
+   333  07BC  2FAC               	goto	l23
+   334  07BD  3A03               	xorlw	3
+   335  07BE  1903               	btfsc	3,2
+   336  07BF  2FAA               	goto	l22
+   337  07C0  3AC9               	xorlw	201
+   338  07C1  1903               	btfsc	3,2
+   339  07C2  2FA8               	goto	l21
+   340  07C3  3A0C               	xorlw	12
+   341  07C4  1903               	btfsc	3,2
+   342  07C5  2FA6               	goto	l20
+   343  07C6  3A06               	xorlw	6
+   344  07C7  1903               	btfsc	3,2
+   345  07C8  2FA4               	goto	l19
+   346  07C9  3A03               	xorlw	3
+   347  07CA  1903               	btfsc	3,2
+   348  07CB  2FA2               	goto	l18
+   349  07CC  3A69               	xorlw	105
+   350  07CD  1903               	btfsc	3,2
+   351  07CE  2FA0               	goto	l17
+   352  07CF  3A0C               	xorlw	12
+   353  07D0  1903               	btfsc	3,2
+   354  07D1  2F9E               	goto	l16
+   355  07D2  3A06               	xorlw	6
+   356  07D3  1903               	btfsc	3,2
+   357  07D4  2F9C               	goto	l15
+   358  07D5  3A03               	xorlw	3
+   359  07D6  1903               	btfsc	3,2
+   360  07D7  2F9A               	goto	l14
+   361  07D8  3A39               	xorlw	57
+   362  07D9  1903               	btfsc	3,2
+   363  07DA  2F98               	goto	l13
+   364  07DB  3A0C               	xorlw	12
+   365  07DC  1903               	btfsc	3,2
+   366  07DD  2F96               	goto	l12
+   367  07DE  3A06               	xorlw	6
+   368  07DF  1903               	btfsc	3,2
+   369  07E0  2F94               	goto	l11
+   370  07E1  3A03               	xorlw	3
+   371  07E2  1903               	btfsc	3,2
+   372  07E3  2F91               	goto	l10
+   373  07E4                     l6
+   374                           ;KEY_3_3.C: 71: }
+   375  07E4  3002               	movlw	2
+   376  07E5  273D               	fcall	_delay
+   377                           ;KEY_3_3.C: 73: PORTD=LED_CODE[key_val];
+   378  07E6  0821               	movf	?a_main,w
+   379  07E7  3E25               	addlw	_LED_CODE
+   380  07E8  0084               	movwf	4
+   381  07E9  1383               	bcf	3,7
+   382  07EA  0800               	movf	0,w
+   383  07EB  0088               	movwf	8	;volatile
+   384                           ;KEY_3_3.C: 74: delay(2);
+   385  07EC  3002               	movlw	2
+   386  07ED  273D               	fcall	_delay
+   387  07EE  2F78               	goto	l4
+   388                           
+   389                           	psect	text4
+   390  0000                     
+   391  0000                     
+   392  0000                     
+   393  0000                     
+   394  0000                     
+   395  0000                     
+   396  0000                     
+   397  0000                     
+   398  0000                     
+   399  0000                     
+   400  0000                     
+   401  0000                     
+   402  0000                     
+   403  0000                     
+   404  0000                     
+   405  0000                     
+   406  0000                     
+   407  0000                     
+   408  0000                     
+   409  0000                     
+   410  0000                     
+   411  0000                     
+   412  0000                     
+   413  0000                     
+   414  0000                     
+   415  0000                     
+   416  0000                     
+   417  0000                     
+   418  0000                     
+   419  0000                     
+   420  0000                     
+   421  0000                     
+   422  0000                     
+   423  0000                     
+   424  0000                     
+   425  0000                     
+   426  0000                     
+   427  0000                     
+   428  0000                     
+   429  0000                     
+   430  0000                     
+   431  0000                     
+   432  0000                     
+   433  0000                     
+   434  0000                     
+   435  0000                     
+   436  0000                     
+   437  0000                     
+   438  0000                     
+   439  0000                     
+   440  0000                     
+   441  0000                     
+   442  0000                     
+   443  0000                     
+   444  0000                     
+   445  0000                     
+   446  0000                     
+   447  0000                     
+   448  0000                     
+   449  0000                     
+   450  0000                     
+   451  0000                     
+   452  0000                     
+   453  0000                     
+   454  0000                     
+   455  0000                     
+   456  0000                     
+   457  0000                     
+   458  0000                     
+   459  0000                     
+   460  0000                     
+   461  0000                     
+   462  0000                     
+   463  0000                     
+   464  0000                     
+   465  0000                     
+   466  0000                     
+   467  0000                     
+   468  0000                     
+   469  0000                     
+   470  0000                     
+   471  0000                     
+   472  0000                     
+   473  0000                     
+   474  0000                     
+   475  0000                     
+   476  0000                     
+   477  0000                     
+   478  0000                     
+   479  0000                     
+   480  0000                     
+   481  0000                     
+   482  0000                     
+   483  0000                     
+   484  0000                     
+   485  0000                     
+   486  0000                     
+   487  0000                     
+   488  0000                     
+   489  0000                     
+   490  0000                     
+   491  0000                     
+   492  0000                     
+   493  0000                     
+   494  0000                     
+   495  0000                     
+   496  0000                     
+   497  0000                     
+   498  0000                     
+   499  0000                     
+   500  0000                     
+   501  0000                     
+   502  0000                     
+   503  0000                     
+   504  0000                     
+   505  0000                     
+   506  0000                     
+   507  0000                     
+   508  0000                     
+   509  0000                     
+   510  0000                     
+   511  0000                     
+   512  0000                     
+   513  0000                     
+   514  0000                     
+   515  0000                     
+   516  0000                     
+   517  0000                     
+   518  0000                     
+   519  0000                     
+   520  0000                     
+   521  0000                     
+   522  0000                     
+   523  0000                     
+   524  0000                     
+   525  0000                     
+   526  0000                     
+   527  0000                     
+   528  0000                     
+   529  0000                     
+   530  0000                     
+   531  0000                     
+   532  0000                     
+   533  0000                     
+   534  0000                     
+   535  0000                     
+   536  0000                     
+   537  0000                     
+   538  0000                     
+   539  0000                     
+   540  0000                     
+   541  0000                     
+   542  0000                     
+   543  0000                     
+   544  0000                     
+   545  0000                     
+   546  0000                     
+   547  0000                     
+   548  0000                     
+   549  0000                     
+   550  0000                     
+   551  0000                     
+   552  0000                     
+   553  0000                     
+   554  0000                     
+   555  0000                     
+   556  0000                     
+   557  0000                     
+   558  0000                     
+   559  0000                     
+   560  0000                     
+   561  0000                     
+   562  0000                     
+   563  0000                     
+   564  0000                     
+   565  0000                     
+   566  0000                     
+   567  0000                     
+   568  0000                     
+   569  0000                     
+   570  0000                     
+   571  0000                     
+   572  0000                     
+   573  0000                     
+   574  0000                     
+   575  0000                     
+   576  0000                     
+   577  0000                     
+   578  0000                     
+   579  0000                     
+   580  0000                     
+   581  0000                     
+   582  0000                     
+   583  0000                     
+   584  0000                     
+   585  0000                     
+   586  0000                     
+   587  0000                     
+   588  0000                     
+   589  0000                     
+   590  0000                     
+   591  0000                     
+   592  0000                     
+   593  0000                     
+   594  0000                     
+   595  0000                     
+   596  0000                     
+   597  0000                     
+   598  0000                     
+   599  0000                     
+   600  0000                     
+   601  0000                     
+   602  0000                     
+   603  0000                     
+   604  0000                     
+   605  0000                     
+   606  0000                     
+   607  0000                     
+   608  0000                     
+   609  0000                     
+   610  0000                     
+   611  0000                     
+   612  0000                     
+   613  0000                     
+   614  0000                     
+   615  0000                     
+   616  0000                     
+   617  0000                     
+   618  0000                     
+   619  0000                     
+   620  0000                     
+   621  0000                     
+   622  0000                     
+   623  0000                     
+   624  0000                     
+   625  0000                     
+   626  0000                     
+   627  0000                     
+   628  0000                     
+   629  0000                     
+   630  0000                     
+   631  0000                     
+   632  0000                     
+   633  0000                     
+   634  0000                     
+   635  0000                     
+   636  0000                     
+   637  0000                     
+   638  0000                     
+   639  0000                     
+   640  0000                     
+   641  0000                     
+   642  0000                     
+   643  0000                     
+   644  0000                     
+   645  0000                     
+   646  0000                     
+   647  0000                     
+   648  0000                     
+   649  0000                     
+   650  0000                     
+   651  0000                     
+   652  0000                     
+   653  0000                     
+   654  0000                     
+   655  0000                     
+   656  0000                     
+   657  0000                     
+   658  0000                     
+   659  0000                     
+   660  0000                     
+   661  0000                     
+   662  0000                     
+   663  0000                     
+   664  0000                     
+   665  0000                     
+   666  0000                     
+   667                           
+   668                           	psect	rbss_0
+   669  0020                     _key_num
+                     _key_num
+   670  0020                     	ds	1
+   671                           
+   672                           	psect	temp
+   673  007E                     btemp
+                     btemp
+   674  007E                     	ds	2
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+Symbol Table                                          Tue Apr 23 16:21:13 2013
+
+           ?a_main 0021                  l4 0778                  l6 07E4  
+                l9 07B3            ?a_delay 0022                 l10 0791  
+               l11 0794                 l20 07A6                 l12 0796  
+               l21 07A8                 l13 0798                 l30 0735  
+               l22 07AA                 l14 079A                 l23 07AC  
+               l15 079C                 l32 0742                 l24 07AE  
+               l16 079E                 l25 07B1                 l17 07A0  
+               l18 07A2                 l35 0744                 l27 0720  
+               l19 07A4                 fsr 0004           _key_scan 071B  
+             _main 076F           _LED_CODE 0025               btemp 007E  
+             start 0000         _Board_init 0751         ?a_key_scan 0022  
+          _key_num 0020              _delay 073D              status 0003  
+       used_btemp0 0001         used_btemp1 0001  

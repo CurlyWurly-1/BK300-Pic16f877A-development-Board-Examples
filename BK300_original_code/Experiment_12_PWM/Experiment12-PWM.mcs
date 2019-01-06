@@ -1,0 +1,195 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=E:\PIC Example program\Experiment_12\PWM.obj
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File001]
+Location=E:\PIC Example program\Experiment_12\PWM.sdb
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File002]
+Location=E:\PIC Example program\Experiment_12\PWM.rlf
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File003]
+Location=E:\PIC Example program\Experiment_12\PWM.lst
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File004]
+Location=F:\BK300 Example program\Experiment_12\PWM.obj
+Folder=Intermediary
+[File005]
+Location=F:\BK300 Example program\Experiment_12\PWM.sdb
+Folder=Intermediary
+[File006]
+Location=F:\BK300 Example program\Experiment_12\PWM.rlf
+Folder=Intermediary
+[File007]
+Location=F:\BK300 Example program\Experiment_12\PWM.lst
+Folder=Intermediary
+[File008]
+Location=E:\PIC Example program\Experiment_12\Experiment12-PWM.cof
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File009]
+Location=E:\PIC Example program\Experiment_12\Experiment12-PWM.hex
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File010]
+Location=E:\PIC Example program\Experiment_12\Experiment12-PWM.sym
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File011]
+Location=E:\PIC Example program\Experiment_12\Experiment12-PWM.map
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File012]
+Location=E:\PIC Example program\Experiment_12\Experiment12-PWM.hxl
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File013]
+Location=E:\PIC Example program\Experiment_12\startup.lst
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File014]
+Location=E:\PIC Example program\Experiment_12\startup.rlf
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File015]
+Location=E:\PIC Example program\Experiment_12\startup.as
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File016]
+Location=F:\BK300 Example program\Experiment_12\Experiment12-PWM.cof
+Folder=Output
+[File017]
+Location=F:\BK300 Example program\Experiment_12\Experiment12-PWM.hex
+Folder=Output
+[File018]
+Location=F:\BK300 Example program\Experiment_12\Experiment12-PWM.sym
+Folder=Output
+[File019]
+Location=F:\BK300 Example program\Experiment_12\Experiment12-PWM.map
+Folder=Output
+[File020]
+Location=F:\BK300 Example program\Experiment_12\Experiment12-PWM.hxl
+Folder=Output
+[File021]
+Location=F:\BK300 Example program\Experiment_12\startup.lst
+Folder=Output
+[File022]
+Location=F:\BK300 Example program\Experiment_12\startup.rlf
+Folder=Output
+[File023]
+Location=F:\BK300 Example program\Experiment_12\startup.as
+Folder=Output

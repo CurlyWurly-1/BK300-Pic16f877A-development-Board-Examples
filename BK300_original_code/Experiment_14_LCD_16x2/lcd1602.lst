@@ -1,0 +1,760 @@
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+                                                      Tue Apr 23 16:21:35 2013
+
+
+     1                           	processor	16F877A
+     2                           	opt	pw 79
+     3                           	psect	text0,local,class=CODE,delta=2
+     4                           	psect	config,global,class=CONFIG,delta=2
+     5                           	psect	text8,local,class=CODE,delta=2
+     6                           	psect	text10,local,class=CODE,delta=2
+     7  0000                     
+     8  0000                     
+     9  0000                     
+    10  0000                     
+    11  0000                     
+    12  0000                     
+    13  0000                     
+    14  0000                     
+    15  0000                     
+    16  0000                     
+    17                           
+    18                           	psect	text0
+    19  06C4                     _Board_init
+    20                           ;BoardConfig.h: 17: void Board_init(void)
+    21  06C4  1683               	bsf	3,5
+    22  06C5  1303               	bcf	3,6	;carry unused
+    23  06C6  0185               	clrf	5	;volatile
+    24                           ;BoardConfig.h: 22: TRISB=0x00;
+    25  06C7  0186               	clrf	6	;volatile
+    26                           ;BoardConfig.h: 23: TRISC=0x00;
+    27  06C8  0187               	clrf	7	;volatile
+    28                           ;BoardConfig.h: 24: TRISD=0x00;
+    29  06C9  0188               	clrf	8	;volatile
+    30                           ;BoardConfig.h: 25: TRISE=0X00;
+    31  06CA  0189               	clrf	9	;volatile
+    32                           ;BoardConfig.h: 30: PORTD=0XFF;
+    33  06CB  30FF               	movlw	-1
+    34  06CC  1283               	bcf	3,5
+    35  06CD  0088               	movwf	8	;volatile
+    36                           ;BoardConfig.h: 31: RA3=0;
+    37  06CE  1185               	bcf	5,3
+    38                           ;BoardConfig.h: 32: RC5=1;
+    39  06CF  1687               	bsf	7,5
+    40                           ;BoardConfig.h: 33: asm ("NOP");
+    41  06D0  0000               	nop	;#
+    42                           ;BoardConfig.h: 34: asm ("NOP");
+    43  06D1  0000               	nop	;#
+    44                           ;BoardConfig.h: 35: RC5=0;
+    45  06D2  1287               	bcf	7,5
+    46                           ;BoardConfig.h: 39: RC3=1;
+    47  06D3  1587               	bsf	7,3
+    48                           ;BoardConfig.h: 40: asm ("NOP");
+    49  06D4  0000               	nop	;#
+    50                           ;BoardConfig.h: 41: asm ("NOP");
+    51  06D5  0000               	nop	;#
+    52                           ;BoardConfig.h: 42: RC3=0;
+    53  06D6  1187               	bcf	7,3
+    54                           ;BoardConfig.h: 46: RC4=1;
+    55  06D7  1607               	bsf	7,4
+    56                           ;BoardConfig.h: 47: PORTD=0X00;
+    57  06D8  0188               	clrf	8	;volatile
+    58                           ;BoardConfig.h: 48: asm ("NOP");
+    59  06D9  0000               	nop	;#
+    60                           ;BoardConfig.h: 49: asm ("NOP");
+    61  06DA  0000               	nop	;#
+    62                           ;BoardConfig.h: 50: RC4=0;
+    63  06DB  1207               	bcf	7,4
+    64                           ;BoardConfig.h: 52: PORTD=0XFF;
+    65  06DC  0088               	movwf	8	;volatile
+    66                           ;BoardConfig.h: 54: RC2=1;
+    67  06DD  1507               	bsf	7,2
+    68                           ;BoardConfig.h: 56: RE0=0;
+    69  06DE  1009               	bcf	9,0
+    70                           ;BoardConfig.h: 57: RE1=0;
+    71  06DF  1089               	bcf	9,1
+    72                           ;BoardConfig.h: 58: RE2=0;
+    73  06E0  1109               	bcf	9,2
+    74                           ;BoardConfig.h: 59: }
+    75  06E1  0008               	return	;#
+    76  06E2                     _main
+    77                           ;	_START_DISPLAY1 assigned to ?a_main+0
+    78  0000                     _main$START_DISPLAY1	set	?a_main
+    79                           ;	_START_DISPLAY2 assigned to ?a_main+15
+    80  0000                     _main$START_DISPLAY2	set	?a_main+15
+    81                           ;lcd1602.c: 53: void main(void)
+    82  06E2  3020               	movlw	32
+    83  06E3  1283               	bcf	3,5
+    84  06E4  1303               	bcf	3,6	;carry unused
+    85  06E5  00A0               	movwf	?a_main
+    86  06E6  00A1               	movwf	?a_main+1
+    87  06E7  00A2               	movwf	?a_main+2
+    88  06E8  3050               	movlw	80
+    89  06E9  00A3               	movwf	?a_main+3
+    90  06EA  3049               	movlw	73
+    91  06EB  00A4               	movwf	?a_main+4
+    92  06EC  3043               	movlw	67
+    93  06ED  00A5               	movwf	?a_main+5
+    94  06EE  3020               	movlw	32
+    95  06EF  00A6               	movwf	?a_main+6
+    96  06F0  3042               	movlw	66
+    97  06F1  00A7               	movwf	?a_main+7
+    98  06F2  304B               	movlw	75
+    99  06F3  00A8               	movwf	?a_main+8
+   100  06F4  3033               	movlw	51
+   101  06F5  00A9               	movwf	?a_main+9
+   102  06F6  3030               	movlw	48
+   103  06F7  00AA               	movwf	?a_main+10
+   104  06F8  00AB               	movwf	?a_main+11
+   105  06F9  3020               	movlw	32
+   106  06FA  00AC               	movwf	?a_main+12
+   107  06FB  00AD               	movwf	?a_main+13
+   108  06FC  01AE               	clrf	?a_main+14
+   109                           ;lcd1602.c: 56: unsigned char START_DISPLAY2[]=
+      +                          {"   LCD162 TEST"};
+   110  06FD  00AF               	movwf	?a_main+15
+   111  06FE  00B0               	movwf	?a_main+16
+   112  06FF  00B1               	movwf	?a_main+17
+   113  0700  304C               	movlw	76
+   114  0701  00B2               	movwf	?a_main+18
+   115  0702  3043               	movlw	67
+   116  0703  00B3               	movwf	?a_main+19
+   117  0704  3044               	movlw	68
+   118  0705  00B4               	movwf	?a_main+20
+   119  0706  3031               	movlw	49
+   120  0707  00B5               	movwf	?a_main+21
+   121  0708  3036               	movlw	54
+   122  0709  00B6               	movwf	?a_main+22
+   123  070A  3032               	movlw	50
+   124  070B  00B7               	movwf	?a_main+23
+   125  070C  3020               	movlw	32
+   126  070D  00B8               	movwf	?a_main+24
+   127  070E  3054               	movlw	84
+   128  070F  00B9               	movwf	?a_main+25
+   129  0710  3045               	movlw	69
+   130  0711  00BA               	movwf	?a_main+26
+   131  0712  3053               	movlw	83
+   132  0713  00BB               	movwf	?a_main+27
+   133  0714  3054               	movlw	84
+   134  0715  00BC               	movwf	?a_main+28
+   135  0716  01BD               	clrf	?a_main+29
+   136                           ;lcd1602.c: 58: Board_init();
+   137  0717  26C4               	fcall	_Board_init
+   138                           ;lcd1602.c: 59: RA3=1;
+   139  0718  1585               	bsf	5,3
+   140                           ;lcd1602.c: 61: lcd_init();
+   141  0719  120A  118A  27C1   	fcall	_lcd_init
+   142                           ;lcd1602.c: 62: nms_delay(2);
+   143  071C  3002               	movlw	2
+   144  071D                     L1
+   145  071D  00BE               	movwf	?_nms_delay
+   146  071E  01BF               	clrf	?_nms_delay+1
+   147  071F  120A  118A  27AF   	fcall	_nms_delay
+   148                           ;lcd1602.c: 64: while(1)
+   149                           ;lcd1602.c: 65: {
+   150  0722  01BE               	clrf	?_LCD_write_string
+   151  0723  3020               	movlw	?a_main
+   152  0724  00BF               	movwf	?_LCD_write_string+1
+   153  0725  3000               	movlw	0
+   154  0726  120A  118A  2795   	fcall	_LCD_write_string
+   155                           ;lcd1602.c: 67: LCD_write_string(0,1,START_DISP
+      +                          LAY2);
+   156  0729  01BE               	clrf	?_LCD_write_string
+   157  072A  0ABE               	incf	?_LCD_write_string
+   158  072B  302F               	movlw	?a_main+15
+   159  072C  00BF               	movwf	?_LCD_write_string+1
+   160  072D  3000               	movlw	0
+   161  072E  120A  118A  2795   	fcall	_LCD_write_string
+      +       120A  118A         
+   162                           ;lcd1602.c: 68: nms_delay(200);
+   163  0733  30C8               	movlw	200
+   164  0734  2F1D               	goto	L1
+   165                           
+   166                           	psect	config
+   167  2007  3F32               	dw	16178	;#
+   168                           
+   169                           	psect	text8
+   170  0735                     _nus_delay
+   171                           ;	_j assigned to ?a_nus_delay+0
+   172  0000                     _nus_delay$j	set	?a_nus_delay
+   173                           ;lcd1602.c: 216: void nus_delay(unsigned int nu
+      +                          s)
+   174  0735  300A               	movlw	10
+   175  0736  0183               	clrf	3	;select bank 0
+   176  0737  00C9               	movwf	?a_nus_delay
+   177  0738  01CA               	clrf	?a_nus_delay+1
+   178                           ;lcd1602.c: 219: while(nus--)
+   179  0739  2F46               	goto	l23
+   180                           ;lcd1602.c: 220: {
+   181  073A                     l26
+   182  073A  0849               	movf	?a_nus_delay,w
+   183  073B  1903               	btfsc	3,2
+   184  073C  03CA               	decf	?a_nus_delay+1
+   185  073D  03C9               	decf	?a_nus_delay
+   186  073E  0A49               	incf	?a_nus_delay,w
+   187  073F  1903               	btfsc	3,2
+   188  0740  0A4A               	incf	?a_nus_delay+1,w
+   189  0741  1D03               	btfss	3,2
+   190  0742  2F3A               	goto	l26
+   191                           ;lcd1602.c: 222: j=10;
+   192  0743  300A               	movlw	10
+   193  0744  00C9               	movwf	?a_nus_delay
+   194  0745  01CA               	clrf	?a_nus_delay+1
+   195  0746                     l23
+   196  0746  0847               	movf	?_nus_delay,w
+   197  0747  1903               	btfsc	3,2
+   198  0748  03C8               	decf	?_nus_delay+1
+   199  0749  03C7               	decf	?_nus_delay
+   200  074A  0A47               	incf	?_nus_delay,w
+   201  074B  1903               	btfsc	3,2
+   202  074C  0A48               	incf	?_nus_delay+1,w
+   203  074D  1903               	btfsc	3,2
+   204  074E  0008               	return
+   205  074F  2F3A               	goto	l26
+   206  0750                     _LCD_en_write
+   207                           ;lcd1602.c: 109: void LCD_en_write(void)
+   208  0750  0183               	clrf	3	;select bank 0
+   209  0751  1687               	bsf	7,5
+   210                           ;lcd1602.c: 112: nus_delay(150);
+   211  0752  3096               	movlw	150
+   212  0753  00C7               	movwf	?_nus_delay
+   213  0754  01C8               	clrf	?_nus_delay+1
+   214  0755  2735               	fcall	_nus_delay
+   215                           ;lcd1602.c: 113: RC5=0;
+   216  0756  1287               	bcf	7,5
+   217                           ;lcd1602.c: 114: }
+   218  0757  0008               	return	;W free
+   219  0758                     _wait_LCD_Ready
+   220                           ;	_temp1 assigned to ?a_wait_LCD_Ready+0
+   221  0000                     _wait_LCD_Ready$temp1	set	?a_wait_LCD_Ready
+   222                           ;lcd1602.c: 123: void wait_LCD_Ready(void)
+   223  0758  30FF               	movlw	-1
+   224  0759  0183               	clrf	3	;select bank 0
+   225  075A  0088               	movwf	8	;volatile
+   226                           ;lcd1602.c: 127: TRISD=0xFF;
+   227  075B  1683               	bsf	3,5
+   228  075C  0088               	movwf	8	;volatile
+   229                           ;lcd1602.c: 129: RC3=0;
+   230  075D  1283               	bcf	3,5
+   231  075E  1187               	bcf	7,3
+   232                           ;lcd1602.c: 130: RC4=1;
+   233  075F  1607               	bsf	7,4
+   234                           ;lcd1602.c: 131: RC5=1;
+   235  0760  1687               	bsf	7,5
+   236                           ;lcd1602.c: 132: nus_delay(2);
+   237  0761  3002               	movlw	2
+   238  0762  00C7               	movwf	?_nus_delay
+   239  0763  01C8               	clrf	?_nus_delay+1
+   240  0764  2735               	fcall	_nus_delay
+   241                           ;lcd1602.c: 133: while((temp1=PORTD & 0X80));
+   242  0765                     l9
+   243  0765  0808               	movf	8,w	;volatile
+   244  0766  3980               	andlw	-128
+   245  0767  00C6               	movwf	?a_wait_LCD_Ready
+   246  0768  08C6               	movf	?a_wait_LCD_Ready
+   247  0769  1D03               	btfss	3,2
+   248  076A  2F65               	goto	l9
+   249                           ;lcd1602.c: 134: RC5=0;
+   250  076B  1287               	bcf	7,5
+   251                           ;lcd1602.c: 135: RC3=1;
+   252  076C  1587               	bsf	7,3
+   253                           ;lcd1602.c: 136: TRISD=0x00;
+   254  076D  1683               	bsf	3,5
+   255  076E  0188               	clrf	8	;volatile
+   256                           ;lcd1602.c: 137: }
+   257  076F  1283               	bcf	3,5
+   258  0770  0008               	return	;W free
+   259  0771                     _LCD_write_onechar
+   260                           ;	_COMM assigned to ?a_LCD_write_onechar+0
+   261  0000                     _LCD_write_onechar$COMM	set	?a_LCD_write_onecha
+      +                          r
+   262                           ;_COMM stored from w
+   263  0771  0183               	clrf	3	;select bank 0
+   264  0772  00C5               	movwf	?a_LCD_write_onechar
+   265                           ;lcd1602.c: 146: void LCD_write_onechar(unsigne
+      +                          d char COMM,unsigned char DAT)
+   266  0773  2758               	fcall	_wait_LCD_Ready
+   267                           ;lcd1602.c: 149: RC4=0;
+   268  0774  1207               	bcf	7,4
+   269                           ;lcd1602.c: 152: if(COMM==0)
+   270  0775  08C5               	movf	?a_LCD_write_onechar
+   271  0776  1D03               	btfss	3,2
+   272  0777  2F7B               	goto	l13
+   273                           ;lcd1602.c: 153: {
+   274  0778  1587               	bsf	7,3
+   275                           ;lcd1602.c: 155: PORTD=DAT;
+   276  0779  0844               	movf	?_LCD_write_onechar,w
+   277  077A  2F7D               	goto	L2
+   278                           ;lcd1602.c: 156: }
+   279  077B                     l13
+   280                           ;lcd1602.c: 158: else
+   281  077B  1187               	bcf	7,3
+   282                           ;lcd1602.c: 161: PORTD=COMM;
+   283  077C  0845               	movf	?a_LCD_write_onechar,w
+   284  077D                     L2
+   285  077D  0088               	movwf	8	;volatile
+   286                           ;lcd1602.c: 162: }
+   287  077E  2750  120A  118A   	fcall	_LCD_en_write
+   288                           ;lcd1602.c: 164: nus_delay(2);
+   289  0781  3002               	movlw	2
+   290  0782  00C7               	movwf	?_nus_delay
+   291  0783  01C8               	clrf	?_nus_delay+1
+   292  0784  2735               	fcall	_nus_delay
+   293                           ;lcd1602.c: 165: RC4=1;
+   294  0785  1607               	bsf	7,4
+   295                           ;lcd1602.c: 166: RC3=1;
+   296  0786  1587               	bsf	7,3
+   297                           ;lcd1602.c: 167: }
+   298  0787  0008               	return	;W free
+   299  0788                     _set_LCD_xy
+   300                           ;	_x assigned to ?a_set_LCD_xy+0
+   301  0000                     _set_LCD_xy$x	set	?a_set_LCD_xy
+   302                           ;	_DIS_address assigned to ?a_set_LCD_xy+1
+   303  0000                     _set_LCD_xy$DIS_address	set	?a_set_LCD_xy+1
+   304                           ;_x stored from w
+   305  0788  0183               	clrf	3	;select bank 0
+   306  0789  00C2               	movwf	?a_set_LCD_xy
+   307                           ;lcd1602.c: 196: void set_LCD_xy(unsigned char 
+      +                          x, unsigned char y )
+   308  078A  08C1               	movf	?_set_LCD_xy
+   309  078B  1D03               	btfss	3,2
+   310  078C  2F90               	goto	l20
+   311                           ;lcd1602.c: 200: DIS_address = 0x80 + x;
+   312  078D  0842               	movf	?a_set_LCD_xy,w
+   313  078E  3E80               	addlw	-128
+   314  078F  2F92               	goto	L3
+   315  0790                     l20
+   316                           ;lcd1602.c: 201: else
+   317  0790  0842               	movf	?a_set_LCD_xy,w
+   318  0791  3EC0               	addlw	-64
+   319  0792                     L3
+   320  0792  00C3               	movwf	?a_set_LCD_xy+1
+   321                           ;lcd1602.c: 203: LCD_write_onechar( DIS_address
+      +                          , 0 );
+   322  0793  01C4               	clrf	?_LCD_write_onechar
+   323  0794  2F71               	ljmp	_LCD_write_onechar
+   324  0795                     _LCD_write_string
+   325                           ;	_X assigned to ?a_LCD_write_string+0
+   326  0000                     _LCD_write_string$X	set	?a_LCD_write_string
+   327                           ;_X stored from w
+   328  0795  0183               	clrf	3	;select bank 0
+   329  0796  00C0               	movwf	?a_LCD_write_string
+   330                           ;lcd1602.c: 176: void LCD_write_string(unsigned
+      +                           char X,unsigned char Y,unsigned char *string)
+   331  0797  083E               	movf	?_LCD_write_string,w
+   332  0798  00C1               	movwf	?_set_LCD_xy
+   333  0799  0840               	movf	?a_LCD_write_string,w
+   334  079A  2788  120A  118A   	fcall	_set_LCD_xy
+   335                           ;lcd1602.c: 179: while (*string)
+   336  079D  2FA8               	goto	l16
+   337  079E                     l17
+   338                           ;lcd1602.c: 180: {
+   339  079E  083F               	movf	?_LCD_write_string+1,w
+   340  079F  0084               	movwf	4
+   341  07A0  1383               	bcf	3,7
+   342  07A1  0800               	movf	0,w
+   343  07A2  00C4               	movwf	?_LCD_write_onechar
+   344  07A3  3000               	movlw	0
+   345  07A4  2771  120A  118A   	fcall	_LCD_write_onechar
+   346                           ;lcd1602.c: 182: string ++;
+   347  07A7  0ABF               	incf	?_LCD_write_string+1
+   348  07A8                     l16
+   349  07A8  083F               	movf	?_LCD_write_string+1,w
+   350  07A9  0084               	movwf	4
+   351  07AA  1383               	bcf	3,7
+   352  07AB  0880               	movf	0
+   353  07AC  1903               	btfsc	3,2
+   354  07AD  0008               	return
+   355  07AE  2F9E               	goto	l17
+   356  07AF                     _nms_delay
+   357                           ;lcd1602.c: 234: void nms_delay(unsigned int nm
+      +                          s)
+   358  07AF  2FB5               	goto	l30
+   359  07B0                     l31
+   360                           ;lcd1602.c: 237: nus_delay(1000);
+   361  07B0  30E8               	movlw	232
+   362  07B1  00C7               	movwf	?_nus_delay
+   363  07B2  3003               	movlw	3
+   364  07B3  00C8               	movwf	?_nus_delay+1
+   365  07B4  2735               	fcall	_nus_delay
+   366  07B5                     l30
+   367  07B5  1283               	bcf	3,5
+   368  07B6  1303               	bcf	3,6	;carry unused
+   369  07B7  083E               	movf	?_nms_delay,w
+   370  07B8  1903               	btfsc	3,2
+   371  07B9  03BF               	decf	?_nms_delay+1
+   372  07BA  03BE               	decf	?_nms_delay
+   373  07BB  0A3E               	incf	?_nms_delay,w
+   374  07BC  1903               	btfsc	3,2
+   375  07BD  0A3F               	incf	?_nms_delay+1,w
+   376  07BE  1903               	btfsc	3,2
+   377  07BF  0008               	return
+   378  07C0  2FB0               	goto	l31
+   379  07C1                     _lcd_init
+   380                           ;lcd1602.c: 83: void lcd_init(void)
+   381  07C1  300F               	movlw	15
+   382  07C2  0183               	clrf	3	;select bank 0
+   383  07C3  00BE               	movwf	?_nms_delay
+   384  07C4  01BF               	clrf	?_nms_delay+1
+   385  07C5  27AF               	fcall	_nms_delay
+   386                           ;lcd1602.c: 86: TRISD=0x00;
+   387  07C6  1683               	bsf	3,5
+   388  07C7  0188               	clrf	8	;volatile
+   389                           ;lcd1602.c: 87: TRISC&=0X00;
+   390  07C8  0187               	clrf	7	;volatile
+   391                           ;lcd1602.c: 88: LCD_write_onechar(0x38,0);
+   392  07C9  1283               	bcf	3,5
+   393  07CA  01C4               	clrf	?_LCD_write_onechar
+   394  07CB  3038               	movlw	56
+   395  07CC  2771  120A  118A   	fcall	_LCD_write_onechar
+   396                           ;lcd1602.c: 89: nms_delay(1);
+   397  07CF  01BE               	clrf	?_nms_delay
+   398  07D0  0ABE               	incf	?_nms_delay
+   399  07D1  01BF               	clrf	?_nms_delay+1
+   400  07D2  27AF               	fcall	_nms_delay
+   401                           ;lcd1602.c: 90: LCD_write_onechar(0x38,0);
+   402  07D3  01C4               	clrf	?_LCD_write_onechar
+   403  07D4  3038               	movlw	56
+   404  07D5  2771  120A  118A   	fcall	_LCD_write_onechar
+   405                           ;lcd1602.c: 91: nms_delay(1);
+   406  07D8  01BE               	clrf	?_nms_delay
+   407  07D9  0ABE               	incf	?_nms_delay
+   408  07DA  01BF               	clrf	?_nms_delay+1
+   409  07DB  27AF               	fcall	_nms_delay
+   410                           ;lcd1602.c: 92: LCD_write_onechar(0x38,0);
+   411  07DC  01C4               	clrf	?_LCD_write_onechar
+   412  07DD  3038               	movlw	56
+   413  07DE  2771  120A  118A   	fcall	_LCD_write_onechar
+   414                           ;lcd1602.c: 93: nms_delay(1);
+   415  07E1  01BE               	clrf	?_nms_delay
+   416  07E2  0ABE               	incf	?_nms_delay
+   417  07E3  01BF               	clrf	?_nms_delay+1
+   418  07E4  27AF               	fcall	_nms_delay
+   419                           ;lcd1602.c: 94: LCD_write_onechar(0x38,0);
+   420  07E5  01C4               	clrf	?_LCD_write_onechar
+   421  07E6  3038               	movlw	56
+   422  07E7  2771  120A  118A   	fcall	_LCD_write_onechar
+   423                           ;lcd1602.c: 95: LCD_write_onechar(0x08,0);
+   424  07EA  01C4               	clrf	?_LCD_write_onechar
+   425  07EB  3008               	movlw	8
+   426  07EC  2771  120A  118A   	fcall	_LCD_write_onechar
+   427                           ;lcd1602.c: 96: LCD_write_onechar(0x01,0);
+   428  07EF  01C4               	clrf	?_LCD_write_onechar
+   429  07F0  3001               	movlw	1
+   430  07F1  2771  120A  118A   	fcall	_LCD_write_onechar
+   431                           ;lcd1602.c: 97: LCD_write_onechar(0x06,0);
+   432  07F4  01C4               	clrf	?_LCD_write_onechar
+   433  07F5  3006               	movlw	6
+   434  07F6  2771  120A  118A   	fcall	_LCD_write_onechar
+   435                           ;lcd1602.c: 98: nms_delay(1);;
+   436  07F9  01BE               	clrf	?_nms_delay
+   437  07FA  0ABE               	incf	?_nms_delay
+   438  07FB  01BF               	clrf	?_nms_delay+1
+   439  07FC  27AF               	fcall	_nms_delay
+   440                           ;lcd1602.c: 99: LCD_write_onechar(0x0C,0);
+   441  07FD  01C4               	clrf	?_LCD_write_onechar
+   442  07FE  300C               	movlw	12
+   443  07FF  2F71               	ljmp	_LCD_write_onechar
+   444                           
+   445                           	psect	text10
+   446  0000                     
+   447  0000                     
+   448  0000                     
+   449  0000                     
+   450  0000                     
+   451  0000                     
+   452  0000                     
+   453  0000                     
+   454  0000                     
+   455  0000                     
+   456  0000                     
+   457  0000                     
+   458  0000                     
+   459  0000                     
+   460  0000                     
+   461  0000                     
+   462  0000                     
+   463  0000                     
+   464  0000                     
+   465  0000                     
+   466  0000                     
+   467  0000                     
+   468  0000                     
+   469  0000                     
+   470  0000                     
+   471  0000                     
+   472  0000                     
+   473  0000                     
+   474  0000                     
+   475  0000                     
+   476  0000                     
+   477  0000                     
+   478  0000                     
+   479  0000                     
+   480  0000                     
+   481  0000                     
+   482  0000                     
+   483  0000                     
+   484  0000                     
+   485  0000                     
+   486  0000                     
+   487  0000                     
+   488  0000                     
+   489  0000                     
+   490  0000                     
+   491  0000                     
+   492  0000                     
+   493  0000                     
+   494  0000                     
+   495  0000                     
+   496  0000                     
+   497  0000                     
+   498  0000                     
+   499  0000                     
+   500  0000                     
+   501  0000                     
+   502  0000                     
+   503  0000                     
+   504  0000                     
+   505  0000                     
+   506  0000                     
+   507  0000                     
+   508  0000                     
+   509  0000                     
+   510  0000                     
+   511  0000                     
+   512  0000                     
+   513  0000                     
+   514  0000                     
+   515  0000                     
+   516  0000                     
+   517  0000                     
+   518  0000                     
+   519  0000                     
+   520  0000                     
+   521  0000                     
+   522  0000                     
+   523  0000                     
+   524  0000                     
+   525  0000                     
+   526  0000                     
+   527  0000                     
+   528  0000                     
+   529  0000                     
+   530  0000                     
+   531  0000                     
+   532  0000                     
+   533  0000                     
+   534  0000                     
+   535  0000                     
+   536  0000                     
+   537  0000                     
+   538  0000                     
+   539  0000                     
+   540  0000                     
+   541  0000                     
+   542  0000                     
+   543  0000                     
+   544  0000                     
+   545  0000                     
+   546  0000                     
+   547  0000                     
+   548  0000                     
+   549  0000                     
+   550  0000                     
+   551  0000                     
+   552  0000                     
+   553  0000                     
+   554  0000                     
+   555  0000                     
+   556  0000                     
+   557  0000                     
+   558  0000                     
+   559  0000                     
+   560  0000                     
+   561  0000                     
+   562  0000                     
+   563  0000                     
+   564  0000                     
+   565  0000                     
+   566  0000                     
+   567  0000                     
+   568  0000                     
+   569  0000                     
+   570  0000                     
+   571  0000                     
+   572  0000                     
+   573  0000                     
+   574  0000                     
+   575  0000                     
+   576  0000                     
+   577  0000                     
+   578  0000                     
+   579  0000                     
+   580  0000                     
+   581  0000                     
+   582  0000                     
+   583  0000                     
+   584  0000                     
+   585  0000                     
+   586  0000                     
+   587  0000                     
+   588  0000                     
+   589  0000                     
+   590  0000                     
+   591  0000                     
+   592  0000                     
+   593  0000                     
+   594  0000                     
+   595  0000                     
+   596  0000                     
+   597  0000                     
+   598  0000                     
+   599  0000                     
+   600  0000                     
+   601  0000                     
+   602  0000                     
+   603  0000                     
+   604  0000                     
+   605  0000                     
+   606  0000                     
+   607  0000                     
+   608  0000                     
+   609  0000                     
+   610  0000                     
+   611  0000                     
+   612  0000                     
+   613  0000                     
+   614  0000                     
+   615  0000                     
+   616  0000                     
+   617  0000                     
+   618  0000                     
+   619  0000                     
+   620  0000                     
+   621  0000                     
+   622  0000                     
+   623  0000                     
+   624  0000                     
+   625  0000                     
+   626  0000                     
+   627  0000                     
+   628  0000                     
+   629  0000                     
+   630  0000                     
+   631  0000                     
+   632  0000                     
+   633  0000                     
+   634  0000                     
+   635  0000                     
+   636  0000                     
+   637  0000                     
+   638  0000                     
+   639  0000                     
+   640  0000                     
+   641  0000                     
+   642  0000                     
+   643  0000                     
+   644  0000                     
+   645  0000                     
+   646  0000                     
+   647  0000                     
+   648  0000                     
+   649  0000                     
+   650  0000                     
+   651  0000                     
+   652  0000                     
+   653  0000                     
+   654  0000                     
+   655  0000                     
+   656  0000                     
+   657  0000                     
+   658  0000                     
+   659  0000                     
+   660  0000                     
+   661  0000                     
+   662  0000                     
+   663  0000                     
+   664  0000                     
+   665  0000                     
+   666  0000                     
+   667  0000                     
+   668  0000                     
+   669  0000                     
+   670  0000                     
+   671  0000                     
+   672  0000                     
+   673  0000                     
+   674  0000                     
+   675  0000                     
+   676  0000                     
+   677  0000                     
+   678  0000                     
+   679  0000                     
+   680  0000                     
+   681  0000                     
+   682  0000                     
+   683  0000                     
+   684  0000                     
+   685  0000                     
+   686  0000                     
+   687  0000                     
+   688  0000                     
+   689  0000                     
+   690  0000                     
+   691  0000                     
+   692  0000                     
+   693  0000                     
+   694  0000                     
+   695  0000                     
+   696  0000                     
+   697  0000                     
+   698  0000                     
+   699  0000                     
+   700  0000                     
+   701  0000                     
+   702  0000                     
+   703  0000                     
+   704  0000                     
+   705  0000                     
+   706  0000                     
+   707  0000                     
+   708  0000                     
+   709  0000                     
+   710  0000                     
+   711  0000                     
+   712  0000                     
+   713  0000                     
+   714  0000                     
+   715  0000                     
+   716  0000                     
+   717  0000                     
+   718  0000                     
+   719  0000                     
+   720  0000                     
+   721  0000                     
+   722  0000                     
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+Symbol Table                                          Tue Apr 23 16:21:35 2013
+
+                 ?a_main 0020                        l9 0765  
+                     l20 0790                       l13 077B  
+                     l30 07B5                       l31 07B0  
+                     l23 0746                       l16 07A8  
+                     l17 079E                       l26 073A  
+                     fsr 0004                 _lcd_init 07C1  
+     ?a_LCD_write_string 0040      ?a_LCD_write_onechar 0045  
+       _LCD_write_string 0795                     _main 06E2  
+            ?a_nus_delay 0049                     start 0000  
+           ?a_set_LCD_xy 0042        ?_LCD_write_string 003E  
+              _nms_delay 07AF        _LCD_write_onechar 0771  
+              _nus_delay 0735               _Board_init 06C4  
+            ?_set_LCD_xy 0041           _wait_LCD_Ready 0758  
+                  status 0003               _set_LCD_xy 0788  
+     ?_LCD_write_onechar 0044             _LCD_en_write 0750  
+             ?_nms_delay 003E         ?a_wait_LCD_Ready 0046  
+             ?_nus_delay 0047  

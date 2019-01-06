@@ -1,0 +1,39 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=F:\BK300 Example program\Experiment_11\SPEAKER.obj
+Folder=Intermediary
+[File001]
+Location=F:\BK300 Example program\Experiment_11\SPEAKER.sdb
+Folder=Intermediary
+[File002]
+Location=F:\BK300 Example program\Experiment_11\SPEAKER.rlf
+Folder=Intermediary
+[File003]
+Location=F:\BK300 Example program\Experiment_11\SPEAKER.lst
+Folder=Intermediary
+[File004]
+Location=F:\BK300 Example program\Experiment_11\Experiment11-speak.cof
+Folder=Output
+[File005]
+Location=F:\BK300 Example program\Experiment_11\Experiment11-speak.hex
+Folder=Output
+[File006]
+Location=F:\BK300 Example program\Experiment_11\Experiment11-speak.sym
+Folder=Output
+[File007]
+Location=F:\BK300 Example program\Experiment_11\Experiment11-speak.map
+Folder=Output
+[File008]
+Location=F:\BK300 Example program\Experiment_11\Experiment11-speak.hxl
+Folder=Output
+[File009]
+Location=F:\BK300 Example program\Experiment_11\startup.lst
+Folder=Output
+[File010]
+Location=F:\BK300 Example program\Experiment_11\startup.rlf
+Folder=Output
+[File011]
+Location=F:\BK300 Example program\Experiment_11\startup.as
+Folder=Output

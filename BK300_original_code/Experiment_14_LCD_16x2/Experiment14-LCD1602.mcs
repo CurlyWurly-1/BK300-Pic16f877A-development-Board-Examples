@@ -1,0 +1,39 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=F:\BK300 Example program\Experiment_14\lcd1602.obj
+Folder=Intermediary
+[File001]
+Location=F:\BK300 Example program\Experiment_14\lcd1602.sdb
+Folder=Intermediary
+[File002]
+Location=F:\BK300 Example program\Experiment_14\lcd1602.rlf
+Folder=Intermediary
+[File003]
+Location=F:\BK300 Example program\Experiment_14\lcd1602.lst
+Folder=Intermediary
+[File004]
+Location=F:\BK300 Example program\Experiment_14\Experiment14-LCD1602.cof
+Folder=Output
+[File005]
+Location=F:\BK300 Example program\Experiment_14\Experiment14-LCD1602.hex
+Folder=Output
+[File006]
+Location=F:\BK300 Example program\Experiment_14\Experiment14-LCD1602.sym
+Folder=Output
+[File007]
+Location=F:\BK300 Example program\Experiment_14\Experiment14-LCD1602.map
+Folder=Output
+[File008]
+Location=F:\BK300 Example program\Experiment_14\Experiment14-LCD1602.hxl
+Folder=Output
+[File009]
+Location=F:\BK300 Example program\Experiment_14\startup.lst
+Folder=Output
+[File010]
+Location=F:\BK300 Example program\Experiment_14\startup.rlf
+Folder=Output
+[File011]
+Location=F:\BK300 Example program\Experiment_14\startup.as
+Folder=Output

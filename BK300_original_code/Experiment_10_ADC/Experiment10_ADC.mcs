@@ -1,0 +1,195 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=E:\PIC Example program\Experiment_10\ADC2.obj
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File001]
+Location=E:\PIC Example program\Experiment_10\ADC2.sdb
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File002]
+Location=E:\PIC Example program\Experiment_10\ADC2.rlf
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File003]
+Location=E:\PIC Example program\Experiment_10\ADC2.lst
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File004]
+Location=F:\BK300 Example program\Experiment_10\ADC2.obj
+Folder=Intermediary
+[File005]
+Location=F:\BK300 Example program\Experiment_10\ADC2.sdb
+Folder=Intermediary
+[File006]
+Location=F:\BK300 Example program\Experiment_10\ADC2.rlf
+Folder=Intermediary
+[File007]
+Location=F:\BK300 Example program\Experiment_10\ADC2.lst
+Folder=Intermediary
+[File008]
+Location=E:\PIC Example program\Experiment_10\Experiment10_ADC.cof
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File009]
+Location=E:\PIC Example program\Experiment_10\Experiment10_ADC.hex
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File010]
+Location=E:\PIC Example program\Experiment_10\Experiment10_ADC.sym
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File011]
+Location=E:\PIC Example program\Experiment_10\Experiment10_ADC.map
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File012]
+Location=E:\PIC Example program\Experiment_10\Experiment10_ADC.hxl
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File013]
+Location=E:\PIC Example program\Experiment_10\startup.lst
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File014]
+Location=E:\PIC Example program\Experiment_10\startup.rlf
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File015]
+Location=E:\PIC Example program\Experiment_10\startup.as
+Folder=Output
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File016]
+Location=F:\BK300 Example program\Experiment_10\Experiment10_ADC.cof
+Folder=Output
+[File017]
+Location=F:\BK300 Example program\Experiment_10\Experiment10_ADC.hex
+Folder=Output
+[File018]
+Location=F:\BK300 Example program\Experiment_10\Experiment10_ADC.sym
+Folder=Output
+[File019]
+Location=F:\BK300 Example program\Experiment_10\Experiment10_ADC.map
+Folder=Output
+[File020]
+Location=F:\BK300 Example program\Experiment_10\Experiment10_ADC.hxl
+Folder=Output
+[File021]
+Location=F:\BK300 Example program\Experiment_10\startup.lst
+Folder=Output
+[File022]
+Location=F:\BK300 Example program\Experiment_10\startup.rlf
+Folder=Output
+[File023]
+Location=F:\BK300 Example program\Experiment_10\startup.as
+Folder=Output
