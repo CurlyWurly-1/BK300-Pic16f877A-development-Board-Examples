@@ -1,0 +1,797 @@
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+                                                      Tue Apr 23 16:23:21 2013
+
+
+     1                           	processor	16F877A
+     2                           	opt	pw 79
+     3                           	psect	config,global,class=CONFIG,delta=2
+     4                           	psect	rdata_0,global,class=BANK0,space=1,delta
+      +                          =1
+     5                           	psect	idata_0,global,class=CODE,delta=2
+     6                           	psect	text2,local,class=CODE,delta=2
+     7                           	psect	text8,local,class=CODE,delta=2
+     8  0000                     
+     9  0000                     
+    10  0000                     
+    11  0000                     
+    12  0000                     
+    13  0000                     
+    14  0000                     
+    15  0000                     
+    16  0000                     
+    17  0000                     
+    18                           
+    19                           	psect	config
+    20  2007  3F32               	dw	16178	;#
+    21                           
+    22                           	psect	rdata_0
+    23  0053                     _addr_tab
+                     _addr_tab
+    24  0053                     	ds	1
+                     	ds	1
+    25  0054                     	ds	1
+                     	ds	1
+    26  0055                     	ds	1
+                     	ds	1
+    27  0056                     	ds	1
+                     	ds	1
+    28  0057                     	ds	1
+                     	ds	1
+    29  0058                     	ds	1
+                     	ds	1
+    30  0059                     	ds	1
+                     	ds	1
+    31  005A                     	ds	1
+                     	ds	1
+    32  005B                     	ds	1
+                     	ds	1
+    33  005C                     	ds	1
+                     	ds	1
+    34  005D                     	ds	1
+                     	ds	1
+    35  005E                     	ds	1
+                     	ds	1
+    36  005F                     	ds	1
+                     	ds	1
+    37  0060                     	ds	1
+                     	ds	1
+    38  0061                     	ds	1
+                     	ds	1
+    39  0062                     	ds	1
+                     	ds	1
+    40  0063                     	ds	1
+                     	ds	1
+    41  0064                     	ds	1
+                     	ds	1
+    42  0065                     	ds	1
+                     	ds	1
+    43  0066                     	ds	1
+                     	ds	1
+    44  0067                     	ds	1
+                     	ds	1
+    45  0068                     	ds	1
+                     	ds	1
+    46  0069                     	ds	1
+                     	ds	1
+    47  006A                     	ds	1
+                     	ds	1
+    48  006B                     	ds	1
+                     	ds	1
+    49  006C                     	ds	1
+                     	ds	1
+    50  006D                     	ds	1
+                     	ds	1
+    51  006E                     	ds	1
+                     	ds	1
+    52  006F                     	ds	1
+                     	ds	1
+    53  0070                     	ds	1
+                     	ds	1
+    54  0071                     	ds	1
+                     	ds	1
+    55  0072                     	ds	1
+    56                           ;       param _t assigned to ?_delayms+0
+    57  0000                     _delayms$t	set	?_delayms
+    58                           
+    59                           	psect	idata_0
+    60  07E0  3480               	retlw	-128
+    61  07E1  3481               	retlw	-127
+    62  07E2  3482               	retlw	-126
+    63  07E3  3483               	retlw	-125
+    64  07E4  3484               	retlw	-124
+    65  07E5  3485               	retlw	-123
+    66  07E6  3486               	retlw	-122
+    67  07E7  3487               	retlw	-121
+    68  07E8  3490               	retlw	-112
+    69  07E9  3491               	retlw	-111
+    70  07EA  3492               	retlw	-110
+    71  07EB  3493               	retlw	-109
+    72  07EC  3494               	retlw	-108
+    73  07ED  3495               	retlw	-107
+    74  07EE  3496               	retlw	-106
+    75  07EF  3497               	retlw	-105
+    76  07F0  3488               	retlw	-120
+    77  07F1  3489               	retlw	-119
+    78  07F2  348A               	retlw	-118
+    79  07F3  348B               	retlw	-117
+    80  07F4  348C               	retlw	-116
+    81  07F5  348D               	retlw	-115
+    82  07F6  348E               	retlw	-114
+    83  07F7  348F               	retlw	-113
+    84  07F8  3498               	retlw	-104
+    85  07F9  3499               	retlw	-103
+    86  07FA  349A               	retlw	-102
+    87  07FB  349B               	retlw	-101
+    88  07FC  349C               	retlw	-100
+    89  07FD  349D               	retlw	-99
+    90  07FE  349E               	retlw	-98
+    91  07FF  349F               	retlw	-97
+    92                           
+    93                           	psect	text2
+    94  06D1                     _WaitBusy
+    95                           ;	_i assigned to ?a_WaitBusy+0
+    96  0000                     _WaitBusy$i	set	?a_WaitBusy
+    97                           ;LCD12864.C: 68: void WaitBusy(void)
+    98  06D1  3005               	movlw	5
+    99  06D2  0183               	clrf	3	;select bank 0
+   100  06D3  00D0               	movwf	?a_WaitBusy
+   101                           ;LCD12864.C: 71: while(i--);
+   102  06D4                     l10
+   103  06D4  03D0               	decf	?a_WaitBusy
+   104  06D5  0F50               	incfsz	?a_WaitBusy,w
+   105  06D6  2ED4               	goto	l10
+   106  06D7  0008               	return
+   107  06D8                     _Lcd_WriteCmd
+   108                           ;	_cmdcode assigned to ?a_Lcd_WriteCmd+0
+   109  0000                     _Lcd_WriteCmd$cmdcode	set	?a_Lcd_WriteCmd
+   110                           ;_cmdcode stored from w
+   111  06D8  0183               	clrf	3	;select bank 0
+   112  06D9  00CF               	movwf	?a_Lcd_WriteCmd
+   113                           ;LCD12864.C: 75: void Lcd_WriteCmd(unsigned cha
+      +                          r cmdcode)
+   114  06DA  1187               	bcf	7,3
+   115                           ;LCD12864.C: 78: RC4=0;
+   116  06DB  1207               	bcf	7,4
+   117                           ;LCD12864.C: 79: RC5=1;
+   118  06DC  1687               	bsf	7,5
+   119                           ;LCD12864.C: 80: WaitBusy();
+   120  06DD  26D1               	fcall	_WaitBusy
+   121                           ;LCD12864.C: 81: PORTD = cmdcode;
+   122  06DE  084F               	movf	?a_Lcd_WriteCmd,w
+   123  06DF  0088               	movwf	8	;volatile
+   124                           ;LCD12864.C: 82: RC5=0;
+   125  06E0  1287               	bcf	7,5
+   126                           ;LCD12864.C: 83: }
+   127  06E1  0008               	return	;W free
+   128  06E2                     _Lcd_WriteData
+   129                           ;	_dispdata assigned to ?a_Lcd_WriteData+0
+   130  0000                     _Lcd_WriteData$dispdata	set	?a_Lcd_WriteData
+   131                           ;_dispdata stored from w
+   132  06E2  0183               	clrf	3	;select bank 0
+   133  06E3  00CF               	movwf	?a_Lcd_WriteData
+   134                           ;LCD12864.C: 86: void Lcd_WriteData(unsigned ch
+      +                          ar dispdata)
+   135  06E4  1587               	bsf	7,3
+   136                           ;LCD12864.C: 89: RC4=0;
+   137  06E5  1207               	bcf	7,4
+   138                           ;LCD12864.C: 90: RC5=1;
+   139  06E6  1687               	bsf	7,5
+   140                           ;LCD12864.C: 91: WaitBusy();
+   141  06E7  26D1               	fcall	_WaitBusy
+   142                           ;LCD12864.C: 92: PORTD = dispdata;
+   143  06E8  084F               	movf	?a_Lcd_WriteData,w
+   144  06E9  0088               	movwf	8	;volatile
+   145                           ;LCD12864.C: 93: RC5=0;
+   146  06EA  1287               	bcf	7,5
+   147                           ;LCD12864.C: 94: }
+   148  06EB  0008               	return	;W free
+   149  06EC                     _delayms
+   150                           ;	_i assigned to ?a_delayms+0
+   151  0000                     _delayms$i	set	?a_delayms
+   152                           ;LCD12864.C: 58: void delayms(unsigned int t)
+   153  06EC  2EF9               	goto	l3
+   154  06ED                     l4
+   155                           ;LCD12864.C: 62: {
+   156  06ED  01D1               	clrf	?a_delayms
+   157  06EE  01D2               	clrf	?a_delayms+1
+   158  06EF                     l6
+   159  06EF  0AD1               	incf	?a_delayms
+   160  06F0  1903               	btfsc	3,2
+   161  06F1  0AD2               	incf	?a_delayms+1
+   162  06F2  3000               	movlw	0
+   163  06F3  0252               	subwf	?a_delayms+1,w
+   164  06F4  307D               	movlw	125
+   165  06F5  1903               	btfsc	3,2
+   166  06F6  0251               	subwf	?a_delayms,w
+   167  06F7  1C03               	btfss	3,0
+   168  06F8  2EEF               	goto	l6
+   169  06F9                     l3
+   170  06F9  1283               	bcf	3,5
+   171  06FA  1303               	bcf	3,6	;carry unused
+   172  06FB  084F               	movf	?_delayms,w
+   173  06FC  1903               	btfsc	3,2
+   174  06FD  03D0               	decf	?_delayms+1
+   175  06FE  03CF               	decf	?_delayms
+   176  06FF  0A4F               	incf	?_delayms,w
+   177  0700  1903               	btfsc	3,2
+   178  0701  0A50               	incf	?_delayms+1,w
+   179  0702  1903               	btfsc	3,2
+   180  0703  0008               	return
+   181  0704  2EED               	goto	l4
+   182  0705                     _Lcd_Init
+   183                           ;LCD12864.C: 97: void Lcd_Init(void)
+   184  0705  3032               	movlw	50
+   185  0706  0183               	clrf	3	;select bank 0
+   186  0707  00CF               	movwf	?_delayms
+   187  0708  01D0               	clrf	?_delayms+1
+   188  0709  26EC               	fcall	_delayms
+   189                           ;LCD12864.C: 100: Lcd_WriteCmd(0x30);
+   190  070A  3030               	movlw	48
+   191  070B  26D8  120A  118A   	fcall	_Lcd_WriteCmd
+   192                           ;LCD12864.C: 101: delayms(1);
+   193  070E  01CF               	clrf	?_delayms
+   194  070F  0ACF               	incf	?_delayms
+   195  0710  01D0               	clrf	?_delayms+1
+   196  0711  26EC               	fcall	_delayms
+   197                           ;LCD12864.C: 102: Lcd_WriteCmd(0x30);
+   198  0712  3030               	movlw	48
+   199  0713  26D8  120A  118A   	fcall	_Lcd_WriteCmd
+   200                           ;LCD12864.C: 103: delayms(1);
+   201  0716  01CF               	clrf	?_delayms
+   202  0717  0ACF               	incf	?_delayms
+   203  0718  01D0               	clrf	?_delayms+1
+   204  0719  26EC               	fcall	_delayms
+   205                           ;LCD12864.C: 104: Lcd_WriteCmd(0x0c);
+   206  071A  300C               	movlw	12
+   207  071B  26D8  120A  118A   	fcall	_Lcd_WriteCmd
+   208                           ;LCD12864.C: 105: delayms(1);
+   209  071E  01CF               	clrf	?_delayms
+   210  071F  0ACF               	incf	?_delayms
+   211  0720  01D0               	clrf	?_delayms+1
+   212  0721  26EC               	fcall	_delayms
+   213                           ;LCD12864.C: 106: Lcd_WriteCmd(0x01);
+   214  0722  3001               	movlw	1
+   215  0723  26D8  120A  118A   	fcall	_Lcd_WriteCmd
+   216                           ;LCD12864.C: 107: delayms(20);
+   217  0726  3014               	movlw	20
+   218  0727  00CF               	movwf	?_delayms
+   219  0728  01D0               	clrf	?_delayms+1
+   220  0729  2EEC               	ljmp	_delayms
+   221  072A                     _hanzi_Disp
+   222                           ;	_x assigned to ?a_hanzi_Disp+0
+   223  0000                     _hanzi_Disp$x	set	?a_hanzi_Disp
+   224                           ;_x stored from w
+   225  072A  0183               	clrf	3	;select bank 0
+   226  072B  00CD               	movwf	?a_hanzi_Disp
+   227                           ;LCD12864.C: 111: void hanzi_Disp(unsigned char
+      +                           x,unsigned char y,unsigned char *s)
+   228  072C  00CE               	movwf	?a_hanzi_Disp+1
+   229  072D  1003               	bcf	3,0
+   230  072E  0DCE               	rlf	?a_hanzi_Disp+1
+   231  072F  1003               	bcf	3,0
+   232  0730  0DCE               	rlf	?a_hanzi_Disp+1
+   233  0731  1003               	bcf	3,0
+   234  0732  0D4E               	rlf	?a_hanzi_Disp+1,w
+   235  0733  074B               	addwf	?_hanzi_Disp,w
+   236  0734  3E53               	addlw	_addr_tab
+   237  0735  0084               	movwf	4
+   238  0736  1383               	bcf	3,7
+   239  0737  0800               	movf	0,w
+   240  0738  26D8  120A  118A   	fcall	_Lcd_WriteCmd
+   241                           ;LCD12864.C: 114: while(*s>0)
+   242  073B  2F48               	goto	l17
+   243  073C                     l18
+   244                           ;LCD12864.C: 115: {
+   245  073C  084C               	movf	?_hanzi_Disp+1,w
+   246  073D  0084               	movwf	4
+   247  073E  1383               	bcf	3,7
+   248  073F  0800               	movf	0,w
+   249  0740  26E2  120A  118A   	fcall	_Lcd_WriteData
+   250                           ;LCD12864.C: 117: s++;
+   251  0743  0ACC               	incf	?_hanzi_Disp+1
+   252                           ;LCD12864.C: 118: delayms(100);
+   253  0744  3064               	movlw	100
+   254  0745  00CF               	movwf	?_delayms
+   255  0746  01D0               	clrf	?_delayms+1
+   256  0747  26EC               	fcall	_delayms
+   257  0748                     l17
+   258  0748  084C               	movf	?_hanzi_Disp+1,w
+   259  0749  0084               	movwf	4
+   260  074A  1383               	bcf	3,7
+   261  074B  0880               	movf	0
+   262  074C  1903               	btfsc	3,2
+   263  074D  0008               	return
+   264  074E  2F3C               	goto	l18
+   265  074F                     _Board_init
+   266                           ;BoardConfig.h: 17: void Board_init(void)
+   267  074F  1683               	bsf	3,5
+   268  0750  1303               	bcf	3,6	;carry unused
+   269  0751  0185               	clrf	5	;volatile
+   270                           ;BoardConfig.h: 22: TRISB=0x00;
+   271  0752  0186               	clrf	6	;volatile
+   272                           ;BoardConfig.h: 23: TRISC=0x00;
+   273  0753  0187               	clrf	7	;volatile
+   274                           ;BoardConfig.h: 24: TRISD=0x00;
+   275  0754  0188               	clrf	8	;volatile
+   276                           ;BoardConfig.h: 25: TRISE=0X00;
+   277  0755  0189               	clrf	9	;volatile
+   278                           ;BoardConfig.h: 30: PORTD=0XFF;
+   279  0756  30FF               	movlw	-1
+   280  0757  1283               	bcf	3,5
+   281  0758  0088               	movwf	8	;volatile
+   282                           ;BoardConfig.h: 31: RA3=0;
+   283  0759  1185               	bcf	5,3
+   284                           ;BoardConfig.h: 32: RC5=1;
+   285  075A  1687               	bsf	7,5
+   286                           ;BoardConfig.h: 33: asm ("NOP");
+   287  075B  0000               	nop	;#
+   288                           ;BoardConfig.h: 34: asm ("NOP");
+   289  075C  0000               	nop	;#
+   290                           ;BoardConfig.h: 35: RC5=0;
+   291  075D  1287               	bcf	7,5
+   292                           ;BoardConfig.h: 39: RC3=1;
+   293  075E  1587               	bsf	7,3
+   294                           ;BoardConfig.h: 40: asm ("NOP");
+   295  075F  0000               	nop	;#
+   296                           ;BoardConfig.h: 41: asm ("NOP");
+   297  0760  0000               	nop	;#
+   298                           ;BoardConfig.h: 42: RC3=0;
+   299  0761  1187               	bcf	7,3
+   300                           ;BoardConfig.h: 46: RC4=1;
+   301  0762  1607               	bsf	7,4
+   302                           ;BoardConfig.h: 47: PORTD=0X00;
+   303  0763  0188               	clrf	8	;volatile
+   304                           ;BoardConfig.h: 48: asm ("NOP");
+   305  0764  0000               	nop	;#
+   306                           ;BoardConfig.h: 49: asm ("NOP");
+   307  0765  0000               	nop	;#
+   308                           ;BoardConfig.h: 50: RC4=0;
+   309  0766  1207               	bcf	7,4
+   310                           ;BoardConfig.h: 52: PORTD=0XFF;
+   311  0767  0088               	movwf	8	;volatile
+   312                           ;BoardConfig.h: 54: RC2=1;
+   313  0768  1507               	bsf	7,2
+   314                           ;BoardConfig.h: 56: RE0=0;
+   315  0769  1009               	bcf	9,0
+   316                           ;BoardConfig.h: 57: RE1=0;
+   317  076A  1089               	bcf	9,1
+   318                           ;BoardConfig.h: 58: RE2=0;
+   319  076B  1109               	bcf	9,2
+   320                           ;BoardConfig.h: 59: }
+   321  076C  0008               	return	;#
+   322  076D                     _main
+   323                           ;	_Contact assigned to ?a_main+0
+   324  0000                     _main$Contact	set	?a_main
+   325                           ;	_Product assigned to ?a_main+13
+   326  0000                     _main$Product	set	?a_main+13
+   327                           ;	_company assigned to ?a_main+28
+   328  0000                     _main$company	set	?a_main+28
+   329                           ;LCD12864.C: 122: void main(void)
+   330  076D  3020               	movlw	32
+   331  076E  1283               	bcf	3,5
+   332  076F  1303               	bcf	3,6	;carry unused
+   333  0770  00BC               	movwf	?a_main+28
+   334  0771  00BD               	movwf	?a_main+29
+   335  0772  30D6               	movlw	-42
+   336  0773  00BE               	movwf	?a_main+30
+   337  0774  30E9               	movlw	-23
+   338  0775  00BF               	movwf	?a_main+31
+   339  0776  30BA               	movlw	-70
+   340  0777  00C0               	movwf	?a_main+32
+   341  0778  30A3               	movlw	-93
+   342  0779  00C1               	movwf	?a_main+33
+   343  077A  30B2               	movlw	-78
+   344  077B  00C2               	movwf	?a_main+34
+   345  077C  30A9               	movlw	-87
+   346  077D  00C3               	movwf	?a_main+35
+   347  077E  30BF               	movlw	-65
+   348  077F  00C4               	movwf	?a_main+36
+   349  0780  30C6               	movlw	-58
+   350  0781  00C5               	movwf	?a_main+37
+   351  0782  30B5               	movlw	-75
+   352  0783  00C6               	movwf	?a_main+38
+   353  0784  30E7               	movlw	-25
+   354  0785  00C7               	movwf	?a_main+39
+   355  0786  30D7               	movlw	-41
+   356  0787  00C8               	movwf	?a_main+40
+   357  0788  30D3               	movlw	-45
+   358  0789  00C9               	movwf	?a_main+41
+   359  078A  01CA               	clrf	?a_main+42
+   360                           ;LCD12864.C: 126: unsigned char Product[]="  BK
+      +                          300 开发板";
+   361  078B  3020               	movlw	32
+   362  078C  00AD               	movwf	?a_main+13
+   363  078D  00AE               	movwf	?a_main+14
+   364  078E  3042               	movlw	66
+   365  078F  00AF               	movwf	?a_main+15
+   366  0790  304B               	movlw	75
+   367  0791  00B0               	movwf	?a_main+16
+   368  0792  3033               	movlw	51
+   369  0793  00B1               	movwf	?a_main+17
+   370  0794  3030               	movlw	48
+   371  0795  00B2               	movwf	?a_main+18
+   372  0796  00B3               	movwf	?a_main+19
+   373  0797  3020               	movlw	32
+   374  0798  00B4               	movwf	?a_main+20
+   375  0799  30BF               	movlw	-65
+   376  079A  00B5               	movwf	?a_main+21
+   377  079B  30AA               	movlw	-86
+   378  079C  00B6               	movwf	?a_main+22
+   379  079D  30B7               	movlw	-73
+   380  079E  00B7               	movwf	?a_main+23
+   381  079F  30A2               	movlw	-94
+   382  07A0  00B8               	movwf	?a_main+24
+   383  07A1  30B0               	movlw	-80
+   384  07A2  00B9               	movwf	?a_main+25
+   385  07A3  30E5               	movlw	-27
+   386  07A4  00BA               	movwf	?a_main+26
+   387  07A5  01BB               	clrf	?a_main+27
+   388                           ;LCD12864.C: 127: unsigned char Contact[]="  超
+      +                          强性价比";
+   389  07A6  3020               	movlw	32
+   390  07A7  00A0               	movwf	?a_main
+   391  07A8  00A1               	movwf	?a_main+1
+   392  07A9  30B3               	movlw	-77
+   393  07AA  00A2               	movwf	?a_main+2
+   394  07AB  30AC               	movlw	-84
+   395  07AC  00A3               	movwf	?a_main+3
+   396  07AD  30C7               	movlw	-57
+   397  07AE  00A4               	movwf	?a_main+4
+   398  07AF  30BF               	movlw	-65
+   399  07B0  00A5               	movwf	?a_main+5
+   400  07B1  30D0               	movlw	-48
+   401  07B2  00A6               	movwf	?a_main+6
+   402  07B3  30D4               	movlw	-44
+   403  07B4  00A7               	movwf	?a_main+7
+   404  07B5  30BC               	movlw	-68
+   405  07B6  00A8               	movwf	?a_main+8
+   406  07B7  30DB               	movlw	-37
+   407  07B8  00A9               	movwf	?a_main+9
+   408  07B9  30B1               	movlw	-79
+   409  07BA  00AA               	movwf	?a_main+10
+   410  07BB  30C8               	movlw	-56
+   411  07BC  00AB               	movwf	?a_main+11
+   412  07BD  01AC               	clrf	?a_main+12
+   413                           ;LCD12864.C: 129: Board_init();
+   414  07BE  274F               	fcall	_Board_init
+   415                           ;LCD12864.C: 131: RA3=1;
+   416  07BF  1585               	bsf	5,3
+   417                           ;LCD12864.C: 132: delayms(100);
+   418  07C0  3064               	movlw	100
+   419  07C1  00CF               	movwf	?_delayms
+   420  07C2  01D0               	clrf	?_delayms+1
+   421  07C3                     L1
+   422  07C3  26EC               	fcall	_delayms
+   423                           ;LCD12864.C: 133: while(1)
+   424                           ;LCD12864.C: 134: {
+   425  07C4  2705  120A  118A   	fcall	_Lcd_Init
+   426                           ;LCD12864.C: 136: delayms(1000);
+   427  07C7  30E8               	movlw	232
+   428  07C8  00CF               	movwf	?_delayms
+   429  07C9  3003               	movlw	3
+   430  07CA  00D0               	movwf	?_delayms+1
+   431  07CB  26EC               	fcall	_delayms
+   432                           ;LCD12864.C: 137: hanzi_Disp(0,0,company);
+   433  07CC  01CB               	clrf	?_hanzi_Disp
+   434  07CD  303C               	movlw	?a_main+28
+   435  07CE  00CC               	movwf	?_hanzi_Disp+1
+   436  07CF  3000               	movlw	0
+   437  07D0  272A               	fcall	_hanzi_Disp
+   438                           ;LCD12864.C: 138: hanzi_Disp(1,0,Product);
+   439  07D1  01CB               	clrf	?_hanzi_Disp
+   440  07D2  302D               	movlw	?a_main+13
+   441  07D3  00CC               	movwf	?_hanzi_Disp+1
+   442  07D4  3001               	movlw	1
+   443  07D5  272A               	fcall	_hanzi_Disp
+   444                           ;LCD12864.C: 139: hanzi_Disp(2,0,Contact);
+   445  07D6  01CB               	clrf	?_hanzi_Disp
+   446  07D7  3020               	movlw	?a_main
+   447  07D8  00CC               	movwf	?_hanzi_Disp+1
+   448  07D9  3002               	movlw	2
+   449  07DA  272A               	fcall	_hanzi_Disp
+   450                           ;LCD12864.C: 140: delayms(2000);
+   451  07DB  30D0               	movlw	208
+   452  07DC  00CF               	movwf	?_delayms
+   453  07DD  3007               	movlw	7
+   454  07DE  00D0               	movwf	?_delayms+1
+   455  07DF  2FC3               	goto	L1
+   456                           
+   457                           	psect	text8
+   458  0000                     
+   459  0000                     
+   460  0000                     
+   461  0000                     
+   462  0000                     
+   463  0000                     
+   464  0000                     
+   465  0000                     
+   466  0000                     
+   467  0000                     
+   468  0000                     
+   469  0000                     
+   470  0000                     
+   471  0000                     
+   472  0000                     
+   473  0000                     
+   474  0000                     
+   475  0000                     
+   476  0000                     
+   477  0000                     
+   478  0000                     
+   479  0000                     
+   480  0000                     
+   481  0000                     
+   482  0000                     
+   483  0000                     
+   484  0000                     
+   485  0000                     
+   486  0000                     
+   487  0000                     
+   488  0000                     
+   489  0000                     
+   490  0000                     
+   491  0000                     
+   492  0000                     
+   493  0000                     
+   494  0000                     
+   495  0000                     
+   496  0000                     
+   497  0000                     
+   498  0000                     
+   499  0000                     
+   500  0000                     
+   501  0000                     
+   502  0000                     
+   503  0000                     
+   504  0000                     
+   505  0000                     
+   506  0000                     
+   507  0000                     
+   508  0000                     
+   509  0000                     
+   510  0000                     
+   511  0000                     
+   512  0000                     
+   513  0000                     
+   514  0000                     
+   515  0000                     
+   516  0000                     
+   517  0000                     
+   518  0000                     
+   519  0000                     
+   520  0000                     
+   521  0000                     
+   522  0000                     
+   523  0000                     
+   524  0000                     
+   525  0000                     
+   526  0000                     
+   527  0000                     
+   528  0000                     
+   529  0000                     
+   530  0000                     
+   531  0000                     
+   532  0000                     
+   533  0000                     
+   534  0000                     
+   535  0000                     
+   536  0000                     
+   537  0000                     
+   538  0000                     
+   539  0000                     
+   540  0000                     
+   541  0000                     
+   542  0000                     
+   543  0000                     
+   544  0000                     
+   545  0000                     
+   546  0000                     
+   547  0000                     
+   548  0000                     
+   549  0000                     
+   550  0000                     
+   551  0000                     
+   552  0000                     
+   553  0000                     
+   554  0000                     
+   555  0000                     
+   556  0000                     
+   557  0000                     
+   558  0000                     
+   559  0000                     
+   560  0000                     
+   561  0000                     
+   562  0000                     
+   563  0000                     
+   564  0000                     
+   565  0000                     
+   566  0000                     
+   567  0000                     
+   568  0000                     
+   569  0000                     
+   570  0000                     
+   571  0000                     
+   572  0000                     
+   573  0000                     
+   574  0000                     
+   575  0000                     
+   576  0000                     
+   577  0000                     
+   578  0000                     
+   579  0000                     
+   580  0000                     
+   581  0000                     
+   582  0000                     
+   583  0000                     
+   584  0000                     
+   585  0000                     
+   586  0000                     
+   587  0000                     
+   588  0000                     
+   589  0000                     
+   590  0000                     
+   591  0000                     
+   592  0000                     
+   593  0000                     
+   594  0000                     
+   595  0000                     
+   596  0000                     
+   597  0000                     
+   598  0000                     
+   599  0000                     
+   600  0000                     
+   601  0000                     
+   602  0000                     
+   603  0000                     
+   604  0000                     
+   605  0000                     
+   606  0000                     
+   607  0000                     
+   608  0000                     
+   609  0000                     
+   610  0000                     
+   611  0000                     
+   612  0000                     
+   613  0000                     
+   614  0000                     
+   615  0000                     
+   616  0000                     
+   617  0000                     
+   618  0000                     
+   619  0000                     
+   620  0000                     
+   621  0000                     
+   622  0000                     
+   623  0000                     
+   624  0000                     
+   625  0000                     
+   626  0000                     
+   627  0000                     
+   628  0000                     
+   629  0000                     
+   630  0000                     
+   631  0000                     
+   632  0000                     
+   633  0000                     
+   634  0000                     
+   635  0000                     
+   636  0000                     
+   637  0000                     
+   638  0000                     
+   639  0000                     
+   640  0000                     
+   641  0000                     
+   642  0000                     
+   643  0000                     
+   644  0000                     
+   645  0000                     
+   646  0000                     
+   647  0000                     
+   648  0000                     
+   649  0000                     
+   650  0000                     
+   651  0000                     
+   652  0000                     
+   653  0000                     
+   654  0000                     
+   655  0000                     
+   656  0000                     
+   657  0000                     
+   658  0000                     
+   659  0000                     
+   660  0000                     
+   661  0000                     
+   662  0000                     
+   663  0000                     
+   664  0000                     
+   665  0000                     
+   666  0000                     
+   667  0000                     
+   668  0000                     
+   669  0000                     
+   670  0000                     
+   671  0000                     
+   672  0000                     
+   673  0000                     
+   674  0000                     
+   675  0000                     
+   676  0000                     
+   677  0000                     
+   678  0000                     
+   679  0000                     
+   680  0000                     
+   681  0000                     
+   682  0000                     
+   683  0000                     
+   684  0000                     
+   685  0000                     
+   686  0000                     
+   687  0000                     
+   688  0000                     
+   689  0000                     
+   690  0000                     
+   691  0000                     
+   692  0000                     
+   693  0000                     
+   694  0000                     
+   695  0000                     
+   696  0000                     
+   697  0000                     
+   698  0000                     
+   699  0000                     
+   700  0000                     
+   701  0000                     
+   702  0000                     
+   703  0000                     
+   704  0000                     
+   705  0000                     
+   706  0000                     
+   707  0000                     
+   708  0000                     
+   709  0000                     
+   710  0000                     
+   711  0000                     
+   712  0000                     
+   713  0000                     
+   714  0000                     
+   715  0000                     
+   716  0000                     
+   717  0000                     
+   718  0000                     
+   719  0000                     
+   720  0000                     
+   721  0000                     
+   722  0000                     
+   723  0000                     
+   724  0000                     
+   725  0000                     
+   726  0000                     
+   727  0000                     
+   728  0000                     
+   729  0000                     
+   730  0000                     
+   731  0000                     
+   732  0000                     
+   733  0000                     
+   734  0000                     
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+Symbol Table                                          Tue Apr 23 16:23:21 2013
+
+                ?a_main 0020                       l3 06F9  
+                     l4 06ED                       l6 06EF  
+                    l10 06D4                      l17 0748  
+                    l18 073C                      fsr 0004  
+              ?_delayms 004F          ?a_Lcd_WriteCmd 004F  
+             ?a_delayms 0051             ?_hanzi_Disp 004B  
+            ?a_WaitBusy 0050                    f2853 004E  
+         _Lcd_WriteData 06E2                    _main 076D  
+            _hanzi_Disp 072A                    start 0000  
+       ?a_Lcd_WriteData 004F                 _delayms 06EC  
+            _Board_init 074F            _Lcd_WriteCmd 06D8  
+              _Lcd_Init 0705                   status 0003  
+              _WaitBusy 06D1                _addr_tab 0053  
+          ?a_hanzi_Disp 004D  

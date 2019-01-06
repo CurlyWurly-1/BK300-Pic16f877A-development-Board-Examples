@@ -1,0 +1,65 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=E:\PIC Example program\Experiment_19\DS1302.obj
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File001]
+Location=E:\PIC Example program\Experiment_19\DS1302.cce
+Folder=Intermediary
+DeviceName=
+LanguageToolSuiteID=
+LanguageToolID=
+LanguageToolLocation=
+PPAD=
+SOLK=
+SuiteArgsString=
+ToolArgsString=
+TraceCmdString=
+DebugOptions=
+[File002]
+Location=F:\BK300 Example program\Experiment_19\DS1302.obj
+Folder=Intermediary
+[File003]
+Location=F:\BK300 Example program\Experiment_19\DS1302.sdb
+Folder=Intermediary
+[File004]
+Location=F:\BK300 Example program\Experiment_19\DS1302.rlf
+Folder=Intermediary
+[File005]
+Location=F:\BK300 Example program\Experiment_19\DS1302.lst
+Folder=Intermediary
+[File006]
+Location=F:\BK300 Example program\Experiment_19\Experiment19_DS1302.cof
+Folder=Output
+[File007]
+Location=F:\BK300 Example program\Experiment_19\Experiment19_DS1302.hex
+Folder=Output
+[File008]
+Location=F:\BK300 Example program\Experiment_19\Experiment19_DS1302.sym
+Folder=Output
+[File009]
+Location=F:\BK300 Example program\Experiment_19\Experiment19_DS1302.map
+Folder=Output
+[File010]
+Location=F:\BK300 Example program\Experiment_19\Experiment19_DS1302.hxl
+Folder=Output
+[File011]
+Location=F:\BK300 Example program\Experiment_19\startup.lst
+Folder=Output
+[File012]
+Location=F:\BK300 Example program\Experiment_19\startup.rlf
+Folder=Output
+[File013]
+Location=F:\BK300 Example program\Experiment_19\startup.as
+Folder=Output
