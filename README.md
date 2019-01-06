@@ -43,6 +43,8 @@ When time permits, I hope to load versions of these programs so that they can be
   - "PS2 Keyboard" not supplied
   - "LCD 16x2" not supplied
   - "LCD 128x64" not supplied
- - The USB connector on this Dev board is used only to supply regulated 5V power to the board. If you look at the schematic, the data pins of USB connection are not connected. An alternative way to power the baord is vis the unregulated power connector
+ - There are 2 ways to supply regulated 5V to this dev board. (N.B. There is no unregulated power supply input connector - you must supply regulated 5V power))
+   - via a USB (printer cable type) connector -  N.B. If you look at the schematic, the data pins of USB connection are not connected. 
+   - Via power plug 
  - There is an alternative method to supply power. (The other optio si to sue the 
  - The 7 segment displays and LEDs are connected to 74HC573 latches. This is a good thing because the use of latches means you don't have to repeatedly strobe data to the 7 segment disaplays and rely on your eyes having "persistance of vision". It also means that you can re-use all 8 data pins for PORTD (at the expense of tying up pin RA3 for "output enabling" and pins RC3,RC4 and RC5 for "latching" each of the the 3 x 74HC573 chips)   
