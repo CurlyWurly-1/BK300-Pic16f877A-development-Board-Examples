@@ -2,7 +2,7 @@
 <img src="BK300.jpg" alt="BK300 Dev board"/>
 
 This repository is for collecting the programs as supplied with the BK300 Pic Development board as seen in the picture above
-When time permits, I hope to load versions of these programs so that they can be easily used with the latest version of the MPLAB X and the XC8 compiler. The programs are as follows
+When time permits, I hope to load versions of these programs so that they can be easily used with the latest version of the MPLAB X and the XC8 compiler. The programs are in folder "BK300_original_code" and are as follows
  - Experiment_1_LED  
  - Experiment_2_4x4_Keyboard  
  - Experiment_3_LED 	 
