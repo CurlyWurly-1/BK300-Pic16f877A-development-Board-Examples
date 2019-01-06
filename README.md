@@ -2,8 +2,31 @@
 <img src="BK300.jpg" alt="BK300 Dev board"/>
 
 This repository is for collecting the programs as supplied with the BK300 Pic Development board as seen in the picture above
-When time permits, I hope to load versions of these programs so that they can be easily used with the latest version of the MPLAB X and the XC8 compiler
-
+When time permits, I hope to load versions of these programs so that they can be easily used with the latest version of the MPLAB X and the XC8 compiler. The programs are as follows
+ - Experiment_1_LED  
+ - Experiment_2_4x4_Keyboard  
+ - Experiment_3_LED 	 
+ - Experiment_4_Interupt 	 
+ - Experiment_5_timer1 	 	 
+ - Experiment_6_timer2 	 
+ - Experiment_7_RS232 	 
+ - Experiment_8_EEPROM  
+ - Experiment_9_Watchdog
+ - Experiment_10_ADC 
+ - Experiment_11_SPEAKER  
+ - Experiment_12_PWM  
+ - Experiment_13_3x3_Keyboard  
+ - Experiment_14_LCD_16x2 	 
+ - Experiment_15_AT24C02 	 
+ - Experiment_16_stepper 	 
+ - Experiment_17_IR_DISPLAY   
+ - Experiment_18_DS18B20  
+ - Experiment_19_DS1302  
+ - Experiment_20_LCD_128x64  
+ - Experiment_21_RS485 	 
+ - Experiment_22  
+ - Experiment_23_IR_RELAY  
+ - Experiment_24_AT24C02  
 
 # Layout of Components
 <img src="BK300_Layout.jpg" alt="BK300 Layout"/>
