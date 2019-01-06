@@ -1,0 +1,2010 @@
+
+
+HI-TECH Software PIC LITE Macro Assembler V9.81 build 7503 
+                                                                                               Wed Apr 20 01:11:18 2016
+
+HI-TECH Software Omniscient Code Generator (Lite mode) build 7503
+     1  0000                     opt subtitle "HI-TECH Software Omniscient Code Generator (Lite mode) build 7503"
+     2                           
+     3                           opt pagewidth 120
+     4                           
+     5                           	opt lm
+     6                           
+     7                           	processor	16F877A
+     8                           clrc	macro
+     9                           	bcf	3,0
+    10  0000                     	endm
+    11                           clrz	macro
+    12                           	bcf	3,2
+    13  0000                     	endm
+    14                           setc	macro
+    15                           	bsf	3,0
+    16  0000                     	endm
+    17                           setz	macro
+    18                           	bsf	3,2
+    19  0000                     	endm
+    20                           skipc	macro
+    21                           	btfss	3,0
+    22  0000                     	endm
+    23                           skipz	macro
+    24                           	btfss	3,2
+    25  0000                     	endm
+    26                           skipnc	macro
+    27                           	btfsc	3,0
+    28  0000                     	endm
+    29                           skipnz	macro
+    30                           	btfsc	3,2
+    31  0000                     	endm
+    32  0000                     indf	equ	0
+    33  0000                     indf0	equ	0
+    34  0002                     pc	equ	2
+    35  0002                     pcl	equ	2
+    36  0003                     status	equ	3
+    37  0004                     fsr	equ	4
+    38  0004                     fsr0	equ	4
+    39  0001                     c	equ	1
+    40  0000                     z	equ	0
+    41  000A                     pclath	equ	10
+    42                           # 13 "F:\Experiment_15\AT24C02.C"
+    43                           	psect config,class=CONFIG,delta=2 ;#
+    44                           # 13 "F:\Experiment_15\AT24C02.C"
+    45  2007  3F32               	dw 0x3F32 ;#
+    46                           	FNCALL	_main,_Board_init
+    47                           	FNCALL	_main,_write
+    48                           	FNCALL	_main,_read
+    49                           	FNCALL	_main,_delay_250ms
+    50                           	FNCALL	_write,_i2cstart
+    51                           	FNCALL	_write,_i2cwrite
+    52                           	FNCALL	_write,_i2cstop
+    53                           	FNCALL	_read,_i2cstart
+    54                           	FNCALL	_read,_i2cwrite
+    55                           	FNCALL	_read,_i2cread
+    56                           	FNCALL	_read,_i2cstop
+    57                           	FNCALL	_i2cread,_bitin
+    58                           	FNCALL	_i2cread,_bitout
+    59                           	FNCALL	_i2cwrite,_bitout
+    60                           	FNCALL	_i2cwrite,_bitin
+    61                           	FNCALL	_i2cstop,_delay
+    62                           	FNCALL	_i2cstart,_delay
+    63                           	FNROOT	_main
+    64                           	global	_addressbuf
+    65                           	global	_eepromdi
+    66                           	global	_eepromdo
+    67                           	global	_PORTD
+    68                           psect	text138,local,class=CODE,delta=2
+    69                           global __ptext138
+    70  0000                     __ptext138:
+    71  0008                     _PORTD	set	8
+    72                           	global	_RA3
+    73  002B                     _RA3	set	43
+    74                           	global	_RA4
+    75  002C                     _RA4	set	44
+    76                           	global	_RA5
+    77  002D                     _RA5	set	45
+    78                           	global	_RC2
+    79  003A                     _RC2	set	58
+    80                           	global	_RC3
+    81  003B                     _RC3	set	59
+    82                           	global	_RC4
+    83  003C                     _RC4	set	60
+    84                           	global	_RC5
+    85  003D                     _RC5	set	61
+    86                           	global	_RE0
+    87  0048                     _RE0	set	72
+    88                           	global	_RE1
+    89  0049                     _RE1	set	73
+    90                           	global	_RE2
+    91  004A                     _RE2	set	74
+    92                           	global	_ADCON1
+    93  009F                     _ADCON1	set	159
+    94                           	global	_TRISA
+    95  0085                     _TRISA	set	133
+    96                           	global	_TRISB
+    97  0086                     _TRISB	set	134
+    98                           	global	_TRISC
+    99  0087                     _TRISC	set	135
+   100                           	global	_TRISD
+   101  0088                     _TRISD	set	136
+   102                           	global	_TRISE
+   103  0089                     _TRISE	set	137
+   104                           	global	_TRISA5
+   105  042D                     _TRISA5	set	1069
+   106                           	file	"Experiment15-I2C.as"
+   107                           	line	#
+   108                           psect cinit,class=CODE,delta=2
+   109                           global start_initialization
+   110  061F                     start_initialization:
+   111                           
+   112                           psect	bitbssCOMMON,class=COMMON,bit,space=1
+   113                           global __pbitbssCOMMON
+   114  03C8                     __pbitbssCOMMON:
+   115  03C8                     _eepromdi:
+   116  03C8                            ds      1
+   117                           
+   118  03C9                     _eepromdo:
+   119  03C9                            ds      1
+   120                           
+   121                           psect	bssCOMMON,class=COMMON,space=1
+   122                           global __pbssCOMMON
+   123  007A                     __pbssCOMMON:
+   124  007A                     _addressbuf:
+   125  007A                            ds      1
+   126                           
+   127                           ; Clear objects allocated to BITCOMMON
+   128                           psect cinit,class=CODE,delta=2
+   129  061F  01F9               	clrf	((__pbitbssCOMMON/8)+0)&07Fh
+   130                           ; Clear objects allocated to COMMON
+   131                           psect cinit,class=CODE,delta=2
+   132  0620  01FA               	clrf	((__pbssCOMMON)+0)&07Fh
+   133                           psect cinit,class=CODE,delta=2
+   134                           global end_of_initialization
+   135                           
+   136                           ;End of C runtime variable initialization code
+   137                           
+   138  0621                     end_of_initialization:
+   139  0621  0183               clrf status
+   140  0622  120A  118A  2FA6   ljmp _main	;jump to C main() function
+   141                           psect	cstackCOMMON,class=COMMON,space=1
+   142                           global __pcstackCOMMON
+   143  0070                     __pcstackCOMMON:
+   144                           	global	?_Board_init
+   145  0070                     ?_Board_init:	; 0 bytes @ 0x0
+   146                           	global	??_Board_init
+   147  0070                     ??_Board_init:	; 0 bytes @ 0x0
+   148                           	global	?_delay_250ms
+   149  0070                     ?_delay_250ms:	; 0 bytes @ 0x0
+   150                           	global	??_delay_250ms
+   151  0070                     ??_delay_250ms:	; 0 bytes @ 0x0
+   152                           	global	?_delay
+   153  0070                     ?_delay:	; 0 bytes @ 0x0
+   154                           	global	??_delay
+   155  0070                     ??_delay:	; 0 bytes @ 0x0
+   156                           	global	?_i2cstart
+   157  0070                     ?_i2cstart:	; 0 bytes @ 0x0
+   158                           	global	?_i2cstop
+   159  0070                     ?_i2cstop:	; 0 bytes @ 0x0
+   160                           	global	?_bitin
+   161  0070                     ?_bitin:	; 0 bytes @ 0x0
+   162                           	global	??_bitin
+   163  0070                     ??_bitin:	; 0 bytes @ 0x0
+   164                           	global	?_bitout
+   165  0070                     ?_bitout:	; 0 bytes @ 0x0
+   166                           	global	??_bitout
+   167  0070                     ??_bitout:	; 0 bytes @ 0x0
+   168                           	global	?_i2cwrite
+   169  0070                     ?_i2cwrite:	; 0 bytes @ 0x0
+   170                           	global	??_i2cwrite
+   171  0070                     ??_i2cwrite:	; 0 bytes @ 0x0
+   172                           	global	??_i2cread
+   173  0070                     ??_i2cread:	; 0 bytes @ 0x0
+   174                           	global	?_main
+   175  0070                     ?_main:	; 0 bytes @ 0x0
+   176                           	global	?_i2cread
+   177  0070                     ?_i2cread:	; 1 bytes @ 0x0
+   178                           	global	?_read
+   179  0070                     ?_read:	; 1 bytes @ 0x0
+   180                           	global	delay_250ms@d
+   181  0070                     delay_250ms@d:	; 2 bytes @ 0x0
+   182  0070                     	ds	1
+   183                           	global	delay@k
+   184  0071                     delay@k:	; 1 bytes @ 0x1
+   185  0071                     	ds	1
+   186                           	global	??_i2cstart
+   187  0072                     ??_i2cstart:	; 0 bytes @ 0x2
+   188                           	global	??_i2cstop
+   189  0072                     ??_i2cstop:	; 0 bytes @ 0x2
+   190                           	global	i2cwrite@sedata
+   191  0072                     i2cwrite@sedata:	; 1 bytes @ 0x2
+   192                           	global	i2cread@m
+   193  0072                     i2cread@m:	; 1 bytes @ 0x2
+   194  0072                     	ds	1
+   195                           	global	i2cwrite@k
+   196  0073                     i2cwrite@k:	; 1 bytes @ 0x3
+   197                           	global	i2cread@redata
+   198  0073                     i2cread@redata:	; 1 bytes @ 0x3
+   199  0073                     	ds	1
+   200                           	global	??_read
+   201  0074                     ??_read:	; 0 bytes @ 0x4
+   202                           	global	?_write
+   203  0074                     ?_write:	; 0 bytes @ 0x4
+   204                           	global	write@byte
+   205  0074                     write@byte:	; 1 bytes @ 0x4
+   206  0074                     	ds	1
+   207                           	global	??_write
+   208  0075                     ??_write:	; 0 bytes @ 0x5
+   209                           	global	read@address
+   210  0075                     read@address:	; 1 bytes @ 0x5
+   211                           	global	write@address1
+   212  0075                     write@address1:	; 1 bytes @ 0x5
+   213  0075                     	ds	1
+   214                           	global	read@eebuf3
+   215  0076                     read@eebuf3:	; 1 bytes @ 0x6
+   216  0076                     	ds	1
+   217                           	global	??_main
+   218  0077                     ??_main:	; 0 bytes @ 0x7
+   219  0077                     	ds	1
+   220                           	global	main@buf
+   221  0078                     main@buf:	; 1 bytes @ 0x8
+   222  0078                     	ds	1
+   223 ;;Data sizes: Strings 0, constant 0, data 0, bss 1, persistent 0 stack 0
+   224 ;;Auto spaces:   Size  Autos    Used
+   225 ;; COMMON          14      9      11
+   226 ;; BANK0           80      0       0
+   227 ;; BANK1           80      0       0
+   228 ;; BANK3           96      0       0
+   229 ;; BANK2           96      0       0
+   230                           
+   231 ;;
+   232 ;; Pointer list with targets:
+   233                           
+   234                           
+   235                           
+   236 ;;
+   237 ;; Critical Paths under _main in COMMON
+   238 ;;
+   239 ;;   _main->_read
+   240 ;;   _write->_i2cwrite
+   241 ;;   _read->_i2cwrite
+   242 ;;   _read->_i2cread
+   243 ;;   _i2cstop->_delay
+   244 ;;   _i2cstart->_delay
+   245 ;;
+   246 ;; Critical Paths under _main in BANK0
+   247 ;;
+   248 ;;   None.
+   249 ;;
+   250 ;; Critical Paths under _main in BANK1
+   251 ;;
+   252 ;;   None.
+   253 ;;
+   254 ;; Critical Paths under _main in BANK3
+   255 ;;
+   256 ;;   None.
+   257 ;;
+   258 ;; Critical Paths under _main in BANK2
+   259 ;;
+   260 ;;   None.
+   261                           
+   262 ;;
+   263 ;;Main: autosize = 0, tempsize = 1, incstack = 0, save=0
+   264 ;;
+   265                           
+   266 ;;
+   267 ;;Call Graph Tables:
+   268 ;;
+   269 ;; ---------------------------------------------------------------------------------
+   270 ;; (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+   271 ;; ---------------------------------------------------------------------------------
+   272 ;; (0) _main                                                 2     2      0     405
+   273 ;;                                              7 COMMON     2     2      0
+   274 ;;                         _Board_init
+   275 ;;                              _write
+   276 ;;                               _read
+   277 ;;                        _delay_250ms
+   278 ;; ---------------------------------------------------------------------------------
+   279 ;; (1) _write                                                2     1      1     150
+   280 ;;                                              4 COMMON     2     1      1
+   281 ;;                           _i2cstart
+   282 ;;                           _i2cwrite
+   283 ;;                            _i2cstop
+   284 ;; ---------------------------------------------------------------------------------
+   285 ;; (1) _read                                                 3     3      0     210
+   286 ;;                                              4 COMMON     3     3      0
+   287 ;;                           _i2cstart
+   288 ;;                           _i2cwrite
+   289 ;;                            _i2cread
+   290 ;;                            _i2cstop
+   291 ;; ---------------------------------------------------------------------------------
+   292 ;; (2) _i2cread                                              4     4      0      60
+   293 ;;                                              0 COMMON     4     4      0
+   294 ;;                              _bitin
+   295 ;;                             _bitout
+   296 ;; ---------------------------------------------------------------------------------
+   297 ;; (2) _i2cwrite                                             4     4      0      60
+   298 ;;                                              0 COMMON     4     4      0
+   299 ;;                             _bitout
+   300 ;;                              _bitin
+   301 ;; ---------------------------------------------------------------------------------
+   302 ;; (2) _i2cstop                                              0     0      0      30
+   303 ;;                              _delay
+   304 ;; ---------------------------------------------------------------------------------
+   305 ;; (2) _i2cstart                                             0     0      0      30
+   306 ;;                              _delay
+   307 ;; ---------------------------------------------------------------------------------
+   308 ;; (3) _bitout                                               0     0      0       0
+   309 ;; ---------------------------------------------------------------------------------
+   310 ;; (3) _bitin                                                0     0      0       0
+   311 ;; ---------------------------------------------------------------------------------
+   312 ;; (3) _delay                                                2     2      0      30
+   313 ;;                                              0 COMMON     2     2      0
+   314 ;; ---------------------------------------------------------------------------------
+   315 ;; (1) _delay_250ms                                          2     2      0      15
+   316 ;;                                              0 COMMON     2     2      0
+   317 ;; ---------------------------------------------------------------------------------
+   318 ;; (1) _Board_init                                           0     0      0       0
+   319 ;; ---------------------------------------------------------------------------------
+   320 ;; Estimated maximum stack depth 3
+   321 ;; ---------------------------------------------------------------------------------
+   322                           
+   323 ;; Call Graph Graphs:
+   324                           
+   325 ;; _main (ROOT)
+   326 ;;   _Board_init
+   327 ;;   _write
+   328 ;;     _i2cstart
+   329 ;;       _delay
+   330 ;;     _i2cwrite
+   331 ;;       _bitout
+   332 ;;       _bitin
+   333 ;;     _i2cstop
+   334 ;;       _delay
+   335 ;;   _read
+   336 ;;     _i2cstart
+   337 ;;       _delay
+   338 ;;     _i2cwrite
+   339 ;;       _bitout
+   340 ;;       _bitin
+   341 ;;     _i2cread
+   342 ;;       _bitin
+   343 ;;       _bitout
+   344 ;;     _i2cstop
+   345 ;;       _delay
+   346 ;;   _delay_250ms
+   347 ;;
+   348                           
+   349 ;; Address spaces:
+   350                           
+   351 ;;Name               Size   Autos  Total    Cost      Usage
+   352 ;;BITCOMMON            E      0       1       0        7.1%
+   353 ;;EEDATA             100      0       0       0        0.0%
+   354 ;;NULL                 0      0       0       0        0.0%
+   355 ;;CODE                 0      0       0       0        0.0%
+   356 ;;COMMON               E      9       B       1       78.6%
+   357 ;;BITSFR0              0      0       0       1        0.0%
+   358 ;;SFR0                 0      0       0       1        0.0%
+   359 ;;BITSFR1              0      0       0       2        0.0%
+   360 ;;SFR1                 0      0       0       2        0.0%
+   361 ;;STACK                0      0       3       2        0.0%
+   362 ;;ABS                  0      0       B       3        0.0%
+   363 ;;BITBANK0            50      0       0       4        0.0%
+   364 ;;BITSFR3              0      0       0       4        0.0%
+   365 ;;SFR3                 0      0       0       4        0.0%
+   366 ;;BANK0               50      0       0       5        0.0%
+   367 ;;BITSFR2              0      0       0       5        0.0%
+   368 ;;SFR2                 0      0       0       5        0.0%
+   369 ;;BITBANK1            50      0       0       6        0.0%
+   370 ;;BANK1               50      0       0       7        0.0%
+   371 ;;BITBANK3            60      0       0       8        0.0%
+   372 ;;BANK3               60      0       0       9        0.0%
+   373 ;;BITBANK2            60      0       0      10        0.0%
+   374 ;;BANK2               60      0       0      11        0.0%
+   375 ;;DATA                 0      0       E      12        0.0%
+   376                           
+   377                           	global	_main
+   378                           psect	maintext,global,class=CODE,delta=2
+   379                           global __pmaintext
+   380  07A6                     __pmaintext:
+   381                           
+   382 ;; *************** function _main *****************
+   383 ;; Defined at:
+   384 ;;		line 221 in file "F:\Experiment_15\AT24C02.C"
+   385 ;; Parameters:    Size  Location     Type
+   386 ;;		None
+   387 ;; Auto vars:     Size  Location     Type
+   388 ;;  buf             1    8[COMMON] unsigned char 
+   389 ;; Return value:  Size  Location     Type
+   390 ;;		None               void
+   391 ;; Registers used:
+   392 ;;		wreg, status,2, status,0, pclath, cstack
+   393 ;; Tracked objects:
+   394 ;;		On entry : 17F/0
+   395 ;;		On exit  : 0/0
+   396 ;;		Unchanged: 0/0
+   397 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   398 ;;      Params:         0       0       0       0       0
+   399 ;;      Locals:         1       0       0       0       0
+   400 ;;      Temps:          1       0       0       0       0
+   401 ;;      Totals:         2       0       0       0       0
+   402 ;;Total ram usage:        2 bytes
+   403 ;; Hardware stack levels required when called:    3
+   404 ;; This function calls:
+   405 ;;		_Board_init
+   406 ;;		_write
+   407 ;;		_read
+   408 ;;		_delay_250ms
+   409 ;; This function is called by:
+   410 ;;		Startup code after reset
+   411 ;; This function uses a non-reentrant model
+   412 ;;
+   413                           psect	maintext
+   414                           	file	"F:\Experiment_15\AT24C02.C"
+   415                           	line	221
+   416                           	global	__size_of_main
+   417  005A                     	__size_of_main	equ	__end_of_main-_main
+   418                           	
+   419  07A6                     _main:	
+   420                           	opt	stack 5
+   421                           ; Regs used in _main: [wreg+status,2+status,0+pclath+cstack]
+   422                           	line	224
+   423                           	
+   424  07A6                     l2001:	
+   425                           ;AT24C02.C: 222: unsigned char buf;
+   426                           ;AT24C02.C: 224: ADCON1=0X07;
+   427  07A6  3007               	movlw	(07h)
+   428  07A7  1683               	bsf	status, 5	;RP0=1, select bank1
+   429  07A8  1303               	bcf	status, 6	;RP1=0, select bank1
+   430  07A9  009F               	movwf	(159)^080h	;volatile
+   431                           	line	226
+   432                           	
+   433  07AA                     l2003:	
+   434                           ;AT24C02.C: 226: Board_init();
+   435  07AA  120A  118A  26F2   	fcall	_Board_init
+              120A  118A         
+   436                           	line	227
+   437                           	
+   438  07AF                     l2005:	
+   439                           ;AT24C02.C: 227: RC5=1;
+   440  07AF  1283               	bcf	status, 5	;RP0=0, select bank0
+   441  07B0  1303               	bcf	status, 6	;RP1=0, select bank0
+   442  07B1  1687               	bsf	(61/8),(61)&7
+   443                           	line	228
+   444                           	
+   445  07B2                     l2007:	
+   446                           ;AT24C02.C: 228: TRISA&=0B11001111;
+   447  07B2  30CF               	movlw	(0CFh)
+   448  07B3  00F7               	movwf	(??_main+0)+0
+   449  07B4  0877               	movf	(??_main+0)+0,w
+   450  07B5  1683               	bsf	status, 5	;RP0=1, select bank1
+   451  07B6  1303               	bcf	status, 6	;RP1=0, select bank1
+   452  07B7  0585               	andwf	(133)^080h,f	;volatile
+   453                           	line	230
+   454                           	
+   455  07B8                     l2009:	
+   456                           ;AT24C02.C: 230: write(0x18,0X55);
+   457  07B8  3055               	movlw	(055h)
+   458  07B9  00F7               	movwf	(??_main+0)+0
+   459  07BA  0877               	movf	(??_main+0)+0,w
+   460  07BB  00F4               	movwf	(?_write)
+   461  07BC  3018               	movlw	(018h)
+   462  07BD  120A  118A  264E   	fcall	_write
+              120A  118A         
+   463                           	line	231
+   464                           	
+   465  07C2                     l2011:	
+   466                           ;AT24C02.C: 231: write(0x19,0XAA);
+   467  07C2  30AA               	movlw	(0AAh)
+   468  07C3  00F7               	movwf	(??_main+0)+0
+   469  07C4  0877               	movf	(??_main+0)+0,w
+   470  07C5  00F4               	movwf	(?_write)
+   471  07C6  3019               	movlw	(019h)
+   472  07C7  120A  118A  264E   	fcall	_write
+              120A  118A         
+   473  07CC  2FCD               	goto	l2013
+   474                           	line	233
+   475                           ;AT24C02.C: 233: while(1)
+   476                           	
+   477  07CD                     l737:	
+   478                           	line	235
+   479                           	
+   480  07CD                     l2013:	
+   481                           ;AT24C02.C: 234: {
+   482                           ;AT24C02.C: 235: buf=read(0x18);
+   483  07CD  3018               	movlw	(018h)
+   484  07CE  120A  118A  2718   	fcall	_read
+              120A  118A         
+   485  07D3  00F7               	movwf	(??_main+0)+0
+   486  07D4  0877               	movf	(??_main+0)+0,w
+   487  07D5  00F8               	movwf	(main@buf)
+   488                           	line	236
+   489                           	
+   490  07D6                     l2015:	
+   491                           ;AT24C02.C: 236: PORTD=buf;
+   492  07D6  0878               	movf	(main@buf),w
+   493  07D7  1283               	bcf	status, 5	;RP0=0, select bank0
+   494  07D8  1303               	bcf	status, 6	;RP1=0, select bank0
+   495  07D9  0088               	movwf	(8)	;volatile
+   496                           	line	237
+   497                           	
+   498  07DA                     l2017:	
+   499                           ;AT24C02.C: 237: delay_250ms();
+   500  07DA  120A  118A  2625   	fcall	_delay_250ms
+              120A  118A         
+   501                           	line	238
+   502                           	
+   503  07DF                     l2019:	
+   504                           ;AT24C02.C: 238: delay_250ms();
+   505  07DF  120A  118A  2625   	fcall	_delay_250ms
+              120A  118A         
+   506                           	line	240
+   507                           	
+   508  07E4                     l2021:	
+   509                           ;AT24C02.C: 240: buf=read(0x19);
+   510  07E4  3019               	movlw	(019h)
+   511  07E5  120A  118A  2718   	fcall	_read
+              120A  118A         
+   512  07EA  00F7               	movwf	(??_main+0)+0
+   513  07EB  0877               	movf	(??_main+0)+0,w
+   514  07EC  00F8               	movwf	(main@buf)
+   515                           	line	241
+   516                           	
+   517  07ED                     l2023:	
+   518                           ;AT24C02.C: 241: PORTD=buf;
+   519  07ED  0878               	movf	(main@buf),w
+   520  07EE  1283               	bcf	status, 5	;RP0=0, select bank0
+   521  07EF  1303               	bcf	status, 6	;RP1=0, select bank0
+   522  07F0  0088               	movwf	(8)	;volatile
+   523                           	line	242
+   524                           	
+   525  07F1                     l2025:	
+   526                           ;AT24C02.C: 242: delay_250ms();
+   527  07F1  120A  118A  2625   	fcall	_delay_250ms
+              120A  118A         
+   528                           	line	243
+   529                           	
+   530  07F6                     l2027:	
+   531                           ;AT24C02.C: 243: delay_250ms();
+   532  07F6  120A  118A  2625   	fcall	_delay_250ms
+              120A  118A         
+   533  07FB  2FCD               	goto	l2013
+   534                           	line	244
+   535                           	
+   536  07FC                     l738:	
+   537                           	line	233
+   538  07FC  2FCD               	goto	l2013
+   539                           	
+   540  07FD                     l739:	
+   541                           	line	245
+   542                           	
+   543  07FD                     l740:	
+   544                           	global	start
+   545  07FD  120A  118A  2800   	ljmp	start
+   546                           	opt stack 0
+   547                           GLOBAL	__end_of_main
+   548  0800                     	__end_of_main:
+   549 ;; =============== function _main ends ============
+   550                           
+   551                           	signat	_main,88
+   552                           	global	_write
+   553                           psect	text139,local,class=CODE,delta=2
+   554                           global __ptext139
+   555  064E                     __ptext139:
+   556                           
+   557 ;; *************** function _write *****************
+   558 ;; Defined at:
+   559 ;;		line 209 in file "F:\Experiment_15\AT24C02.C"
+   560 ;; Parameters:    Size  Location     Type
+   561 ;;  address1        1    wreg     unsigned char 
+   562 ;;  byte            1    4[COMMON] unsigned char 
+   563 ;; Auto vars:     Size  Location     Type
+   564 ;;  address1        1    5[COMMON] unsigned char 
+   565 ;; Return value:  Size  Location     Type
+   566 ;;		None               void
+   567 ;; Registers used:
+   568 ;;		wreg, status,2, status,0, pclath, cstack
+   569 ;; Tracked objects:
+   570 ;;		On entry : 0/0
+   571 ;;		On exit  : 0/0
+   572 ;;		Unchanged: 0/0
+   573 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   574 ;;      Params:         1       0       0       0       0
+   575 ;;      Locals:         1       0       0       0       0
+   576 ;;      Temps:          0       0       0       0       0
+   577 ;;      Totals:         2       0       0       0       0
+   578 ;;Total ram usage:        2 bytes
+   579 ;; Hardware stack levels used:    1
+   580 ;; Hardware stack levels required when called:    2
+   581 ;; This function calls:
+   582 ;;		_i2cstart
+   583 ;;		_i2cwrite
+   584 ;;		_i2cstop
+   585 ;; This function is called by:
+   586 ;;		_main
+   587 ;; This function uses a non-reentrant model
+   588 ;;
+   589                           psect	text139
+   590                           	file	"F:\Experiment_15\AT24C02.C"
+   591                           	line	209
+   592                           	global	__size_of_write
+   593  001E                     	__size_of_write	equ	__end_of_write-_write
+   594                           	
+   595  064E                     _write:	
+   596                           	opt	stack 5
+   597                           ; Regs used in _write: [wreg+status,2+status,0+pclath+cstack]
+   598                           ;write@address1 stored from wreg
+   599  064E  00F5               	movwf	(write@address1)
+   600                           	line	210
+   601                           	
+   602  064F                     l1999:	
+   603                           ;AT24C02.C: 210: i2cstart();
+   604  064F  120A  118A  268C   	fcall	_i2cstart
+              120A  118A         
+   605                           	line	211
+   606                           ;AT24C02.C: 211: i2cwrite(0xa0);
+   607  0654  30A0               	movlw	(0A0h)
+   608  0655  120A  118A  2745   	fcall	_i2cwrite
+              120A  118A         
+   609                           	line	212
+   610                           ;AT24C02.C: 212: i2cwrite(address1);
+   611  065A  0875               	movf	(write@address1),w
+   612  065B  120A  118A  2745   	fcall	_i2cwrite
+              120A  118A         
+   613                           	line	213
+   614                           ;AT24C02.C: 213: i2cwrite(byte);
+   615  0660  0874               	movf	(write@byte),w
+   616  0661  120A  118A  2745   	fcall	_i2cwrite
+              120A  118A         
+   617                           	line	214
+   618                           ;AT24C02.C: 214: i2cstop();
+   619  0666  120A  118A  26AD   	fcall	_i2cstop
+              120A  118A         
+   620                           	line	215
+   621                           	
+   622  066B                     l734:	
+   623  066B  0008               	return
+   624                           	opt stack 0
+   625                           GLOBAL	__end_of_write
+   626  066C                     	__end_of_write:
+   627 ;; =============== function _write ends ============
+   628                           
+   629                           	signat	_write,8312
+   630                           	global	_read
+   631                           psect	text140,local,class=CODE,delta=2
+   632                           global __ptext140
+   633  0718                     __ptext140:
+   634                           
+   635 ;; *************** function _read *****************
+   636 ;; Defined at:
+   637 ;;		line 193 in file "F:\Experiment_15\AT24C02.C"
+   638 ;; Parameters:    Size  Location     Type
+   639 ;;  address         1    wreg     unsigned char 
+   640 ;; Auto vars:     Size  Location     Type
+   641 ;;  address         1    5[COMMON] unsigned char 
+   642 ;;  eebuf3          1    6[COMMON] unsigned char 
+   643 ;; Return value:  Size  Location     Type
+   644 ;;                  1    wreg      unsigned char 
+   645 ;; Registers used:
+   646 ;;		wreg, status,2, status,0, pclath, cstack
+   647 ;; Tracked objects:
+   648 ;;		On entry : 0/0
+   649 ;;		On exit  : 0/0
+   650 ;;		Unchanged: 0/0
+   651 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   652 ;;      Params:         0       0       0       0       0
+   653 ;;      Locals:         2       0       0       0       0
+   654 ;;      Temps:          1       0       0       0       0
+   655 ;;      Totals:         3       0       0       0       0
+   656 ;;Total ram usage:        3 bytes
+   657 ;; Hardware stack levels used:    1
+   658 ;; Hardware stack levels required when called:    2
+   659 ;; This function calls:
+   660 ;;		_i2cstart
+   661 ;;		_i2cwrite
+   662 ;;		_i2cread
+   663 ;;		_i2cstop
+   664 ;; This function is called by:
+   665 ;;		_main
+   666 ;; This function uses a non-reentrant model
+   667 ;;
+   668                           psect	text140
+   669                           	file	"F:\Experiment_15\AT24C02.C"
+   670                           	line	193
+   671                           	global	__size_of_read
+   672  002D                     	__size_of_read	equ	__end_of_read-_read
+   673                           	
+   674  0718                     _read:	
+   675                           	opt	stack 5
+   676                           ; Regs used in _read: [wreg+status,2+status,0+pclath+cstack]
+   677                           ;read@address stored from wreg
+   678                           	line	195
+   679  0718  00F5               	movwf	(read@address)
+   680                           	
+   681  0719                     l1993:	
+   682                           ;AT24C02.C: 194: unsigned char eebuf3;
+   683                           ;AT24C02.C: 195: i2cstart();
+   684  0719  120A  118A  268C   	fcall	_i2cstart
+              120A  118A         
+   685                           	line	196
+   686                           ;AT24C02.C: 196: i2cwrite(0xa0);
+   687  071E  30A0               	movlw	(0A0h)
+   688  071F  120A  118A  2745   	fcall	_i2cwrite
+              120A  118A         
+   689                           	line	197
+   690                           ;AT24C02.C: 197: i2cwrite(address);
+   691  0724  0875               	movf	(read@address),w
+   692  0725  120A  118A  2745   	fcall	_i2cwrite
+              120A  118A         
+   693                           	line	198
+   694                           ;AT24C02.C: 198: i2cstart();
+   695  072A  120A  118A  268C   	fcall	_i2cstart
+              120A  118A         
+   696                           	line	199
+   697                           ;AT24C02.C: 199: i2cwrite(0xa1);
+   698  072F  30A1               	movlw	(0A1h)
+   699  0730  120A  118A  2745   	fcall	_i2cwrite
+              120A  118A         
+   700                           	line	200
+   701                           ;AT24C02.C: 200: eebuf3=i2cread();
+   702  0735  120A  118A  2773   	fcall	_i2cread
+              120A  118A         
+   703  073A  00F4               	movwf	(??_read+0)+0
+   704  073B  0874               	movf	(??_read+0)+0,w
+   705  073C  00F6               	movwf	(read@eebuf3)
+   706                           	line	201
+   707                           ;AT24C02.C: 201: i2cstop();
+   708  073D  120A  118A  26AD   	fcall	_i2cstop
+              120A  118A         
+   709                           	line	202
+   710                           	
+   711  0742                     l1995:	
+   712                           ;AT24C02.C: 202: return eebuf3;
+   713  0742  0876               	movf	(read@eebuf3),w
+   714  0743  2F44               	goto	l731
+   715                           	
+   716  0744                     l1997:	
+   717                           	line	203
+   718                           	
+   719  0744                     l731:	
+   720  0744  0008               	return
+   721                           	opt stack 0
+   722                           GLOBAL	__end_of_read
+   723  0745                     	__end_of_read:
+   724 ;; =============== function _read ends ============
+   725                           
+   726                           	signat	_read,4217
+   727                           	global	_i2cread
+   728                           psect	text141,local,class=CODE,delta=2
+   729                           global __ptext141
+   730  0773                     __ptext141:
+   731                           
+   732 ;; *************** function _i2cread *****************
+   733 ;; Defined at:
+   734 ;;		line 167 in file "F:\Experiment_15\AT24C02.C"
+   735 ;; Parameters:    Size  Location     Type
+   736 ;;		None
+   737 ;; Auto vars:     Size  Location     Type
+   738 ;;  redata          1    3[COMMON] unsigned char 
+   739 ;;  m               1    2[COMMON] unsigned char 
+   740 ;; Return value:  Size  Location     Type
+   741 ;;                  1    wreg      unsigned char 
+   742 ;; Registers used:
+   743 ;;		wreg, status,2, status,0, pclath, cstack
+   744 ;; Tracked objects:
+   745 ;;		On entry : 0/0
+   746 ;;		On exit  : 0/0
+   747 ;;		Unchanged: 0/0
+   748 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   749 ;;      Params:         0       0       0       0       0
+   750 ;;      Locals:         2       0       0       0       0
+   751 ;;      Temps:          2       0       0       0       0
+   752 ;;      Totals:         4       0       0       0       0
+   753 ;;Total ram usage:        4 bytes
+   754 ;; Hardware stack levels used:    1
+   755 ;; Hardware stack levels required when called:    1
+   756 ;; This function calls:
+   757 ;;		_bitin
+   758 ;;		_bitout
+   759 ;; This function is called by:
+   760 ;;		_read
+   761 ;; This function uses a non-reentrant model
+   762 ;;
+   763                           psect	text141
+   764                           	file	"F:\Experiment_15\AT24C02.C"
+   765                           	line	167
+   766                           	global	__size_of_i2cread
+   767  0033                     	__size_of_i2cread	equ	__end_of_i2cread-_i2cread
+   768                           	
+   769  0773                     _i2cread:	
+   770                           	opt	stack 5
+   771                           ; Regs used in _i2cread: [wreg+status,2+status,0+pclath+cstack]
+   772                           	line	170
+   773                           	
+   774  0773                     l1967:	
+   775                           ;AT24C02.C: 168: unsigned char redata;
+   776                           ;AT24C02.C: 169: unsigned char m;
+   777                           ;AT24C02.C: 170: for(m=0;m<8;m++)
+   778  0773  01F2               	clrf	(i2cread@m)
+   779                           	
+   780  0774                     l1969:	
+   781  0774  3008               	movlw	(08h)
+   782  0775  0272               	subwf	(i2cread@m),w
+   783  0776  1C03               	skipc
+   784  0777  2F79               	goto	u2231
+   785  0778  2F7A               	goto	u2230
+   786  0779                     u2231:
+   787  0779  2F7C               	goto	l1973
+   788  077A                     u2230:
+   789  077A  2F9D               	goto	l725
+   790                           	
+   791  077B                     l1971:	
+   792  077B  2F9D               	goto	l725
+   793                           	line	171
+   794                           	
+   795  077C                     l724:	
+   796                           	line	172
+   797                           	
+   798  077C                     l1973:	
+   799                           ;AT24C02.C: 171: {
+   800                           ;AT24C02.C: 172: redata=redata<<1;
+   801  077C  0873               	movf	(i2cread@redata),w
+   802  077D  00F0               	movwf	(??_i2cread+0)+0
+   803  077E  0770               	addwf	(??_i2cread+0)+0,w
+   804  077F  00F1               	movwf	(??_i2cread+1)+0
+   805  0780  0871               	movf	(??_i2cread+1)+0,w
+   806  0781  00F3               	movwf	(i2cread@redata)
+   807                           	line	173
+   808                           	
+   809  0782                     l1975:	
+   810                           ;AT24C02.C: 173: bitin();
+   811  0782  120A  118A  26CF   	fcall	_bitin
+              120A  118A         
+   812                           	line	174
+   813                           	
+   814  0787                     l1977:	
+   815                           ;AT24C02.C: 174: if(eepromdi==1)
+   816  0787  1C79               	btfss	(_eepromdi/8),(_eepromdi)&7
+   817  0788  2F8A               	goto	u2241
+   818  0789  2F8B               	goto	u2240
+   819  078A                     u2241:
+   820  078A  2F8D               	goto	l1981
+   821  078B                     u2240:
+   822                           	line	176
+   823                           	
+   824  078B                     l1979:	
+   825                           ;AT24C02.C: 175: {
+   826                           ;AT24C02.C: 176: redata|=0x01;
+   827  078B  1473               	bsf	(i2cread@redata)+(0/8),(0)&7
+   828                           	line	177
+   829                           ;AT24C02.C: 177: }
+   830  078C  2F92               	goto	l1983
+   831                           	line	178
+   832                           	
+   833  078D                     l726:	
+   834                           	line	180
+   835                           	
+   836  078D                     l1981:	
+   837                           ;AT24C02.C: 178: else
+   838                           ;AT24C02.C: 179: {
+   839                           ;AT24C02.C: 180: redata&=0xfe;
+   840  078D  30FE               	movlw	(0FEh)
+   841  078E  00F0               	movwf	(??_i2cread+0)+0
+   842  078F  0870               	movf	(??_i2cread+0)+0,w
+   843  0790  05F3               	andwf	(i2cread@redata),f
+   844  0791  2F92               	goto	l1983
+   845                           	line	181
+   846                           	
+   847  0792                     l727:	
+   848                           	line	182
+   849                           	
+   850  0792                     l1983:	
+   851                           # 182 "F:\Experiment_15\AT24C02.C"
+   852  0792  0000               NOP ;#
+   853                           psect	text141
+   854                           	line	170
+   855  0793  3001               	movlw	(01h)
+   856  0794  00F0               	movwf	(??_i2cread+0)+0
+   857  0795  0870               	movf	(??_i2cread+0)+0,w
+   858  0796  07F2               	addwf	(i2cread@m),f
+   859                           	
+   860  0797                     l1985:	
+   861  0797  3008               	movlw	(08h)
+   862  0798  0272               	subwf	(i2cread@m),w
+   863  0799  1C03               	skipc
+   864  079A  2F9C               	goto	u2251
+   865  079B  2F9D               	goto	u2250
+   866  079C                     u2251:
+   867  079C  2F7C               	goto	l1973
+   868  079D                     u2250:
+   869                           	
+   870  079D                     l725:	
+   871                           	line	184
+   872                           ;AT24C02.C: 183: }
+   873                           ;AT24C02.C: 184: eepromdo=1;
+   874  079D  14F9               	bsf	(_eepromdo/8),(_eepromdo)&7
+   875                           	line	185
+   876                           	
+   877  079E                     l1987:	
+   878                           ;AT24C02.C: 185: bitout();
+   879  079E  120A  118A  266C   	fcall	_bitout
+              120A  118A         
+   880                           	line	186
+   881                           	
+   882  07A3                     l1989:	
+   883                           ;AT24C02.C: 186: return redata;
+   884  07A3  0873               	movf	(i2cread@redata),w
+   885  07A4  2FA5               	goto	l728
+   886                           	
+   887  07A5                     l1991:	
+   888                           	line	187
+   889                           	
+   890  07A5                     l728:	
+   891  07A5  0008               	return
+   892                           	opt stack 0
+   893                           GLOBAL	__end_of_i2cread
+   894  07A6                     	__end_of_i2cread:
+   895 ;; =============== function _i2cread ends ============
+   896                           
+   897                           	signat	_i2cread,89
+   898                           	global	_i2cwrite
+   899                           psect	text142,local,class=CODE,delta=2
+   900                           global __ptext142
+   901  0745                     __ptext142:
+   902                           
+   903 ;; *************** function _i2cwrite *****************
+   904 ;; Defined at:
+   905 ;;		line 145 in file "F:\Experiment_15\AT24C02.C"
+   906 ;; Parameters:    Size  Location     Type
+   907 ;;  sedata          1    wreg     unsigned char 
+   908 ;; Auto vars:     Size  Location     Type
+   909 ;;  sedata          1    2[COMMON] unsigned char 
+   910 ;;  k               1    3[COMMON] unsigned char 
+   911 ;; Return value:  Size  Location     Type
+   912 ;;		None               void
+   913 ;; Registers used:
+   914 ;;		wreg, status,2, status,0, pclath, cstack
+   915 ;; Tracked objects:
+   916 ;;		On entry : 0/0
+   917 ;;		On exit  : 0/0
+   918 ;;		Unchanged: 0/0
+   919 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+   920 ;;      Params:         0       0       0       0       0
+   921 ;;      Locals:         2       0       0       0       0
+   922 ;;      Temps:          2       0       0       0       0
+   923 ;;      Totals:         4       0       0       0       0
+   924 ;;Total ram usage:        4 bytes
+   925 ;; Hardware stack levels used:    1
+   926 ;; Hardware stack levels required when called:    1
+   927 ;; This function calls:
+   928 ;;		_bitout
+   929 ;;		_bitin
+   930 ;; This function is called by:
+   931 ;;		_read
+   932 ;;		_write
+   933 ;; This function uses a non-reentrant model
+   934 ;;
+   935                           psect	text142
+   936                           	file	"F:\Experiment_15\AT24C02.C"
+   937                           	line	145
+   938                           	global	__size_of_i2cwrite
+   939  002E                     	__size_of_i2cwrite	equ	__end_of_i2cwrite-_i2cwrite
+   940                           	
+   941  0745                     _i2cwrite:	
+   942                           	opt	stack 5
+   943                           ; Regs used in _i2cwrite: [wreg+status,2+status,0+pclath+cstack]
+   944                           ;i2cwrite@sedata stored from wreg
+   945                           	line	147
+   946  0745  00F2               	movwf	(i2cwrite@sedata)
+   947                           	
+   948  0746                     l1949:	
+   949                           ;AT24C02.C: 146: unsigned char k;
+   950                           ;AT24C02.C: 147: for(k=0;k<8;k++)
+   951  0746  01F3               	clrf	(i2cwrite@k)
+   952                           	
+   953  0747                     l1951:	
+   954  0747  3008               	movlw	(08h)
+   955  0748  0273               	subwf	(i2cwrite@k),w
+   956  0749  1C03               	skipc
+   957  074A  2F4C               	goto	u2201
+   958  074B  2F4D               	goto	u2200
+   959  074C                     u2201:
+   960  074C  2F4F               	goto	l717
+   961  074D                     u2200:
+   962  074D  2F6D               	goto	l1965
+   963                           	
+   964  074E                     l1953:	
+   965  074E  2F6D               	goto	l1965
+   966                           	line	148
+   967                           	
+   968  074F                     l717:	
+   969                           	line	149
+   970                           ;AT24C02.C: 148: {
+   971                           ;AT24C02.C: 149: if(sedata&0x80)
+   972  074F  1FF2               	btfss	(i2cwrite@sedata),(7)&7
+   973  0750  2F52               	goto	u2211
+   974  0751  2F53               	goto	u2210
+   975  0752                     u2211:
+   976  0752  2F55               	goto	l719
+   977  0753                     u2210:
+   978                           	line	151
+   979                           	
+   980  0753                     l1955:	
+   981                           ;AT24C02.C: 150: {
+   982                           ;AT24C02.C: 151: eepromdo=1;
+   983  0753  14F9               	bsf	(_eepromdo/8),(_eepromdo)&7
+   984                           	line	152
+   985                           ;AT24C02.C: 152: }
+   986  0754  2F57               	goto	l1957
+   987                           	line	153
+   988                           	
+   989  0755                     l719:	
+   990                           	line	155
+   991                           ;AT24C02.C: 153: else
+   992                           ;AT24C02.C: 154: {
+   993                           ;AT24C02.C: 155: eepromdo=0;
+   994  0755  10F9               	bcf	(_eepromdo/8),(_eepromdo)&7
+   995  0756  2F57               	goto	l1957
+   996                           	line	156
+   997                           	
+   998  0757                     l720:	
+   999                           	line	157
+  1000                           	
+  1001  0757                     l1957:	
+  1002                           ;AT24C02.C: 156: }
+  1003                           ;AT24C02.C: 157: sedata=sedata<<1;
+  1004  0757  0872               	movf	(i2cwrite@sedata),w
+  1005  0758  00F0               	movwf	(??_i2cwrite+0)+0
+  1006  0759  0770               	addwf	(??_i2cwrite+0)+0,w
+  1007  075A  00F1               	movwf	(??_i2cwrite+1)+0
+  1008  075B  0871               	movf	(??_i2cwrite+1)+0,w
+  1009  075C  00F2               	movwf	(i2cwrite@sedata)
+  1010                           	line	158
+  1011                           	
+  1012  075D                     l1959:	
+  1013                           ;AT24C02.C: 158: bitout();
+  1014  075D  120A  118A  266C   	fcall	_bitout
+              120A  118A         
+  1015                           	line	147
+  1016                           	
+  1017  0762                     l1961:	
+  1018  0762  3001               	movlw	(01h)
+  1019  0763  00F0               	movwf	(??_i2cwrite+0)+0
+  1020  0764  0870               	movf	(??_i2cwrite+0)+0,w
+  1021  0765  07F3               	addwf	(i2cwrite@k),f
+  1022                           	
+  1023  0766                     l1963:	
+  1024  0766  3008               	movlw	(08h)
+  1025  0767  0273               	subwf	(i2cwrite@k),w
+  1026  0768  1C03               	skipc
+  1027  0769  2F6B               	goto	u2221
+  1028  076A  2F6C               	goto	u2220
+  1029  076B                     u2221:
+  1030  076B  2F4F               	goto	l717
+  1031  076C                     u2220:
+  1032  076C  2F6D               	goto	l1965
+  1033                           	
+  1034  076D                     l718:	
+  1035                           	line	160
+  1036                           	
+  1037  076D                     l1965:	
+  1038                           ;AT24C02.C: 159: }
+  1039                           ;AT24C02.C: 160: bitin();
+  1040  076D  120A  118A  26CF   	fcall	_bitin
+              120A  118A         
+  1041                           	line	161
+  1042                           	
+  1043  0772                     l721:	
+  1044  0772  0008               	return
+  1045                           	opt stack 0
+  1046                           GLOBAL	__end_of_i2cwrite
+  1047  0773                     	__end_of_i2cwrite:
+  1048 ;; =============== function _i2cwrite ends ============
+  1049                           
+  1050                           	signat	_i2cwrite,4216
+  1051                           	global	_i2cstop
+  1052                           psect	text143,local,class=CODE,delta=2
+  1053                           global __ptext143
+  1054  06AD                     __ptext143:
+  1055                           
+  1056 ;; *************** function _i2cstop *****************
+  1057 ;; Defined at:
+  1058 ;;		line 71 in file "F:\Experiment_15\AT24C02.C"
+  1059 ;; Parameters:    Size  Location     Type
+  1060 ;;		None
+  1061 ;; Auto vars:     Size  Location     Type
+  1062 ;;		None
+  1063 ;; Return value:  Size  Location     Type
+  1064 ;;		None               void
+  1065 ;; Registers used:
+  1066 ;;		wreg, status,2, status,0, pclath, cstack
+  1067 ;; Tracked objects:
+  1068 ;;		On entry : 0/0
+  1069 ;;		On exit  : 0/0
+  1070 ;;		Unchanged: 0/0
+  1071 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1072 ;;      Params:         0       0       0       0       0
+  1073 ;;      Locals:         0       0       0       0       0
+  1074 ;;      Temps:          0       0       0       0       0
+  1075 ;;      Totals:         0       0       0       0       0
+  1076 ;;Total ram usage:        0 bytes
+  1077 ;; Hardware stack levels used:    1
+  1078 ;; Hardware stack levels required when called:    1
+  1079 ;; This function calls:
+  1080 ;;		_delay
+  1081 ;; This function is called by:
+  1082 ;;		_read
+  1083 ;;		_write
+  1084 ;; This function uses a non-reentrant model
+  1085 ;;
+  1086                           psect	text143
+  1087                           	file	"F:\Experiment_15\AT24C02.C"
+  1088                           	line	71
+  1089                           	global	__size_of_i2cstop
+  1090  0022                     	__size_of_i2cstop	equ	__end_of_i2cstop-_i2cstop
+  1091                           	
+  1092  06AD                     _i2cstop:	
+  1093                           	opt	stack 5
+  1094                           ; Regs used in _i2cstop: [wreg+status,2+status,0+pclath+cstack]
+  1095                           	line	72
+  1096                           	
+  1097  06AD                     l1941:	
+  1098                           ;AT24C02.C: 72: RA5=0;
+  1099  06AD  1283               	bcf	status, 5	;RP0=0, select bank0
+  1100  06AE  1303               	bcf	status, 6	;RP1=0, select bank0
+  1101  06AF  1285               	bcf	(45/8),(45)&7
+  1102                           	line	73
+  1103                           ;AT24C02.C: 73: RA5=0;
+  1104  06B0  1285               	bcf	(45/8),(45)&7
+  1105                           	line	74
+  1106                           # 74 "F:\Experiment_15\AT24C02.C"
+  1107  06B1  0000               NOP ;#
+  1108                           	line	75
+  1109                           # 75 "F:\Experiment_15\AT24C02.C"
+  1110  06B2  0000               NOP ;#
+  1111                           	line	76
+  1112                           # 76 "F:\Experiment_15\AT24C02.C"
+  1113  06B3  0000               NOP ;#
+  1114                           	line	77
+  1115                           # 77 "F:\Experiment_15\AT24C02.C"
+  1116  06B4  0000               NOP ;#
+  1117                           	line	78
+  1118                           # 78 "F:\Experiment_15\AT24C02.C"
+  1119  06B5  0000               NOP ;#
+  1120                           psect	text143
+  1121                           	line	79
+  1122                           ;AT24C02.C: 79: RA4=1;
+  1123  06B6  1283               	bcf	status, 5	;RP0=0, select bank0
+  1124  06B7  1303               	bcf	status, 6	;RP1=0, select bank0
+  1125  06B8  1605               	bsf	(44/8),(44)&7
+  1126                           	line	80
+  1127                           	
+  1128  06B9                     l1943:	
+  1129                           ;AT24C02.C: 80: delay();
+  1130  06B9  120A  118A  2639   	fcall	_delay
+              120A  118A         
+  1131                           	line	81
+  1132                           	
+  1133  06BE                     l1945:	
+  1134                           ;AT24C02.C: 81: RA5=1;
+  1135  06BE  1283               	bcf	status, 5	;RP0=0, select bank0
+  1136  06BF  1303               	bcf	status, 6	;RP1=0, select bank0
+  1137  06C0  1685               	bsf	(45/8),(45)&7
+  1138                           	line	82
+  1139                           ;AT24C02.C: 82: delay();
+  1140  06C1  120A  118A  2639   	fcall	_delay
+              120A  118A         
+  1141                           	line	83
+  1142                           	
+  1143  06C6                     l1947:	
+  1144                           ;AT24C02.C: 83: RA4=0;
+  1145  06C6  1283               	bcf	status, 5	;RP0=0, select bank0
+  1146  06C7  1303               	bcf	status, 6	;RP1=0, select bank0
+  1147  06C8  1205               	bcf	(44/8),(44)&7
+  1148                           	line	84
+  1149                           ;AT24C02.C: 84: delay();
+  1150  06C9  120A  118A  2639   	fcall	_delay
+              120A  118A         
+  1151                           	line	85
+  1152                           	
+  1153  06CE                     l708:	
+  1154  06CE  0008               	return
+  1155                           	opt stack 0
+  1156                           GLOBAL	__end_of_i2cstop
+  1157  06CF                     	__end_of_i2cstop:
+  1158 ;; =============== function _i2cstop ends ============
+  1159                           
+  1160                           	signat	_i2cstop,88
+  1161                           	global	_i2cstart
+  1162                           psect	text144,local,class=CODE,delta=2
+  1163                           global __ptext144
+  1164  068C                     __ptext144:
+  1165                           
+  1166 ;; *************** function _i2cstart *****************
+  1167 ;; Defined at:
+  1168 ;;		line 51 in file "F:\Experiment_15\AT24C02.C"
+  1169 ;; Parameters:    Size  Location     Type
+  1170 ;;		None
+  1171 ;; Auto vars:     Size  Location     Type
+  1172 ;;		None
+  1173 ;; Return value:  Size  Location     Type
+  1174 ;;		None               void
+  1175 ;; Registers used:
+  1176 ;;		wreg, status,2, status,0, pclath, cstack
+  1177 ;; Tracked objects:
+  1178 ;;		On entry : 0/0
+  1179 ;;		On exit  : 0/0
+  1180 ;;		Unchanged: 0/0
+  1181 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1182 ;;      Params:         0       0       0       0       0
+  1183 ;;      Locals:         0       0       0       0       0
+  1184 ;;      Temps:          0       0       0       0       0
+  1185 ;;      Totals:         0       0       0       0       0
+  1186 ;;Total ram usage:        0 bytes
+  1187 ;; Hardware stack levels used:    1
+  1188 ;; Hardware stack levels required when called:    1
+  1189 ;; This function calls:
+  1190 ;;		_delay
+  1191 ;; This function is called by:
+  1192 ;;		_read
+  1193 ;;		_write
+  1194 ;; This function uses a non-reentrant model
+  1195 ;;
+  1196                           psect	text144
+  1197                           	file	"F:\Experiment_15\AT24C02.C"
+  1198                           	line	51
+  1199                           	global	__size_of_i2cstart
+  1200  0021                     	__size_of_i2cstart	equ	__end_of_i2cstart-_i2cstart
+  1201                           	
+  1202  068C                     _i2cstart:	
+  1203                           	opt	stack 5
+  1204                           ; Regs used in _i2cstart: [wreg+status,2+status,0+pclath+cstack]
+  1205                           	line	52
+  1206                           	
+  1207  068C                     l1933:	
+  1208                           ;AT24C02.C: 52: RA4=1;
+  1209  068C  1283               	bcf	status, 5	;RP0=0, select bank0
+  1210  068D  1303               	bcf	status, 6	;RP1=0, select bank0
+  1211  068E  1605               	bsf	(44/8),(44)&7
+  1212                           	line	53
+  1213                           # 53 "F:\Experiment_15\AT24C02.C"
+  1214  068F  0000               NOP ;#
+  1215                           	line	54
+  1216                           # 54 "F:\Experiment_15\AT24C02.C"
+  1217  0690  0000               NOP ;#
+  1218                           	line	55
+  1219                           # 55 "F:\Experiment_15\AT24C02.C"
+  1220  0691  0000               NOP ;#
+  1221                           	line	56
+  1222                           # 56 "F:\Experiment_15\AT24C02.C"
+  1223  0692  0000               NOP ;#
+  1224                           	line	57
+  1225                           # 57 "F:\Experiment_15\AT24C02.C"
+  1226  0693  0000               NOP ;#
+  1227                           psect	text144
+  1228                           	line	58
+  1229                           ;AT24C02.C: 58: RA5=1;
+  1230  0694  1283               	bcf	status, 5	;RP0=0, select bank0
+  1231  0695  1303               	bcf	status, 6	;RP1=0, select bank0
+  1232  0696  1685               	bsf	(45/8),(45)&7
+  1233                           	line	59
+  1234                           	
+  1235  0697                     l1935:	
+  1236                           ;AT24C02.C: 59: delay();
+  1237  0697  120A  118A  2639   	fcall	_delay
+              120A  118A         
+  1238                           	line	60
+  1239                           	
+  1240  069C                     l1937:	
+  1241                           ;AT24C02.C: 60: RA5=0;
+  1242  069C  1283               	bcf	status, 5	;RP0=0, select bank0
+  1243  069D  1303               	bcf	status, 6	;RP1=0, select bank0
+  1244  069E  1285               	bcf	(45/8),(45)&7
+  1245                           	line	61
+  1246                           ;AT24C02.C: 61: delay();
+  1247  069F  120A  118A  2639   	fcall	_delay
+              120A  118A         
+  1248                           	line	62
+  1249                           	
+  1250  06A4                     l1939:	
+  1251                           ;AT24C02.C: 62: RA4=0;
+  1252  06A4  1283               	bcf	status, 5	;RP0=0, select bank0
+  1253  06A5  1303               	bcf	status, 6	;RP1=0, select bank0
+  1254  06A6  1205               	bcf	(44/8),(44)&7
+  1255                           	line	63
+  1256                           ;AT24C02.C: 63: delay();
+  1257  06A7  120A  118A  2639   	fcall	_delay
+              120A  118A         
+  1258                           	line	64
+  1259                           	
+  1260  06AC                     l705:	
+  1261  06AC  0008               	return
+  1262                           	opt stack 0
+  1263                           GLOBAL	__end_of_i2cstart
+  1264  06AD                     	__end_of_i2cstart:
+  1265 ;; =============== function _i2cstart ends ============
+  1266                           
+  1267                           	signat	_i2cstart,88
+  1268                           	global	_bitout
+  1269                           psect	text145,local,class=CODE,delta=2
+  1270                           global __ptext145
+  1271  066C                     __ptext145:
+  1272                           
+  1273 ;; *************** function _bitout *****************
+  1274 ;; Defined at:
+  1275 ;;		line 120 in file "F:\Experiment_15\AT24C02.C"
+  1276 ;; Parameters:    Size  Location     Type
+  1277 ;;		None
+  1278 ;; Auto vars:     Size  Location     Type
+  1279 ;;		None
+  1280 ;; Return value:  Size  Location     Type
+  1281 ;;		None               void
+  1282 ;; Registers used:
+  1283 ;;		None
+  1284 ;; Tracked objects:
+  1285 ;;		On entry : 0/0
+  1286 ;;		On exit  : 0/0
+  1287 ;;		Unchanged: 0/0
+  1288 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1289 ;;      Params:         0       0       0       0       0
+  1290 ;;      Locals:         0       0       0       0       0
+  1291 ;;      Temps:          0       0       0       0       0
+  1292 ;;      Totals:         0       0       0       0       0
+  1293 ;;Total ram usage:        0 bytes
+  1294 ;; Hardware stack levels used:    1
+  1295 ;; This function calls:
+  1296 ;;		Nothing
+  1297 ;; This function is called by:
+  1298 ;;		_i2cwrite
+  1299 ;;		_i2cread
+  1300 ;; This function uses a non-reentrant model
+  1301 ;;
+  1302                           psect	text145
+  1303                           	file	"F:\Experiment_15\AT24C02.C"
+  1304                           	line	120
+  1305                           	global	__size_of_bitout
+  1306  0020                     	__size_of_bitout	equ	__end_of_bitout-_bitout
+  1307                           	
+  1308  066C                     _bitout:	
+  1309                           	opt	stack 5
+  1310                           ; Regs used in _bitout: []
+  1311                           	line	121
+  1312                           	
+  1313  066C                     l1165:	
+  1314                           ;AT24C02.C: 121: RA5=eepromdo;
+  1315  066C  18F9               	btfsc	(_eepromdo/8),(_eepromdo)&7
+  1316  066D  2E6F               	goto	u51
+  1317  066E  2E73               	goto	u50
+  1318                           	
+  1319  066F                     u51:
+  1320  066F  1283               	bcf	status, 5	;RP0=0, select bank0
+  1321  0670  1303               	bcf	status, 6	;RP1=0, select bank0
+  1322  0671  1685               	bsf	(45/8),(45)&7
+  1323  0672  2E76               	goto	u64
+  1324  0673                     u50:
+  1325  0673  1283               	bcf	status, 5	;RP0=0, select bank0
+  1326  0674  1303               	bcf	status, 6	;RP1=0, select bank0
+  1327  0675  1285               	bcf	(45/8),(45)&7
+  1328  0676                     u64:
+  1329                           	line	122
+  1330                           # 122 "F:\Experiment_15\AT24C02.C"
+  1331  0676  0000               NOP ;#
+  1332                           	line	123
+  1333                           # 123 "F:\Experiment_15\AT24C02.C"
+  1334  0677  0000               NOP ;#
+  1335                           	line	124
+  1336                           # 124 "F:\Experiment_15\AT24C02.C"
+  1337  0678  0000               NOP ;#
+  1338                           	line	125
+  1339                           # 125 "F:\Experiment_15\AT24C02.C"
+  1340  0679  0000               NOP ;#
+  1341                           	line	126
+  1342                           # 126 "F:\Experiment_15\AT24C02.C"
+  1343  067A  0000               NOP ;#
+  1344                           psect	text145
+  1345                           	line	127
+  1346                           ;AT24C02.C: 127: RA4=1;
+  1347  067B  1283               	bcf	status, 5	;RP0=0, select bank0
+  1348  067C  1303               	bcf	status, 6	;RP1=0, select bank0
+  1349  067D  1605               	bsf	(44/8),(44)&7
+  1350                           	line	128
+  1351                           # 128 "F:\Experiment_15\AT24C02.C"
+  1352  067E  0000               NOP ;#
+  1353                           	line	129
+  1354                           # 129 "F:\Experiment_15\AT24C02.C"
+  1355  067F  0000               NOP ;#
+  1356                           	line	130
+  1357                           # 130 "F:\Experiment_15\AT24C02.C"
+  1358  0680  0000               NOP ;#
+  1359                           	line	131
+  1360                           # 131 "F:\Experiment_15\AT24C02.C"
+  1361  0681  0000               NOP ;#
+  1362                           	line	132
+  1363                           # 132 "F:\Experiment_15\AT24C02.C"
+  1364  0682  0000               NOP ;#
+  1365                           psect	text145
+  1366                           	line	133
+  1367                           ;AT24C02.C: 133: RA4=0;
+  1368  0683  1283               	bcf	status, 5	;RP0=0, select bank0
+  1369  0684  1303               	bcf	status, 6	;RP1=0, select bank0
+  1370  0685  1205               	bcf	(44/8),(44)&7
+  1371                           	line	134
+  1372                           # 134 "F:\Experiment_15\AT24C02.C"
+  1373  0686  0000               NOP ;#
+  1374                           	line	135
+  1375                           # 135 "F:\Experiment_15\AT24C02.C"
+  1376  0687  0000               NOP ;#
+  1377                           	line	136
+  1378                           # 136 "F:\Experiment_15\AT24C02.C"
+  1379  0688  0000               NOP ;#
+  1380                           	line	137
+  1381                           # 137 "F:\Experiment_15\AT24C02.C"
+  1382  0689  0000               NOP ;#
+  1383                           	line	138
+  1384                           # 138 "F:\Experiment_15\AT24C02.C"
+  1385  068A  0000               NOP ;#
+  1386                           psect	text145
+  1387                           	line	139
+  1388                           	
+  1389  068B                     l714:	
+  1390  068B  0008               	return
+  1391                           	opt stack 0
+  1392                           GLOBAL	__end_of_bitout
+  1393  068C                     	__end_of_bitout:
+  1394 ;; =============== function _bitout ends ============
+  1395                           
+  1396                           	signat	_bitout,88
+  1397                           	global	_bitin
+  1398                           psect	text146,local,class=CODE,delta=2
+  1399                           global __ptext146
+  1400  06CF                     __ptext146:
+  1401                           
+  1402 ;; *************** function _bitin *****************
+  1403 ;; Defined at:
+  1404 ;;		line 92 in file "F:\Experiment_15\AT24C02.C"
+  1405 ;; Parameters:    Size  Location     Type
+  1406 ;;		None
+  1407 ;; Auto vars:     Size  Location     Type
+  1408 ;;		None
+  1409 ;; Return value:  Size  Location     Type
+  1410 ;;		None               void
+  1411 ;; Registers used:
+  1412 ;;		None
+  1413 ;; Tracked objects:
+  1414 ;;		On entry : 0/0
+  1415 ;;		On exit  : 0/0
+  1416 ;;		Unchanged: 0/0
+  1417 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1418 ;;      Params:         0       0       0       0       0
+  1419 ;;      Locals:         0       0       0       0       0
+  1420 ;;      Temps:          0       0       0       0       0
+  1421 ;;      Totals:         0       0       0       0       0
+  1422 ;;Total ram usage:        0 bytes
+  1423 ;; Hardware stack levels used:    1
+  1424 ;; This function calls:
+  1425 ;;		Nothing
+  1426 ;; This function is called by:
+  1427 ;;		_i2cwrite
+  1428 ;;		_i2cread
+  1429 ;; This function uses a non-reentrant model
+  1430 ;;
+  1431                           psect	text146
+  1432                           	file	"F:\Experiment_15\AT24C02.C"
+  1433                           	line	92
+  1434                           	global	__size_of_bitin
+  1435  0023                     	__size_of_bitin	equ	__end_of_bitin-_bitin
+  1436                           	
+  1437  06CF                     _bitin:	
+  1438                           	opt	stack 5
+  1439                           ; Regs used in _bitin: []
+  1440                           	line	93
+  1441                           	
+  1442  06CF                     l1163:	
+  1443                           ;AT24C02.C: 93: eepromdi=1;
+  1444  06CF  1479               	bsf	(_eepromdi/8),(_eepromdi)&7
+  1445                           	line	94
+  1446                           ;AT24C02.C: 94: TRISA5=1;
+  1447  06D0  1683               	bsf	status, 5	;RP0=1, select bank1
+  1448  06D1  1303               	bcf	status, 6	;RP1=0, select bank1
+  1449  06D2  1685               	bsf	(1069/8)^080h,(1069)&7
+  1450                           	line	95
+  1451                           ;AT24C02.C: 95: RA4=1;
+  1452  06D3  1283               	bcf	status, 5	;RP0=0, select bank0
+  1453  06D4  1303               	bcf	status, 6	;RP1=0, select bank0
+  1454  06D5  1605               	bsf	(44/8),(44)&7
+  1455                           	line	96
+  1456                           # 96 "F:\Experiment_15\AT24C02.C"
+  1457  06D6  0000               NOP ;#
+  1458                           	line	97
+  1459                           # 97 "F:\Experiment_15\AT24C02.C"
+  1460  06D7  0000               NOP ;#
+  1461                           	line	98
+  1462                           # 98 "F:\Experiment_15\AT24C02.C"
+  1463  06D8  0000               NOP ;#
+  1464                           	line	99
+  1465                           # 99 "F:\Experiment_15\AT24C02.C"
+  1466  06D9  0000               NOP ;#
+  1467                           	line	100
+  1468                           # 100 "F:\Experiment_15\AT24C02.C"
+  1469  06DA  0000               NOP ;#
+  1470                           psect	text146
+  1471                           	line	101
+  1472                           ;AT24C02.C: 101: eepromdi=RA5;
+  1473  06DB  1079               	bcf	(_eepromdi/8),(_eepromdi)&7
+  1474  06DC  1283               	bcf	status, 5	;RP0=0, select bank0
+  1475  06DD  1303               	bcf	status, 6	;RP1=0, select bank0
+  1476  06DE  1E85               	btfss	(45/8),(45)&7
+  1477  06DF  2EE1               	goto	u45
+  1478  06E0  1479               	bsf	(_eepromdi/8),(_eepromdi)&7
+  1479  06E1                     u45:
+  1480                           
+  1481                           	line	102
+  1482                           # 102 "F:\Experiment_15\AT24C02.C"
+  1483  06E1  0000               NOP ;#
+  1484                           	line	103
+  1485                           # 103 "F:\Experiment_15\AT24C02.C"
+  1486  06E2  0000               NOP ;#
+  1487                           	line	104
+  1488                           # 104 "F:\Experiment_15\AT24C02.C"
+  1489  06E3  0000               NOP ;#
+  1490                           	line	105
+  1491                           # 105 "F:\Experiment_15\AT24C02.C"
+  1492  06E4  0000               NOP ;#
+  1493                           	line	106
+  1494                           # 106 "F:\Experiment_15\AT24C02.C"
+  1495  06E5  0000               NOP ;#
+  1496                           psect	text146
+  1497                           	line	107
+  1498                           ;AT24C02.C: 107: RA4=0;
+  1499  06E6  1283               	bcf	status, 5	;RP0=0, select bank0
+  1500  06E7  1303               	bcf	status, 6	;RP1=0, select bank0
+  1501  06E8  1205               	bcf	(44/8),(44)&7
+  1502                           	line	108
+  1503                           # 108 "F:\Experiment_15\AT24C02.C"
+  1504  06E9  0000               NOP ;#
+  1505                           	line	109
+  1506                           # 109 "F:\Experiment_15\AT24C02.C"
+  1507  06EA  0000               NOP ;#
+  1508                           	line	110
+  1509                           # 110 "F:\Experiment_15\AT24C02.C"
+  1510  06EB  0000               NOP ;#
+  1511                           	line	111
+  1512                           # 111 "F:\Experiment_15\AT24C02.C"
+  1513  06EC  0000               NOP ;#
+  1514                           	line	112
+  1515                           # 112 "F:\Experiment_15\AT24C02.C"
+  1516  06ED  0000               NOP ;#
+  1517                           psect	text146
+  1518                           	line	113
+  1519                           ;AT24C02.C: 113: TRISA5=0;
+  1520  06EE  1683               	bsf	status, 5	;RP0=1, select bank1
+  1521  06EF  1303               	bcf	status, 6	;RP1=0, select bank1
+  1522  06F0  1285               	bcf	(1069/8)^080h,(1069)&7
+  1523                           	line	114
+  1524                           	
+  1525  06F1                     l711:	
+  1526  06F1  0008               	return
+  1527                           	opt stack 0
+  1528                           GLOBAL	__end_of_bitin
+  1529  06F2                     	__end_of_bitin:
+  1530 ;; =============== function _bitin ends ============
+  1531                           
+  1532                           	signat	_bitin,88
+  1533                           	global	_delay
+  1534                           psect	text147,local,class=CODE,delta=2
+  1535                           global __ptext147
+  1536  0639                     __ptext147:
+  1537                           
+  1538 ;; *************** function _delay *****************
+  1539 ;; Defined at:
+  1540 ;;		line 41 in file "F:\Experiment_15\AT24C02.C"
+  1541 ;; Parameters:    Size  Location     Type
+  1542 ;;		None
+  1543 ;; Auto vars:     Size  Location     Type
+  1544 ;;  k               1    1[COMMON] unsigned char 
+  1545 ;; Return value:  Size  Location     Type
+  1546 ;;		None               void
+  1547 ;; Registers used:
+  1548 ;;		wreg, status,2, status,0
+  1549 ;; Tracked objects:
+  1550 ;;		On entry : 0/0
+  1551 ;;		On exit  : 0/0
+  1552 ;;		Unchanged: 0/0
+  1553 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1554 ;;      Params:         0       0       0       0       0
+  1555 ;;      Locals:         1       0       0       0       0
+  1556 ;;      Temps:          1       0       0       0       0
+  1557 ;;      Totals:         2       0       0       0       0
+  1558 ;;Total ram usage:        2 bytes
+  1559 ;; Hardware stack levels used:    1
+  1560 ;; This function calls:
+  1561 ;;		Nothing
+  1562 ;; This function is called by:
+  1563 ;;		_i2cstart
+  1564 ;;		_i2cstop
+  1565 ;; This function uses a non-reentrant model
+  1566 ;;
+  1567                           psect	text147
+  1568                           	file	"F:\Experiment_15\AT24C02.C"
+  1569                           	line	41
+  1570                           	global	__size_of_delay
+  1571  0015                     	__size_of_delay	equ	__end_of_delay-_delay
+  1572                           	
+  1573  0639                     _delay:	
+  1574                           	opt	stack 5
+  1575                           ; Regs used in _delay: [wreg+status,2+status,0]
+  1576                           	line	43
+  1577                           	
+  1578  0639                     l1153:	
+  1579                           ;AT24C02.C: 42: unsigned char k;
+  1580                           ;AT24C02.C: 43: for(k=0;k<180;k++);
+  1581  0639  01F1               	clrf	(delay@k)
+  1582                           	
+  1583  063A                     l1155:	
+  1584  063A  30B4               	movlw	(0B4h)
+  1585  063B  0271               	subwf	(delay@k),w
+  1586  063C  1C03               	skipc
+  1587  063D  2E3F               	goto	u21
+  1588  063E  2E40               	goto	u20
+  1589  063F                     u21:
+  1590  063F  2E42               	goto	l1159
+  1591  0640                     u20:
+  1592  0640  2E4D               	goto	l702
+  1593                           	
+  1594  0641                     l1157:	
+  1595  0641  2E4D               	goto	l702
+  1596                           	
+  1597  0642                     l700:	
+  1598                           	
+  1599  0642                     l1159:	
+  1600  0642  3001               	movlw	(01h)
+  1601  0643  00F0               	movwf	(??_delay+0)+0
+  1602  0644  0870               	movf	(??_delay+0)+0,w
+  1603  0645  07F1               	addwf	(delay@k),f
+  1604                           	
+  1605  0646                     l1161:	
+  1606  0646  30B4               	movlw	(0B4h)
+  1607  0647  0271               	subwf	(delay@k),w
+  1608  0648  1C03               	skipc
+  1609  0649  2E4B               	goto	u31
+  1610  064A  2E4C               	goto	u30
+  1611  064B                     u31:
+  1612  064B  2E42               	goto	l1159
+  1613  064C                     u30:
+  1614  064C  2E4D               	goto	l702
+  1615                           	
+  1616  064D                     l701:	
+  1617                           	line	44
+  1618                           	
+  1619  064D                     l702:	
+  1620  064D  0008               	return
+  1621                           	opt stack 0
+  1622                           GLOBAL	__end_of_delay
+  1623  064E                     	__end_of_delay:
+  1624 ;; =============== function _delay ends ============
+  1625                           
+  1626                           	signat	_delay,88
+  1627                           	global	_delay_250ms
+  1628                           psect	text148,local,class=CODE,delta=2
+  1629                           global __ptext148
+  1630  0625                     __ptext148:
+  1631                           
+  1632 ;; *************** function _delay_250ms *****************
+  1633 ;; Defined at:
+  1634 ;;		line 30 in file "F:\Experiment_15\AT24C02.C"
+  1635 ;; Parameters:    Size  Location     Type
+  1636 ;;		None
+  1637 ;; Auto vars:     Size  Location     Type
+  1638 ;;  d               2    0[COMMON] unsigned int 
+  1639 ;; Return value:  Size  Location     Type
+  1640 ;;		None               void
+  1641 ;; Registers used:
+  1642 ;;		wreg, status,2, status,0
+  1643 ;; Tracked objects:
+  1644 ;;		On entry : 0/0
+  1645 ;;		On exit  : 0/0
+  1646 ;;		Unchanged: 0/0
+  1647 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1648 ;;      Params:         0       0       0       0       0
+  1649 ;;      Locals:         2       0       0       0       0
+  1650 ;;      Temps:          0       0       0       0       0
+  1651 ;;      Totals:         2       0       0       0       0
+  1652 ;;Total ram usage:        2 bytes
+  1653 ;; Hardware stack levels used:    1
+  1654 ;; This function calls:
+  1655 ;;		Nothing
+  1656 ;; This function is called by:
+  1657 ;;		_main
+  1658 ;; This function uses a non-reentrant model
+  1659 ;;
+  1660                           psect	text148
+  1661                           	file	"F:\Experiment_15\AT24C02.C"
+  1662                           	line	30
+  1663                           	global	__size_of_delay_250ms
+  1664  0014                     	__size_of_delay_250ms	equ	__end_of_delay_250ms-_delay_250ms
+  1665                           	
+  1666  0625                     _delay_250ms:	
+  1667                           	opt	stack 7
+  1668                           ; Regs used in _delay_250ms: [wreg+status,2+status,0]
+  1669                           	line	31
+  1670                           	
+  1671  0625                     l1149:	
+  1672                           ;AT24C02.C: 31: unsigned int d=24999;
+  1673  0625  30A7               	movlw	low(061A7h)
+  1674  0626  00F0               	movwf	(delay_250ms@d)
+  1675  0627  3061               	movlw	high(061A7h)
+  1676  0628  00F1               	movwf	((delay_250ms@d))+1
+  1677                           	line	32
+  1678                           ;AT24C02.C: 32: while (--d);
+  1679  0629  2E2B               	goto	l1151
+  1680                           	
+  1681  062A                     l695:	
+  1682  062A  2E2B               	goto	l1151
+  1683                           	
+  1684  062B                     l694:	
+  1685                           	
+  1686  062B                     l1151:	
+  1687  062B  3001               	movlw	low(01h)
+  1688  062C  02F0               	subwf	(delay_250ms@d),f
+  1689  062D  3000               	movlw	high(01h)
+  1690  062E  1C03               	skipc
+  1691  062F  03F1               	decf	(delay_250ms@d+1),f
+  1692  0630  02F1               	subwf	(delay_250ms@d+1),f
+  1693  0631  0871               	movf	(((delay_250ms@d+1))),w
+  1694  0632  0470               	iorwf	(((delay_250ms@d))),w
+  1695  0633  1D03               	skipz
+  1696  0634  2E36               	goto	u11
+  1697  0635  2E37               	goto	u10
+  1698  0636                     u11:
+  1699  0636  2E2B               	goto	l1151
+  1700  0637                     u10:
+  1701  0637  2E38               	goto	l697
+  1702                           	
+  1703  0638                     l696:	
+  1704                           	line	33
+  1705                           	
+  1706  0638                     l697:	
+  1707  0638  0008               	return
+  1708                           	opt stack 0
+  1709                           GLOBAL	__end_of_delay_250ms
+  1710  0639                     	__end_of_delay_250ms:
+  1711 ;; =============== function _delay_250ms ends ============
+  1712                           
+  1713                           	signat	_delay_250ms,88
+  1714                           	global	_Board_init
+  1715                           psect	text149,local,class=CODE,delta=2
+  1716                           global __ptext149
+  1717  06F2                     __ptext149:
+  1718                           
+  1719 ;; *************** function _Board_init *****************
+  1720 ;; Defined at:
+  1721 ;;		line 18 in file "F:\Experiment_15\BoardConfig.h"
+  1722 ;; Parameters:    Size  Location     Type
+  1723 ;;		None
+  1724 ;; Auto vars:     Size  Location     Type
+  1725 ;;		None
+  1726 ;; Return value:  Size  Location     Type
+  1727 ;;		None               void
+  1728 ;; Registers used:
+  1729 ;;		wreg, status,2
+  1730 ;; Tracked objects:
+  1731 ;;		On entry : 0/0
+  1732 ;;		On exit  : 0/0
+  1733 ;;		Unchanged: 0/0
+  1734 ;; Data sizes:     COMMON   BANK0   BANK1   BANK3   BANK2
+  1735 ;;      Params:         0       0       0       0       0
+  1736 ;;      Locals:         0       0       0       0       0
+  1737 ;;      Temps:          0       0       0       0       0
+  1738 ;;      Totals:         0       0       0       0       0
+  1739 ;;Total ram usage:        0 bytes
+  1740 ;; Hardware stack levels used:    1
+  1741 ;; This function calls:
+  1742 ;;		Nothing
+  1743 ;; This function is called by:
+  1744 ;;		_main
+  1745 ;; This function uses a non-reentrant model
+  1746 ;;
+  1747                           psect	text149
+  1748                           	file	"F:\Experiment_15\BoardConfig.h"
+  1749                           	line	18
+  1750                           	global	__size_of_Board_init
+  1751  0026                     	__size_of_Board_init	equ	__end_of_Board_init-_Board_init
+  1752                           	
+  1753  06F2                     _Board_init:	
+  1754                           	opt	stack 7
+  1755                           ; Regs used in _Board_init: [wreg+status,2]
+  1756                           	line	21
+  1757                           	
+  1758  06F2                     l1109:	
+  1759                           ;BoardConfig.h: 21: TRISA=0x00;
+  1760  06F2  1683               	bsf	status, 5	;RP0=1, select bank1
+  1761  06F3  1303               	bcf	status, 6	;RP1=0, select bank1
+  1762  06F4  0185               	clrf	(133)^080h	;volatile
+  1763                           	line	22
+  1764                           ;BoardConfig.h: 22: TRISB=0x00;
+  1765  06F5  0186               	clrf	(134)^080h	;volatile
+  1766                           	line	23
+  1767                           ;BoardConfig.h: 23: TRISC=0x00;
+  1768  06F6  0187               	clrf	(135)^080h	;volatile
+  1769                           	line	24
+  1770                           ;BoardConfig.h: 24: TRISD=0x00;
+  1771  06F7  0188               	clrf	(136)^080h	;volatile
+  1772                           	line	25
+  1773                           ;BoardConfig.h: 25: TRISE=0X00;
+  1774  06F8  0189               	clrf	(137)^080h	;volatile
+  1775                           	line	30
+  1776                           	
+  1777  06F9                     l1111:	
+  1778                           ;BoardConfig.h: 30: PORTD=0XFF;
+  1779  06F9  30FF               	movlw	(0FFh)
+  1780  06FA  1283               	bcf	status, 5	;RP0=0, select bank0
+  1781  06FB  1303               	bcf	status, 6	;RP1=0, select bank0
+  1782  06FC  0088               	movwf	(8)	;volatile
+  1783                           	line	31
+  1784                           	
+  1785  06FD                     l1113:	
+  1786                           ;BoardConfig.h: 31: RA3=0;
+  1787  06FD  1185               	bcf	(43/8),(43)&7
+  1788                           	line	32
+  1789                           	
+  1790  06FE                     l1115:	
+  1791                           ;BoardConfig.h: 32: RC5=1;
+  1792  06FE  1687               	bsf	(61/8),(61)&7
+  1793                           	line	33
+  1794                           	
+  1795  06FF                     l1117:	
+  1796                           # 33 "F:\Experiment_15\BoardConfig.h"
+  1797  06FF  0000               NOP ;#
+  1798                           psect	text149
+  1799                           	line	34
+  1800                           	
+  1801  0700                     l1119:	
+  1802                           # 34 "F:\Experiment_15\BoardConfig.h"
+  1803  0700  0000               NOP ;#
+  1804                           psect	text149
+  1805                           	line	35
+  1806                           	
+  1807  0701                     l1121:	
+  1808                           ;BoardConfig.h: 35: RC5=0;
+  1809  0701  1283               	bcf	status, 5	;RP0=0, select bank0
+  1810  0702  1303               	bcf	status, 6	;RP1=0, select bank0
+  1811  0703  1287               	bcf	(61/8),(61)&7
+  1812                           	line	39
+  1813                           	
+  1814  0704                     l1123:	
+  1815                           ;BoardConfig.h: 39: RC3=1;
+  1816  0704  1587               	bsf	(59/8),(59)&7
+  1817                           	line	40
+  1818                           	
+  1819  0705                     l1125:	
+  1820                           # 40 "F:\Experiment_15\BoardConfig.h"
+  1821  0705  0000               NOP ;#
+  1822                           psect	text149
+  1823                           	line	41
+  1824                           	
+  1825  0706                     l1127:	
+  1826                           # 41 "F:\Experiment_15\BoardConfig.h"
+  1827  0706  0000               NOP ;#
+  1828                           psect	text149
+  1829                           	line	42
+  1830                           	
+  1831  0707                     l1129:	
+  1832                           ;BoardConfig.h: 42: RC3=0;
+  1833  0707  1283               	bcf	status, 5	;RP0=0, select bank0
+  1834  0708  1303               	bcf	status, 6	;RP1=0, select bank0
+  1835  0709  1187               	bcf	(59/8),(59)&7
+  1836                           	line	46
+  1837                           	
+  1838  070A                     l1131:	
+  1839                           ;BoardConfig.h: 46: RC4=1;
+  1840  070A  1607               	bsf	(60/8),(60)&7
+  1841                           	line	47
+  1842                           	
+  1843  070B                     l1133:	
+  1844                           ;BoardConfig.h: 47: PORTD=0X00;
+  1845  070B  0188               	clrf	(8)	;volatile
+  1846                           	line	48
+  1847                           	
+  1848  070C                     l1135:	
+  1849                           # 48 "F:\Experiment_15\BoardConfig.h"
+  1850  070C  0000               NOP ;#
+  1851                           psect	text149
+  1852                           	line	49
+  1853                           	
+  1854  070D                     l1137:	
+  1855                           # 49 "F:\Experiment_15\BoardConfig.h"
+  1856  070D  0000               NOP ;#
+  1857                           psect	text149
+  1858                           	line	50
+  1859                           	
+  1860  070E                     l1139:	
+  1861                           ;BoardConfig.h: 50: RC4=0;
+  1862  070E  1283               	bcf	status, 5	;RP0=0, select bank0
+  1863  070F  1303               	bcf	status, 6	;RP1=0, select bank0
+  1864  0710  1207               	bcf	(60/8),(60)&7
+  1865                           	line	52
+  1866                           ;BoardConfig.h: 52: PORTD=0XFF;
+  1867  0711  30FF               	movlw	(0FFh)
+  1868  0712  0088               	movwf	(8)	;volatile
+  1869                           	line	54
+  1870                           	
+  1871  0713                     l1141:	
+  1872                           ;BoardConfig.h: 54: RC2=1;
+  1873  0713  1507               	bsf	(58/8),(58)&7
+  1874                           	line	56
+  1875                           	
+  1876  0714                     l1143:	
+  1877                           ;BoardConfig.h: 56: RE0=0;
+  1878  0714  1009               	bcf	(72/8),(72)&7
+  1879                           	line	57
+  1880                           	
+  1881  0715                     l1145:	
+  1882                           ;BoardConfig.h: 57: RE1=0;
+  1883  0715  1089               	bcf	(73/8),(73)&7
+  1884                           	line	58
+  1885                           	
+  1886  0716                     l1147:	
+  1887                           ;BoardConfig.h: 58: RE2=0;
+  1888  0716  1109               	bcf	(74/8),(74)&7
+  1889                           	line	59
+  1890                           	
+  1891  0717                     l691:	
+  1892  0717  0008               	return
+  1893                           	opt stack 0
+  1894                           GLOBAL	__end_of_Board_init
+  1895  0718                     	__end_of_Board_init:
+  1896 ;; =============== function _Board_init ends ============
+  1897                           
+  1898                           	signat	_Board_init,88
+  1899                           psect	text150,local,class=CODE,delta=2
+  1900                           global __ptext150
+  1901  0000                     __ptext150:
+  1902                           	global	btemp
+  1903  007E                     	btemp set 07Eh
+  1904                           
+  1905                           	DABS	1,126,2	;btemp
+  1906                           	global	wtemp0
+  1907  007E                     	wtemp0 set btemp
+
+
+HI-TECH Software PICC Macro Assembler V9.81 build 7503 
+Symbol Table                                                                                   Wed Apr 20 01:11:18 2016
+
+                  u10 0637                    u11 0636                    u20 0640                    u21 063F  
+                  u30 064C                    u31 064B                    u50 0673                    u51 066F  
+                  u45 06E1                    u64 0676                   l700 0642                   l701 064D  
+                 l702 064D                   l711 06F1                   l720 0757                   l705 06AC  
+                 l721 0772                   l714 068B                   l731 0744                   l708 06CE  
+                 l724 077C                   l740 07FD                   l717 074F                   l725 079D  
+                 l718 076D                   l726 078D                   l734 066B                   l719 0755  
+                 l727 0792                   l728 07A5                   l737 07CD                   l738 07FC  
+                 l691 0717                   l739 07FD                   l694 062B                   l695 062A  
+                 l696 0638                   l697 0638                   _RA3 002B                   _RA4 002C  
+                 _RA5 002D                   _RC2 003A                   _RC3 003B                   _RE0 0048  
+                 _RC4 003C                   _RE1 0049                   _RC5 003D                   _RE2 004A  
+                l1111 06F9                  l1121 0701                  l1113 06FD                  l2001 07A6  
+                l1131 070A                  l1123 0704                  l1115 06FE                  l2011 07C2  
+                l2003 07AA                  l1141 0713                  l1133 070B                  l1125 0705  
+                l1117 06FF                  l1109 06F2                  l2021 07E4                  l2013 07CD  
+                l2005 07AF                  l1143 0714                  l1135 070C                  l1127 0706  
+                l1119 0700                  l1151 062B                  l2023 07ED                  l2015 07D6  
+                l2007 07B2                  l1145 0715                  l1137 070D                  l1129 0707  
+                l1161 0646                  l1153 0639                  l2025 07F1                  l2017 07DA  
+                l2009 07B8                  l1147 0716                  l1139 070E                  l1155 063A  
+                l1163 06CF                  l2027 07F6                  l2019 07DF                  l1149 0625  
+                l1157 0641                  l1165 066C                  l1159 0642                  l1933 068C  
+                l1941 06AD                  l1935 0697                  l1943 06B9                  l1951 0747  
+                l1937 069C                  l1945 06BE                  l1961 0762                  l1953 074E  
+                l1939 06A4                  l1947 06C6                  l1963 0766                  l1955 0753  
+                l1971 077B                  l1957 0757                  l1965 076D                  l1949 0746  
+                l1981 078D                  l1973 077C                  l1959 075D                  l1991 07A5  
+                l1983 0792                  l1975 0782                  l1967 0773                  l1985 0797  
+                l1977 0787                  l1969 0774                  l1993 0719                  l1987 079E  
+                l1979 078B                  l1995 0742                  l1989 07A3                  l1997 0744  
+                l1999 064F                  u2200 074D                  u2201 074C                  u2210 0753  
+                u2211 0752                  u2220 076C                  u2221 076B                  u2230 077A  
+                u2231 0779                  u2240 078B                  u2241 078A                  u2250 079D  
+                u2251 079C                  _main 07A6                  _read 0718                  btemp 007E  
+                start 0000            _Board_init 06F2       __end_of_i2cread 07A6       __end_of_i2cstop 06CF  
+               ?_main 0070                 ?_read 0070                 _PORTD 0008                 _TRISA 0085  
+               _TRISB 0086                 _TRISC 0087                 _TRISD 0088                 _TRISE 0089  
+               _delay 0639                 _bitin 06CF  __size_of_delay_250ms 0014                 _write 064E  
+      __pbitbssCOMMON 03C8                 status 0003                 wtemp0 007E          __end_of_main 0800  
+        __end_of_read 0745      __end_of_i2cstart 06AD      __end_of_i2cwrite 0773                ??_main 0077  
+              ??_read 0074           read@address 0075                ?_delay 0070                ?_bitin 0070  
+              _ADCON1 009F                ?_write 0074                _TRISA5 042D             ??_i2cread 0070  
+           ??_i2cstop 0072           ?_Board_init 0070                _bitout 066C                delay@k 0071  
+      __pcstackCOMMON 0070         __end_of_delay 064E         __end_of_bitin 06F2         __end_of_write 066C  
+          _addressbuf 007A               ??_delay 0070               ??_bitin 0070   __size_of_Board_init 0026  
+             ??_write 0075             ?_i2cstart 0070             ?_i2cwrite 0070            __pmaintext 07A6  
+             ?_bitout 0070            ??_i2cstart 0072            ??_i2cwrite 0070               _i2cread 0773  
+             _i2cstop 06AD       __size_of_bitout 0020         ??_delay_250ms 0070               main@buf 0078  
+end_of_initialization 0621          ??_Board_init 0070    __end_of_Board_init 0718   __end_of_delay_250ms 0639  
+       i2cread@redata 0073        __end_of_bitout 068C             i2cwrite@k 0073   start_initialization 061F  
+          read@eebuf3 0076     __size_of_i2cstart 0021     __size_of_i2cwrite 002E              ??_bitout 0070  
+         __pbssCOMMON 007A           _delay_250ms 0625        i2cwrite@sedata 0072              ?_i2cread 0070  
+            ?_i2cstop 0070             __ptext140 0718          delay_250ms@d 0070             __ptext141 0773  
+           __ptext150 0000             __ptext142 0745             __ptext143 06AD             __ptext144 068C  
+           __ptext145 066C             __ptext146 06CF             __ptext138 0000             __ptext147 0639  
+           __ptext139 064E             __ptext148 0625             __ptext149 06F2        __size_of_delay 0015  
+      __size_of_bitin 0023        __size_of_write 001E              i2cread@m 0072              _i2cstart 068C  
+            _i2cwrite 0745      __size_of_i2cread 0033      __size_of_i2cstop 0022              _eepromdi 03C8  
+            _eepromdo 03C9         __size_of_main 005A         __size_of_read 002D         write@address1 0075  
+        ?_delay_250ms 0070             write@byte 0074  

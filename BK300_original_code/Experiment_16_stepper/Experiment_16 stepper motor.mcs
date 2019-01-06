@@ -1,0 +1,39 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=F:\BK300 Example program\Experiment_16\Experiment_16 stepper motor.obj
+Folder=Intermediary
+[File001]
+Location=F:\BK300 Example program\Experiment_16\Experiment_16 stepper motor.sdb
+Folder=Intermediary
+[File002]
+Location=F:\BK300 Example program\Experiment_16\Experiment_16 stepper motor.rlf
+Folder=Intermediary
+[File003]
+Location=F:\BK300 Example program\Experiment_16\Experiment_16 stepper motor.lst
+Folder=Intermediary
+[File004]
+Location=F:\BK300 Example program\Experiment_16\Experiment_16 stepper motor.cof
+Folder=Output
+[File005]
+Location=F:\BK300 Example program\Experiment_16\Experiment_16 stepper motor.hex
+Folder=Output
+[File006]
+Location=F:\BK300 Example program\Experiment_16\Experiment_16 stepper motor.sym
+Folder=Output
+[File007]
+Location=F:\BK300 Example program\Experiment_16\Experiment_16 stepper motor.map
+Folder=Output
+[File008]
+Location=F:\BK300 Example program\Experiment_16\Experiment_16 stepper motor.hxl
+Folder=Output
+[File009]
+Location=F:\BK300 Example program\Experiment_16\startup.lst
+Folder=Output
+[File010]
+Location=F:\BK300 Example program\Experiment_16\startup.rlf
+Folder=Output
+[File011]
+Location=F:\BK300 Example program\Experiment_16\startup.as
+Folder=Output

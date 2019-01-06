@@ -1,0 +1,13 @@
+_delay: CODE, 1593 0 21
+_i2cstart: CODE, 1676 0 33
+_delay_250ms: CODE, 1573 0 20
+_read: CODE, 1816 0 45
+_Board_init: CODE, 1778 0 38
+_i2cwrite: CODE, 1861 0 46
+_main: CODE, 1958 0 90
+_bitin: CODE, 1743 0 35
+_i2cstop: CODE, 1709 0 34
+_write: CODE, 1614 0 30
+_i2cread: CODE, 1907 0 51
+_bitout: CODE, 1644 0 32
+Total: 475

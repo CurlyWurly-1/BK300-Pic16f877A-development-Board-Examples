@@ -1,0 +1,1279 @@
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+                                                      Tue Apr 23 16:22:31 2013
+
+
+     1                           	processor	16F877A
+     2                           	opt	pw 79
+     3                           	psect	config,global,class=CONFIG,delta=2
+     4                           	psect	rdata_1,global,class=BANK1,space=1,delta
+      +                          =1
+     5                           	psect	idata_1,global,class=CODE,delta=2
+     6                           	psect	text8,local,class=CODE,delta=2
+     7                           	psect	text14,local,class=CODE,delta=2
+     8                           	psect	rbss_0,global,class=BANK0,space=1,delta=
+      +                          1
+     9                           	psect	rbss_1,global,class=BANK1,space=1,delta=
+      +                          1
+    10                           	psect	temp,global,ovrld,class=BANK0,space=1,de
+      +                          lta=1
+    11  0000                     
+    12  0000                     
+    13  0000                     
+    14  0000                     
+    15  0000                     
+    16  0000                     
+    17  0000                     
+    18  0000                     
+    19  0000                     
+    20  0000                     
+    21                           
+    22                           	psect	config
+    23  2007  3F32               	dw	16178	;#
+    24                           
+    25                           	psect	rdata_1
+    26  00AA                     _DAT_BUFF1
+                     _DAT_BUFF1
+    27  00AA                     	ds	1
+                     	ds	1
+    28  00AB                     	ds	1
+                     	ds	1
+    29  00AC                     	ds	1
+                     	ds	1
+    30  00AD                     	ds	1
+                     	ds	1
+    31  00AE                     	ds	1
+                     	ds	1
+    32  00AF                     	ds	1
+                     	ds	1
+    33  00B0                     	ds	1
+                     	ds	1
+    34  00B1                     	ds	1
+                     	ds	1
+    35  00B2                     	ds	1
+                     	ds	1
+    36  00B3                     	ds	1
+                     	ds	1
+    37  00B4                     	ds	1
+                     	ds	1
+    38  00B5                     	ds	1
+                     	ds	1
+    39  00B6                     	ds	1
+    40                           
+    41                           	psect	idata_1
+    42  07F3  3454               	retlw	84
+    43  07F4  3465               	retlw	101
+    44  07F5  346D               	retlw	109
+    45  07F6  3470               	retlw	112
+    46  07F7  3465               	retlw	101
+    47  07F8  3472               	retlw	114
+    48  07F9  3461               	retlw	97
+    49  07FA  3474               	retlw	116
+    50  07FB  3475               	retlw	117
+    51  07FC  3472               	retlw	114
+    52  07FD  3465               	retlw	101
+    53  07FE  343A               	retlw	58
+    54  07FF  3400               	retlw	0
+    55                           
+    56                           	psect	text8
+    57  040F                     _strlen
+    58                           ;	_cp assigned to ?a_strlen+0
+    59  0000                     _strlen$cp	set	?a_strlen
+    60                           ;DS18B20.C: 250: int strlen(const char * s)
+    61  040F  0183               	clrf	3	;select bank 0
+    62  0410  0826               	movf	?_strlen,w
+    63  0411  00A8               	movwf	?a_strlen
+    64  0412  0827               	movf	?_strlen+1,w
+    65  0413  00A9               	movwf	?a_strlen+1
+    66                           ;DS18B20.C: 254: while(*cp++)
+    67                           ;DS18B20.C: 255: continue;
+    68  0414                     l28
+    69  0414  0829               	movf	?a_strlen+1,w
+    70  0415  00B3               	movwf	code_ptr+1
+    71  0416  0828               	movf	?a_strlen,w
+    72  0417  0AA8               	incf	?a_strlen
+    73  0418  1903               	btfsc	3,2
+    74  0419  0AA9               	incf	?a_strlen+1
+    75  041A  120A  118A  2028   	fcall	string_table
+      +       120A  118A         
+    76  041F  3800               	iorlw	0
+    77  0420  1D03               	btfss	3,2
+    78  0421  2C14               	goto	l28
+    79                           ;DS18B20.C: 256: return cp-s-1;
+    80  0422  0829               	movf	?a_strlen+1,w
+    81  0423  00F5               	movwf	btemp+1
+    82  0424  0828               	movf	?a_strlen,w
+    83  0425  00F4               	movwf	btemp
+    84  0426  0826               	movf	?_strlen,w
+    85  0427  02F4               	subwf	btemp
+    86  0428  1C03               	btfss	3,0
+    87  0429  03F5               	decf	btemp+1
+    88  042A  0827               	movf	?_strlen+1,w
+    89  042B  02F5               	subwf	btemp+1
+    90  042C  30FF               	movlw	-1
+    91  042D  07F4               	addwf	btemp
+    92  042E  1C03               	btfss	3,0
+    93  042F  07F5               	addwf	btemp+1
+    94                           ;DS18B20.C: 257: }
+    95  0430  0008               	return	;W free
+    96  0431                     _itoa10
+    97                           ;	_s assigned to ?a_itoa10+0
+    98  0000                     _itoa10$s	set	?a_itoa10
+    99                           ;	_length assigned to ?a_itoa10+1
+   100  0000                     _itoa10$length	set	?a_itoa10+1
+   101                           ;	_buf assigned to ?a_itoa10+2
+   102  0000                     _itoa10$buf	set	?a_itoa10+2
+   103                           ;	_rem assigned to ?a_itoa10+3
+   104  0000                     _itoa10$rem	set	?a_itoa10+3
+   105                           ;_buf stored from w
+   106  0431  0183               	clrf	3	;select bank 0
+   107  0432  00AA               	movwf	?a_itoa10+2
+   108                           ;DS18B20.C: 343: void itoa10(unsigned char *buf
+      +                          , int i)
+   109  0433  01A9               	clrf	?a_itoa10+1
+   110                           ;DS18B20.C: 348: s = buf;
+   111  0434  00A8               	movwf	?a_itoa10
+   112                           ;DS18B20.C: 349: if (i == 0)
+   113  0435  0827               	movf	?_itoa10+1,w
+   114  0436  0426               	iorwf	?_itoa10,w
+   115  0437  1D03               	btfss	3,2
+   116  0438  2C40               	goto	l55
+   117                           ;DS18B20.C: 350: *s++ = '0';
+   118  0439  0828               	movf	?a_itoa10,w
+   119  043A  0084               	movwf	4
+   120  043B  1383               	bcf	3,7
+   121  043C  3030               	movlw	48
+   122  043D  0080               	movwf	0
+   123  043E  0AA8               	incf	?a_itoa10
+   124  043F  2CAE               	goto	l56
+   125  0440                     l55
+   126                           ;DS18B20.C: 351: else
+   127  0440  1FA7               	btfss	?_itoa10+1,7
+   128  0441  2C4E               	goto	l58
+   129                           ;DS18B20.C: 354: {
+   130  0442  082A               	movf	?a_itoa10+2,w
+   131  0443  0084               	movwf	4
+   132  0444  302D               	movlw	45
+   133  0445  0080               	movwf	0
+   134  0446  0AAA               	incf	?a_itoa10+2
+   135                           ;DS18B20.C: 356: s = buf;
+   136  0447  082A               	movf	?a_itoa10+2,w
+   137  0448  00A8               	movwf	?a_itoa10
+   138                           ;DS18B20.C: 357: i = -i;
+   139  0449  09A6               	comf	?_itoa10
+   140  044A  09A7               	comf	?_itoa10+1
+   141  044B  0AA6               	incf	?_itoa10
+   142  044C  1903               	btfsc	3,2
+   143  044D  0AA7               	incf	?_itoa10+1
+   144                           ;DS18B20.C: 358: }
+   145  044E                     l58
+   146  044E  0827               	movf	?_itoa10+1,w
+   147  044F  0426               	iorwf	?_itoa10,w
+   148  0450  1903               	btfsc	3,2
+   149  0451  2C79               	goto	l60
+   150                           ;DS18B20.C: 360: {
+   151  0452  0AA9               	incf	?a_itoa10+1
+   152                           ;DS18B20.C: 362: rem = i % 10;
+   153  0453  300A               	movlw	10
+   154  0454  00F6               	movwf	btemp+2
+   155  0455  01F7               	clrf	btemp+3
+   156  0456  0827               	movf	?_itoa10+1,w
+   157  0457  00F5               	movwf	btemp+1
+   158  0458  0826               	movf	?_itoa10,w
+   159  0459  00F4               	movwf	btemp
+   160  045A  120A  118A  2796   	fcall	awmod
+   161  045D  0874               	movf	btemp,w
+   162  045E  00AB               	movwf	?a_itoa10+3
+   163  045F  0875               	movf	btemp+1,w
+   164  0460  00AC               	movwf	?a_itoa10+4
+   165                           ;DS18B20.C: 363: *s++ = rem + '0';
+   166  0461  0828               	movf	?a_itoa10,w
+   167  0462  0084               	movwf	4
+   168  0463  1383               	bcf	3,7
+   169  0464  082B               	movf	?a_itoa10+3,w
+   170  0465  3E30               	addlw	48
+   171  0466  0080               	movwf	0
+   172  0467  0AA8               	incf	?a_itoa10
+   173                           ;DS18B20.C: 364: i /= 10;
+   174  0468  300A               	movlw	10
+   175  0469  00F6               	movwf	btemp+2
+   176  046A  01F7               	clrf	btemp+3
+   177  046B  0826               	movf	?_itoa10,w
+   178  046C  00F4               	movwf	btemp
+   179  046D  0827               	movf	?_itoa10+1,w
+   180  046E  00F5               	movwf	btemp+1
+   181  046F  120A  118A  2796   	fcall	awdiv
+      +       120A  118A         
+   182  0474  0878               	movf	btemp+4,w
+   183  0475  00A6               	movwf	?_itoa10
+   184  0476  0879               	movf	btemp+5,w
+   185  0477  00A7               	movwf	?_itoa10+1
+   186  0478  2C4E               	goto	l58
+   187  0479                     l60
+   188                           ;DS18B20.C: 365: }
+   189  0479  01AB               	clrf	?a_itoa10+3
+   190  047A  01AC               	clrf	?a_itoa10+4
+   191  047B                     l64
+   192  047B  1003               	bcf	3,0
+   193  047C  0C29               	rrf	?a_itoa10+1,w
+   194  047D  022B               	subwf	?a_itoa10+3,w
+   195  047E  1803               	btfsc	3,0
+   196  047F  2CAE               	goto	l56
+   197                           ;DS18B20.C: 367: {
+   198  0480  082B               	movf	?a_itoa10+3,w
+   199  0481  072A               	addwf	?a_itoa10+2,w
+   200  0482  0084               	movwf	4
+   201  0483  1383               	bcf	3,7
+   202  0484  0800               	movf	0,w
+   203  0485  00AD               	movwf	?a_itoa10+5
+   204  0486  0829               	movf	?a_itoa10+1,w
+   205  0487  072A               	addwf	?a_itoa10+2,w
+   206  0488  0084               	movwf	4
+   207  0489  1383               	bcf	3,7
+   208  048A  082D               	movf	?a_itoa10+5,w
+   209  048B  0080               	movwf	0
+   210                           ;DS18B20.C: 369: *(buf+((unsigned char)rem)) = 
+      +                          *(buf+(length-((unsigned char)rem)-1));
+   211  048C  082B               	movf	?a_itoa10+3,w
+   212  048D  0229               	subwf	?a_itoa10+1,w
+   213  048E  072A               	addwf	?a_itoa10+2,w
+   214  048F  00AD               	movwf	?a_itoa10+5
+   215  0490  032D               	decf	?a_itoa10+5,w
+   216  0491  0084               	movwf	4
+   217  0492  1383               	bcf	3,7
+   218  0493  0800               	movf	0,w
+   219  0494  00AE               	movwf	?a_itoa10+6
+   220  0495  082B               	movf	?a_itoa10+3,w
+   221  0496  072A               	addwf	?a_itoa10+2,w
+   222  0497  0084               	movwf	4
+   223  0498  1383               	bcf	3,7
+   224  0499  082E               	movf	?a_itoa10+6,w
+   225  049A  0080               	movwf	0
+   226                           ;DS18B20.C: 370: *(buf+(length-((unsigned char)
+      +                          rem)-1)) = *(buf+length);
+   227  049B  0829               	movf	?a_itoa10+1,w
+   228  049C  072A               	addwf	?a_itoa10+2,w
+   229  049D  0084               	movwf	4
+   230  049E  1383               	bcf	3,7
+   231  049F  0800               	movf	0,w
+   232  04A0  00AD               	movwf	?a_itoa10+5
+   233  04A1  082B               	movf	?a_itoa10+3,w
+   234  04A2  0229               	subwf	?a_itoa10+1,w
+   235  04A3  072A               	addwf	?a_itoa10+2,w
+   236  04A4  00AE               	movwf	?a_itoa10+6
+   237  04A5  032E               	decf	?a_itoa10+6,w
+   238  04A6  0084               	movwf	4
+   239  04A7  1383               	bcf	3,7
+   240  04A8  082D               	movf	?a_itoa10+5,w
+   241  04A9  0080               	movwf	0
+   242  04AA  0AAB               	incf	?a_itoa10+3
+   243  04AB  1903               	btfsc	3,2
+   244  04AC  0AAC               	incf	?a_itoa10+4
+   245  04AD  2C7B               	goto	l64
+   246  04AE                     l56
+   247                           ;DS18B20.C: 371: }
+   248  04AE  0828               	movf	?a_itoa10,w
+   249  04AF  0084               	movwf	4
+   250  04B0  1383               	bcf	3,7
+   251  04B1  0180               	clrf	0
+   252                           ;DS18B20.C: 374: }
+   253  04B2  0008               	return	;W free
+   254  04B3                     _US_delay
+   255                           ;	_j assigned to ?a_US_delay+0
+   256  0000                     _US_delay$j	set	?a_US_delay
+   257                           ;DS18B20.C: 376: void US_delay( int i)
+   258  04B3  2CB9               	goto	l66
+   259  04B4                     l67
+   260                           ;DS18B20.C: 380: {
+   261  04B4  3003               	movlw	3
+   262  04B5  00B1               	movwf	?a_US_delay
+   263                           ;DS18B20.C: 382: while(j--);
+   264  04B6                     l69
+   265  04B6  03B1               	decf	?a_US_delay
+   266  04B7  0F31               	incfsz	?a_US_delay,w
+   267  04B8  2CB6               	goto	l69
+   268  04B9                     l66
+   269  04B9  1283               	bcf	3,5
+   270  04BA  1303               	bcf	3,6	;carry unused
+   271  04BB  082F               	movf	?_US_delay,w
+   272  04BC  1903               	btfsc	3,2
+   273  04BD  03B0               	decf	?_US_delay+1
+   274  04BE  03AF               	decf	?_US_delay
+   275  04BF  0A2F               	incf	?_US_delay,w
+   276  04C0  1903               	btfsc	3,2
+   277  04C1  0A30               	incf	?_US_delay+1,w
+   278  04C2  1903               	btfsc	3,2
+   279  04C3  0008               	return
+   280  04C4  2CB4               	goto	l67
+   281  04C5                     _lcd_init
+   282                           ;DS18B20.C: 125: void lcd_init(void)
+   283  04C5  3096               	movlw	150
+   284  04C6  0183               	clrf	3	;select bank 0
+   285  04C7  00AF               	movwf	?_US_delay
+   286  04C8  01B0               	clrf	?_US_delay+1
+   287  04C9  24B3               	fcall	_US_delay
+   288                           ;DS18B20.C: 128: TRISD=0x00;
+   289  04CA  1683               	bsf	3,5
+   290  04CB  0188               	clrf	8	;volatile
+   291                           ;DS18B20.C: 129: TRISC&=0X00;
+   292  04CC  0187               	clrf	7	;volatile
+   293                           ;DS18B20.C: 130: LCD_write_onechar(0x38,0);
+   294  04CD  1283               	bcf	3,5
+   295  04CE  01AC               	clrf	?_LCD_write_onechar
+   296  04CF  3038               	movlw	56
+   297  04D0  2525  120A  118A   	fcall	_LCD_write_onechar
+   298                           ;DS18B20.C: 131: US_delay (10);
+   299  04D3  300A               	movlw	10
+   300  04D4  00AF               	movwf	?_US_delay
+   301  04D5  01B0               	clrf	?_US_delay+1
+   302  04D6  24B3               	fcall	_US_delay
+   303                           ;DS18B20.C: 132: LCD_write_onechar(0x38,0);
+   304  04D7  01AC               	clrf	?_LCD_write_onechar
+   305  04D8  3038               	movlw	56
+   306  04D9  2525  120A  118A   	fcall	_LCD_write_onechar
+   307                           ;DS18B20.C: 133: US_delay (10);
+   308  04DC  300A               	movlw	10
+   309  04DD  00AF               	movwf	?_US_delay
+   310  04DE  01B0               	clrf	?_US_delay+1
+   311  04DF  24B3               	fcall	_US_delay
+   312                           ;DS18B20.C: 134: LCD_write_onechar(0x38,0);
+   313  04E0  01AC               	clrf	?_LCD_write_onechar
+   314  04E1  3038               	movlw	56
+   315  04E2  2525  120A  118A   	fcall	_LCD_write_onechar
+   316                           ;DS18B20.C: 135: US_delay (10);
+   317  04E5  300A               	movlw	10
+   318  04E6  00AF               	movwf	?_US_delay
+   319  04E7  01B0               	clrf	?_US_delay+1
+   320  04E8  24B3               	fcall	_US_delay
+   321                           ;DS18B20.C: 136: LCD_write_onechar(0x38,0);
+   322  04E9  01AC               	clrf	?_LCD_write_onechar
+   323  04EA  3038               	movlw	56
+   324  04EB  2525  120A  118A   	fcall	_LCD_write_onechar
+   325                           ;DS18B20.C: 137: LCD_write_onechar(0x08,0);
+   326  04EE  01AC               	clrf	?_LCD_write_onechar
+   327  04EF  3008               	movlw	8
+   328  04F0  2525  120A  118A   	fcall	_LCD_write_onechar
+   329                           ;DS18B20.C: 138: LCD_write_onechar(0x01,0);
+   330  04F3  01AC               	clrf	?_LCD_write_onechar
+   331  04F4  3001               	movlw	1
+   332  04F5  2525  120A  118A   	fcall	_LCD_write_onechar
+   333                           ;DS18B20.C: 139: LCD_write_onechar(0x06,0);
+   334  04F8  01AC               	clrf	?_LCD_write_onechar
+   335  04F9  3006               	movlw	6
+   336  04FA  2525  120A  118A   	fcall	_LCD_write_onechar
+   337                           ;DS18B20.C: 140: US_delay (10);
+   338  04FD  300A               	movlw	10
+   339  04FE  00AF               	movwf	?_US_delay
+   340  04FF  01B0               	clrf	?_US_delay+1
+   341  0500  24B3               	fcall	_US_delay
+   342                           ;DS18B20.C: 141: LCD_write_onechar(0x0C,0);
+   343  0501  01AC               	clrf	?_LCD_write_onechar
+   344  0502  300C               	movlw	12
+   345  0503  2D25               	ljmp	_LCD_write_onechar
+   346  0504                     _LCD_en_write
+   347                           ;DS18B20.C: 151: void LCD_en_write(void)
+   348  0504  0183               	clrf	3	;select bank 0
+   349  0505  1687               	bsf	7,5
+   350                           ;DS18B20.C: 154: US_delay (150);
+   351  0506  3096               	movlw	150
+   352  0507  00AF               	movwf	?_US_delay
+   353  0508  01B0               	clrf	?_US_delay+1
+   354  0509  24B3               	fcall	_US_delay
+   355                           ;DS18B20.C: 155: RC5=0;
+   356  050A  1287               	bcf	7,5
+   357                           ;DS18B20.C: 156: }
+   358  050B  0008               	return	;W free
+   359  050C                     _wait_LCD_Ready
+   360                           ;	_temp1 assigned to ?a_wait_LCD_Ready+0
+   361  0000                     _wait_LCD_Ready$temp1	set	?a_wait_LCD_Ready
+   362                           ;DS18B20.C: 165: void wait_LCD_Ready(void)
+   363  050C  30FF               	movlw	-1
+   364  050D  0183               	clrf	3	;select bank 0
+   365  050E  0088               	movwf	8	;volatile
+   366                           ;DS18B20.C: 169: TRISD=0xFF;
+   367  050F  1683               	bsf	3,5
+   368  0510  0088               	movwf	8	;volatile
+   369                           ;DS18B20.C: 171: RC3=0;
+   370  0511  1283               	bcf	3,5
+   371  0512  1187               	bcf	7,3
+   372                           ;DS18B20.C: 172: RC4=1;
+   373  0513  1607               	bsf	7,4
+   374                           ;DS18B20.C: 173: RC5=1;
+   375  0514  1687               	bsf	7,5
+   376                           ;DS18B20.C: 174: US_delay (2);
+   377  0515  3002               	movlw	2
+   378  0516  00AF               	movwf	?_US_delay
+   379  0517  01B0               	clrf	?_US_delay+1
+   380  0518  24B3               	fcall	_US_delay
+   381                           ;DS18B20.C: 175: while((temp1=PORTD & 0X80));
+   382  0519                     l14
+   383  0519  0808               	movf	8,w	;volatile
+   384  051A  3980               	andlw	-128
+   385  051B  00AE               	movwf	?a_wait_LCD_Ready
+   386  051C  08AE               	movf	?a_wait_LCD_Ready
+   387  051D  1D03               	btfss	3,2
+   388  051E  2D19               	goto	l14
+   389                           ;DS18B20.C: 176: RC5=0;
+   390  051F  1287               	bcf	7,5
+   391                           ;DS18B20.C: 177: RC3=1;
+   392  0520  1587               	bsf	7,3
+   393                           ;DS18B20.C: 178: TRISD=0x00;
+   394  0521  1683               	bsf	3,5
+   395  0522  0188               	clrf	8	;volatile
+   396                           ;DS18B20.C: 179: }
+   397  0523  1283               	bcf	3,5
+   398  0524  0008               	return	;W free
+   399  0525                     _LCD_write_onechar
+   400                           ;	_COMM assigned to ?a_LCD_write_onechar+0
+   401  0000                     _LCD_write_onechar$COMM	set	?a_LCD_write_onecha
+      +                          r
+   402                           ;_COMM stored from w
+   403  0525  0183               	clrf	3	;select bank 0
+   404  0526  00AD               	movwf	?a_LCD_write_onechar
+   405                           ;DS18B20.C: 188: void LCD_write_onechar(unsigne
+      +                          d char COMM,unsigned char DAT)
+   406  0527  250C               	fcall	_wait_LCD_Ready
+   407                           ;DS18B20.C: 191: RC4=0;
+   408  0528  1207               	bcf	7,4
+   409                           ;DS18B20.C: 194: if(COMM==0)
+   410  0529  08AD               	movf	?a_LCD_write_onechar
+   411  052A  1D03               	btfss	3,2
+   412  052B  2D2F               	goto	l18
+   413                           ;DS18B20.C: 195: {
+   414  052C  1587               	bsf	7,3
+   415                           ;DS18B20.C: 197: PORTD=DAT;
+   416  052D  082C               	movf	?_LCD_write_onechar,w
+   417  052E  2D31               	goto	L1
+   418                           ;DS18B20.C: 198: }
+   419  052F                     l18
+   420                           ;DS18B20.C: 200: else
+   421  052F  1187               	bcf	7,3
+   422                           ;DS18B20.C: 203: PORTD=COMM;
+   423  0530  082D               	movf	?a_LCD_write_onechar,w
+   424  0531                     L1
+   425  0531  0088               	movwf	8	;volatile
+   426                           ;DS18B20.C: 204: }
+   427  0532  2504  120A  118A   	fcall	_LCD_en_write
+   428                           ;DS18B20.C: 206: US_delay (2);
+   429  0535  3002               	movlw	2
+   430  0536  00AF               	movwf	?_US_delay
+   431  0537  01B0               	clrf	?_US_delay+1
+   432  0538  24B3               	fcall	_US_delay
+   433                           ;DS18B20.C: 207: RC4=1;
+   434  0539  1607               	bsf	7,4
+   435                           ;DS18B20.C: 208: RC3=1;
+   436  053A  1587               	bsf	7,3
+   437                           ;DS18B20.C: 209: }
+   438  053B  0008               	return	;W free
+   439  053C                     _set_LCD_xy
+   440                           ;	_x assigned to ?a_set_LCD_xy+0
+   441  0000                     _set_LCD_xy$x	set	?a_set_LCD_xy
+   442                           ;	_DIS_address assigned to ?a_set_LCD_xy+1
+   443  0000                     _set_LCD_xy$DIS_address	set	?a_set_LCD_xy+1
+   444                           ;_x stored from w
+   445  053C  0183               	clrf	3	;select bank 0
+   446  053D  00AA               	movwf	?a_set_LCD_xy
+   447                           ;DS18B20.C: 238: void set_LCD_xy(unsigned char 
+      +                          x, unsigned char y )
+   448  053E  08A9               	movf	?_set_LCD_xy
+   449  053F  1D03               	btfss	3,2
+   450  0540  2D44               	goto	l25
+   451                           ;DS18B20.C: 242: DIS_address = 0x80 + x;
+   452  0541  082A               	movf	?a_set_LCD_xy,w
+   453  0542  3E80               	addlw	-128
+   454  0543  2D46               	goto	L2
+   455  0544                     l25
+   456                           ;DS18B20.C: 243: else
+   457  0544  082A               	movf	?a_set_LCD_xy,w
+   458  0545  3EC0               	addlw	-64
+   459  0546                     L2
+   460  0546  00AB               	movwf	?a_set_LCD_xy+1
+   461                           ;DS18B20.C: 245: LCD_write_onechar( DIS_address
+      +                          , 0 );
+   462  0547  01AC               	clrf	?_LCD_write_onechar
+   463  0548  2D25               	ljmp	_LCD_write_onechar
+   464  0549                     _LCD_write_string
+   465                           ;	_X assigned to ?a_LCD_write_string+0
+   466  0000                     _LCD_write_string$X	set	?a_LCD_write_string
+   467                           ;_X stored from w
+   468  0549  0183               	clrf	3	;select bank 0
+   469  054A  00A8               	movwf	?a_LCD_write_string
+   470                           ;DS18B20.C: 218: void LCD_write_string(unsigned
+      +                           char X,unsigned char Y,unsigned char *string)
+   471  054B  0826               	movf	?_LCD_write_string,w
+   472  054C  00A9               	movwf	?_set_LCD_xy
+   473  054D  0828               	movf	?a_LCD_write_string,w
+   474  054E  253C  120A  118A   	fcall	_set_LCD_xy
+   475                           ;DS18B20.C: 221: while (*string)
+   476  0551  2D5C               	goto	l21
+   477  0552                     l22
+   478                           ;DS18B20.C: 222: {
+   479  0552  0827               	movf	?_LCD_write_string+1,w
+   480  0553  0084               	movwf	4
+   481  0554  1383               	bcf	3,7
+   482  0555  0800               	movf	0,w
+   483  0556  00AC               	movwf	?_LCD_write_onechar
+   484  0557  3000               	movlw	0
+   485  0558  2525  120A  118A   	fcall	_LCD_write_onechar
+   486                           ;DS18B20.C: 224: string ++;
+   487  055B  0AA7               	incf	?_LCD_write_string+1
+   488  055C                     l21
+   489  055C  0827               	movf	?_LCD_write_string+1,w
+   490  055D  0084               	movwf	4
+   491  055E  1383               	bcf	3,7
+   492  055F  0880               	movf	0
+   493  0560  1903               	btfsc	3,2
+   494  0561  0008               	return
+   495  0562  2D52               	goto	l22
+   496  0563                     _DS18B20_INIT
+   497                           ;DS18B20.C: 260: void DS18B20_INIT(void)
+   498  0563  1683               	bsf	3,5
+   499  0564  1303               	bcf	3,6	;carry unused
+   500  0565  1085               	bcf	5,1
+   501                           ;DS18B20.C: 263: RA1=0;
+   502  0566  1283               	bcf	3,5
+   503  0567  1085               	bcf	5,1
+   504                           ;DS18B20.C: 264: US_delay(20);
+   505  0568  3014               	movlw	20
+   506  0569  00AF               	movwf	?_US_delay
+   507  056A  01B0               	clrf	?_US_delay+1
+   508  056B  24B3               	fcall	_US_delay
+   509                           ;DS18B20.C: 265: TRISA1=1;
+   510  056C  1683               	bsf	3,5
+   511  056D  1485               	bsf	5,1
+   512                           ;DS18B20.C: 266: US_delay(10);
+   513  056E  300A               	movlw	10
+   514  056F  1283               	bcf	3,5
+   515  0570  00AF               	movwf	?_US_delay
+   516  0571  01B0               	clrf	?_US_delay+1
+   517  0572  2CB3               	ljmp	_US_delay
+   518  0573                     _WRITE_DS18B20_CMD
+   519                           ;	_cmd assigned to ?a_WRITE_DS18B20_CMD+0
+   520  0000                     _WRITE_DS18B20_CMD$cmd	set	?a_WRITE_DS18B20_CMD
+   521                           ;	_tmp assigned to ?a_WRITE_DS18B20_CMD+1
+   522  0000                     _WRITE_DS18B20_CMD$tmp	set	?a_WRITE_DS18B20_CMD
+      +                          +1
+   523                           ;	_i assigned to ?a_WRITE_DS18B20_CMD+2
+   524  0000                     _WRITE_DS18B20_CMD$i	set	?a_WRITE_DS18B20_CMD+2
+   525                           ;_cmd stored from w
+   526  0573  0183               	clrf	3	;select bank 0
+   527  0574  00A6               	movwf	?a_WRITE_DS18B20_CMD
+   528                           ;DS18B20.C: 270: void WRITE_DS18B20_CMD(char cm
+      +                          d)
+   529  0575  1683               	bsf	3,5
+   530  0576  1085               	bcf	5,1
+   531                           ;DS18B20.C: 275: for(tmp=8;tmp>0;tmp--)
+   532  0577  3008               	movlw	8
+   533  0578  1283               	bcf	3,5
+   534  0579  00A7               	movwf	?a_WRITE_DS18B20_CMD+1
+   535  057A                     l33
+   536                           ;DS18B20.C: 276: {
+   537  057A  1683               	bsf	3,5
+   538  057B  1085               	bcf	5,1
+   539                           ;DS18B20.C: 278: RA1= 0;
+   540  057C  1283               	bcf	3,5
+   541  057D  1085               	bcf	5,1
+   542                           ;DS18B20.C: 279: asm ("NOP");
+   543  057E  0000               	nop	;#
+   544                           ;DS18B20.C: 280: asm ("NOP");
+   545  057F  0000               	nop	;#
+   546                           ;DS18B20.C: 281: asm ("NOP");
+   547  0580  0000               	nop	;#
+   548                           ;DS18B20.C: 282: asm ("NOP");
+   549  0581  0000               	nop	;#
+   550                           ;DS18B20.C: 283: asm ("NOP");
+   551  0582  0000               	nop	;#
+   552                           ;DS18B20.C: 284: if (cmd & 0x01)
+   553  0583  1C26               	btfss	?a_WRITE_DS18B20_CMD,0
+   554  0584  2D91               	goto	l36
+   555                           ;DS18B20.C: 285: {
+   556  0585  1683               	bsf	3,5
+   557  0586  1485               	bsf	5,1
+   558                           ;DS18B20.C: 287: US_delay(1);
+   559  0587  1283               	bcf	3,5
+   560  0588  01AF               	clrf	?_US_delay
+   561  0589  0AAF               	incf	?_US_delay
+   562  058A  01B0               	clrf	?_US_delay+1
+   563  058B  24B3               	fcall	_US_delay
+   564                           ;DS18B20.C: 288: for (i=5;i>0;i--);
+   565  058C  3005               	movlw	5
+   566  058D  00A8               	movwf	?a_WRITE_DS18B20_CMD+2
+   567  058E                     l37
+   568  058E  0BA8               	decfsz	?a_WRITE_DS18B20_CMD+2
+   569  058F  2D8E               	goto	l37
+   570  0590  2D9C               	goto	l40
+   571                           ;DS18B20.C: 289: }
+   572  0591                     l36
+   573                           ;DS18B20.C: 290: else
+   574  0591  1085               	bcf	5,1
+   575                           ;DS18B20.C: 293: US_delay(1);
+   576  0592  01AF               	clrf	?_US_delay
+   577  0593  0AAF               	incf	?_US_delay
+   578  0594  01B0               	clrf	?_US_delay+1
+   579  0595  24B3               	fcall	_US_delay
+   580                           ;DS18B20.C: 294: for (i=5;i>0;i--);
+   581  0596  3005               	movlw	5
+   582  0597  00A8               	movwf	?a_WRITE_DS18B20_CMD+2
+   583  0598                     l41
+   584  0598  0BA8               	decfsz	?a_WRITE_DS18B20_CMD+2
+   585  0599  2D98               	goto	l41
+   586                           ;DS18B20.C: 295: TRISA1=1;
+   587  059A  1683               	bsf	3,5
+   588  059B  1485               	bsf	5,1
+   589  059C                     l40
+   590                           ;DS18B20.C: 296: }
+   591  059C  1003               	bcf	3,0
+   592  059D  1283               	bcf	3,5
+   593  059E  0CA6               	rrf	?a_WRITE_DS18B20_CMD
+   594  059F  0BA7               	decfsz	?a_WRITE_DS18B20_CMD+1
+   595  05A0  2D7A               	goto	l33
+   596  05A1  0008               	return
+   597  05A2                     _READ_DS18B20
+   598                           ;	_tmp assigned to ?a_READ_DS18B20+0
+   599  0000                     _READ_DS18B20$tmp	set	?a_READ_DS18B20
+   600                           ;	_temp assigned to ?a_READ_DS18B20+1
+   601  0000                     _READ_DS18B20$temp	set	?a_READ_DS18B20+1
+   602                           ;	_t assigned to ?a_READ_DS18B20+3
+   603  0000                     _READ_DS18B20$t	set	?a_READ_DS18B20+3
+   604                           ;DS18B20.C: 301: float READ_DS18B20 (void)
+   605  05A2  0183               	clrf	3	;select bank 0
+   606  05A3  01A6               	clrf	?a_READ_DS18B20
+   607  05A4  0AA6               	incf	?a_READ_DS18B20
+   608                           ;DS18B20.C: 304: float t;
+   609  05A5  01A7               	clrf	?a_READ_DS18B20+1
+   610  05A6  01A8               	clrf	?a_READ_DS18B20+2
+   611                           ;DS18B20.C: 312: while (tmp)
+   612  05A7  2DB9               	goto	l46
+   613  05A8                     l47
+   614                           ;DS18B20.C: 313: {
+   615  05A8  1683               	bsf	3,5
+   616  05A9  1085               	bcf	5,1
+   617                           ;DS18B20.C: 315: RA1=0;
+   618  05AA  1283               	bcf	3,5
+   619  05AB  1085               	bcf	5,1
+   620                           ;DS18B20.C: 316: asm("NOP");
+   621  05AC  0000               	nop	;#
+   622                           ;DS18B20.C: 317: TRISA1=1;
+   623  05AD  1683               	bsf	3,5
+   624  05AE  1485               	bsf	5,1
+   625                           ;DS18B20.C: 319: if (RA1)
+   626  05AF  1283               	bcf	3,5
+   627                           ;DS18B20.C: 320: temp.c[0] |= tmp;
+   628  05B0  0826               	movf	?a_READ_DS18B20,w
+   629  05B1  1885               	btfsc	5,1
+   630  05B2  04A7               	iorwf	?a_READ_DS18B20+1
+   631                           ;DS18B20.C: 321: tmp=tmp<<1;
+   632  05B3  1003               	bcf	3,0
+   633  05B4  0DA6               	rlf	?a_READ_DS18B20
+   634                           ;DS18B20.C: 322: US_delay(2);
+   635  05B5  3002               	movlw	2
+   636  05B6  00AF               	movwf	?_US_delay
+   637  05B7  01B0               	clrf	?_US_delay+1
+   638  05B8  24B3               	fcall	_US_delay
+   639  05B9                     l46
+   640  05B9  08A6               	movf	?a_READ_DS18B20
+   641  05BA  1D03               	btfss	3,2
+   642  05BB  2DA8               	goto	l47
+   643                           ;DS18B20.C: 323: }
+   644  05BC  01A6               	clrf	?a_READ_DS18B20
+   645  05BD  0AA6               	incf	?a_READ_DS18B20
+   646                           ;DS18B20.C: 325: while (tmp)
+   647  05BE                     l50
+   648  05BE  08A6               	movf	?a_READ_DS18B20
+   649  05BF  1903               	btfsc	3,2
+   650  05C0  2DD4               	goto	l52
+   651                           ;DS18B20.C: 326: {
+   652  05C1  1683               	bsf	3,5
+   653  05C2  1085               	bcf	5,1
+   654                           ;DS18B20.C: 328: RA1=0;
+   655  05C3  1283               	bcf	3,5
+   656  05C4  1085               	bcf	5,1
+   657                           ;DS18B20.C: 329: asm("NOP");
+   658  05C5  0000               	nop	;#
+   659                           ;DS18B20.C: 331: TRISA1=1;
+   660  05C6  1683               	bsf	3,5
+   661  05C7  1485               	bsf	5,1
+   662                           ;DS18B20.C: 332: asm("NOP");
+   663  05C8  0000               	nop	;#
+   664                           ;DS18B20.C: 333: if (RA1)
+   665  05C9  1283               	bcf	3,5
+   666                           ;DS18B20.C: 334: temp.c[1] |= tmp;
+   667  05CA  0826               	movf	?a_READ_DS18B20,w
+   668  05CB  1885               	btfsc	5,1
+   669  05CC  04A8               	iorwf	?a_READ_DS18B20+2
+   670                           ;DS18B20.C: 335: tmp=tmp<<1;
+   671  05CD  1003               	bcf	3,0
+   672  05CE  0DA6               	rlf	?a_READ_DS18B20
+   673                           ;DS18B20.C: 336: US_delay(2);
+   674  05CF  3002               	movlw	2
+   675  05D0  00AF               	movwf	?_US_delay
+   676  05D1  01B0               	clrf	?_US_delay+1
+   677  05D2  24B3               	fcall	_US_delay
+   678  05D3  2DBE               	goto	l50
+   679  05D4                     l52
+   680                           ;DS18B20.C: 337: }
+   681  05D4  0828               	movf	?a_READ_DS18B20+2,w
+   682  05D5  00F5               	movwf	btemp+1
+   683  05D6  0827               	movf	?a_READ_DS18B20+1,w
+   684  05D7  00F4               	movwf	btemp
+   685  05D8  120A  118A  278D   	fcall	awtoft
+   686  05DB  01F7               	clrf	btemp+3
+   687  05DC  3080               	movlw	128
+   688  05DD  00F8               	movwf	btemp+4
+   689  05DE  3041               	movlw	65
+   690  05DF  00F9               	movwf	btemp+5
+   691  05E0  120A  118A  26DE   	fcall	ftdiv
+      +       120A  118A         
+   692  05E5  0874               	movf	btemp,w
+   693  05E6  00A9               	movwf	?a_READ_DS18B20+3
+   694  05E7  0875               	movf	btemp+1,w
+   695  05E8  00AA               	movwf	?a_READ_DS18B20+4
+   696  05E9  0876               	movf	btemp+2,w
+   697  05EA  00AB               	movwf	?a_READ_DS18B20+5
+   698                           ;DS18B20.C: 339: return t;
+   699  05EB  0829               	movf	?a_READ_DS18B20+3,w
+   700  05EC  00F4               	movwf	btemp
+   701  05ED  082A               	movf	?a_READ_DS18B20+4,w
+   702  05EE  00F5               	movwf	btemp+1
+   703  05EF  082B               	movf	?a_READ_DS18B20+5,w
+   704  05F0  00F6               	movwf	btemp+2
+   705                           ;DS18B20.C: 340: }
+   706  05F1  0008               	return	;W free
+   707  05F2                     _Board_init
+   708                           ;BoardConfig.h: 17: void Board_init(void)
+   709  05F2  1683               	bsf	3,5
+   710  05F3  1303               	bcf	3,6	;carry unused
+   711  05F4  0185               	clrf	5	;volatile
+   712                           ;BoardConfig.h: 22: TRISB=0x00;
+   713  05F5  0186               	clrf	6	;volatile
+   714                           ;BoardConfig.h: 23: TRISC=0x00;
+   715  05F6  0187               	clrf	7	;volatile
+   716                           ;BoardConfig.h: 24: TRISD=0x00;
+   717  05F7  0188               	clrf	8	;volatile
+   718                           ;BoardConfig.h: 25: TRISE=0X00;
+   719  05F8  0189               	clrf	9	;volatile
+   720                           ;BoardConfig.h: 30: PORTD=0XFF;
+   721  05F9  30FF               	movlw	-1
+   722  05FA  1283               	bcf	3,5
+   723  05FB  0088               	movwf	8	;volatile
+   724                           ;BoardConfig.h: 31: RA3=0;
+   725  05FC  1185               	bcf	5,3
+   726                           ;BoardConfig.h: 32: RC5=1;
+   727  05FD  1687               	bsf	7,5
+   728                           ;BoardConfig.h: 33: asm ("NOP");
+   729  05FE  0000               	nop	;#
+   730                           ;BoardConfig.h: 34: asm ("NOP");
+   731  05FF  0000               	nop	;#
+   732                           ;BoardConfig.h: 35: RC5=0;
+   733  0600  1287               	bcf	7,5
+   734                           ;BoardConfig.h: 39: RC3=1;
+   735  0601  1587               	bsf	7,3
+   736                           ;BoardConfig.h: 40: asm ("NOP");
+   737  0602  0000               	nop	;#
+   738                           ;BoardConfig.h: 41: asm ("NOP");
+   739  0603  0000               	nop	;#
+   740                           ;BoardConfig.h: 42: RC3=0;
+   741  0604  1187               	bcf	7,3
+   742                           ;BoardConfig.h: 46: RC4=1;
+   743  0605  1607               	bsf	7,4
+   744                           ;BoardConfig.h: 47: PORTD=0X00;
+   745  0606  0188               	clrf	8	;volatile
+   746                           ;BoardConfig.h: 48: asm ("NOP");
+   747  0607  0000               	nop	;#
+   748                           ;BoardConfig.h: 49: asm ("NOP");
+   749  0608  0000               	nop	;#
+   750                           ;BoardConfig.h: 50: RC4=0;
+   751  0609  1207               	bcf	7,4
+   752                           ;BoardConfig.h: 52: PORTD=0XFF;
+   753  060A  0088               	movwf	8	;volatile
+   754                           ;BoardConfig.h: 54: RC2=1;
+   755  060B  1507               	bsf	7,2
+   756                           ;BoardConfig.h: 56: RE0=0;
+   757  060C  1009               	bcf	9,0
+   758                           ;BoardConfig.h: 57: RE1=0;
+   759  060D  1089               	bcf	9,1
+   760                           ;BoardConfig.h: 58: RE2=0;
+   761  060E  1109               	bcf	9,2
+   762                           ;BoardConfig.h: 59: }
+   763  060F  0008               	return	;#
+   764  0610                     _main
+   765                           ;	_len assigned to ?a_main+0
+   766  0000                     _main$len	set	?a_main
+   767                           ;DS18B20.C: 73: void main()
+   768  0610  25F2               	fcall	_Board_init
+   769                           ;DS18B20.C: 78: ADCON1=0X07;
+   770  0611  3007               	movlw	7
+   771  0612  1683               	bsf	3,5
+   772  0613  009F               	movwf	31	;volatile
+   773                           ;DS18B20.C: 79: RA3=1;
+   774  0614  1283               	bcf	3,5
+   775  0615  1585               	bsf	5,3
+   776                           ;DS18B20.C: 80: US_delay (100);
+   777  0616  3064               	movlw	100
+   778  0617  00AF               	movwf	?_US_delay
+   779  0618  01B0               	clrf	?_US_delay+1
+   780  0619  24B3               	fcall	_US_delay
+   781                           ;DS18B20.C: 81: lcd_init();
+   782  061A  24C5  120A  118A   	fcall	_lcd_init
+   783                           ;DS18B20.C: 83: LCD_write_string(0,0, DAT_BUFF1
+      +                          );
+   784  061D  01A6               	clrf	?_LCD_write_string
+   785  061E  30AA               	movlw	_DAT_BUFF1
+   786  061F  00A7               	movwf	?_LCD_write_string+1
+   787  0620  3000               	movlw	0
+   788  0621  2549               	fcall	_LCD_write_string
+   789  0622                     l4
+   790                           ;DS18B20.C: 84: while (1)
+   791                           ;DS18B20.C: 85: {
+   792  0622  2563  120A  118A   	fcall	_DS18B20_INIT
+   793                           ;DS18B20.C: 87: WRITE_DS18B20_CMD(0XCC);
+   794  0625  30CC               	movlw	-52
+   795  0626  2573               	fcall	_WRITE_DS18B20_CMD
+   796                           ;DS18B20.C: 88: WRITE_DS18B20_CMD(0X44);
+   797  0627  3044               	movlw	68
+   798  0628  2573               	fcall	_WRITE_DS18B20_CMD
+   799                           ;DS18B20.C: 90: TRISA1=0;
+   800  0629  1683               	bsf	3,5
+   801  062A  1085               	bcf	5,1
+   802                           ;DS18B20.C: 91: RA1=0;
+   803  062B  1283               	bcf	3,5
+   804  062C  1085               	bcf	5,1
+   805                           ;DS18B20.C: 92: TRISA1=1;
+   806  062D  1683               	bsf	3,5
+   807  062E  1485               	bsf	5,1
+   808  062F                     l7
+   809                           ;DS18B20.C: 94: while(1)
+   810                           ;DS18B20.C: 95: {
+   811  062F  1283               	bcf	3,5
+   812  0630  1C85               	btfss	5,1
+   813  0631  2E2F               	goto	l7
+   814                           ;DS18B20.C: 97: else continue;
+   815                           ;DS18B20.C: 98: }
+   816  0632  2563  120A  118A   	fcall	_DS18B20_INIT
+   817                           ;DS18B20.C: 100: WRITE_DS18B20_CMD(0XCC);
+   818  0635  30CC               	movlw	-52
+   819  0636  2573               	fcall	_WRITE_DS18B20_CMD
+   820                           ;DS18B20.C: 101: WRITE_DS18B20_CMD(0XBE);
+   821  0637  30BE               	movlw	-66
+   822  0638  2573               	fcall	_WRITE_DS18B20_CMD
+   823                           ;DS18B20.C: 102: temperature=READ_DS18B20();
+   824  0639  25A2               	fcall	_READ_DS18B20
+   825  063A  0874               	movf	btemp,w
+   826  063B  00A0               	movwf	_temperature
+   827  063C  0875               	movf	btemp+1,w
+   828  063D  00A1               	movwf	_temperature+1
+   829  063E  0876               	movf	btemp+2,w
+   830  063F  00A2               	movwf	_temperature+2
+   831                           ;DS18B20.C: 103: itoa10(atemperature, (int) (te
+      +                          mperature * 10));
+   832  0640  0820               	movf	_temperature,w
+   833  0641  00F7               	movwf	btemp+3
+   834  0642  0821               	movf	_temperature+1,w
+   835  0643  00F8               	movwf	btemp+4
+   836  0644  0822               	movf	_temperature+2,w
+   837  0645  00F9               	movwf	btemp+5
+   838  0646  01F4               	clrf	btemp
+   839  0647  3020               	movlw	32
+   840  0648  00F5               	movwf	btemp+1
+   841  0649  3041               	movlw	65
+   842  064A  00F6               	movwf	btemp+2
+   843  064B  120A  118A  2716   	fcall	ftmul
+   844  064E  120A  118A  2757   	fcall	fttol
+      +       120A  118A         
+   845  0653  0874               	movf	btemp,w
+   846  0654  00A6               	movwf	?_itoa10
+   847  0655  0875               	movf	btemp+1,w
+   848  0656  00A7               	movwf	?_itoa10+1
+   849  0657  30A0               	movlw	_atemperature
+   850  0658  2431               	fcall	_itoa10
+   851                           ;DS18B20.C: 105: len=strlen(atemperature);
+   852  0659  30A0               	movlw	_atemperature
+   853  065A  00A6               	movwf	?_strlen
+   854  065B  3080               	movlw	128
+   855  065C  00A7               	movwf	?_strlen+1
+   856  065D  240F               	fcall	_strlen
+   857  065E  0874               	movf	btemp,w
+   858  065F  00A3               	movwf	?a_main
+   859  0660  0875               	movf	btemp+1,w
+   860  0661  00A4               	movwf	?a_main+1
+   861                           ;DS18B20.C: 106: atemperature[len]=atemperature
+      +                          [len-1];
+   862  0662  0323               	decf	?a_main,w
+   863  0663  3EA0               	addlw	_atemperature
+   864  0664  0084               	movwf	4
+   865  0665  1383               	bcf	3,7
+   866  0666  0800               	movf	0,w
+   867  0667  00A5               	movwf	?a_main+2
+   868  0668  0823               	movf	?a_main,w
+   869  0669  3EA0               	addlw	_atemperature
+   870  066A  0084               	movwf	4
+   871  066B  1383               	bcf	3,7
+   872  066C  0825               	movf	?a_main+2,w
+   873  066D  0080               	movwf	0
+   874                           ;DS18B20.C: 107: atemperature[len-1]='.';
+   875  066E  0323               	decf	?a_main,w
+   876  066F  3EA0               	addlw	_atemperature
+   877  0670  0084               	movwf	4
+   878  0671  1383               	bcf	3,7
+   879  0672  302E               	movlw	46
+   880  0673  0080               	movwf	0
+   881                           ;DS18B20.C: 108: atemperature[len+1]=0;
+   882  0674  0A23               	incf	?a_main,w
+   883  0675  3EA0               	addlw	_atemperature
+   884  0676  0084               	movwf	4
+   885  0677  1383               	bcf	3,7
+   886  0678  0180               	clrf	0
+   887                           ;DS18B20.C: 110: LCD_write_string(0,1, atempera
+      +                          ture);
+   888  0679  01A6               	clrf	?_LCD_write_string
+   889  067A  0AA6               	incf	?_LCD_write_string
+   890  067B  30A0               	movlw	_atemperature
+   891  067C  00A7               	movwf	?_LCD_write_string+1
+   892  067D  3000               	movlw	0
+   893  067E  2549               	fcall	_LCD_write_string
+   894                           ;DS18B20.C: 111: US_delay (50);
+   895  067F  3032               	movlw	50
+   896  0680  00AF               	movwf	?_US_delay
+   897  0681  01B0               	clrf	?_US_delay+1
+   898  0682  24B3               	fcall	_US_delay
+   899  0683  2E22               	goto	l4
+   900                           
+   901                           	psect	text14
+   902  0000                     
+   903  0000                     
+   904  0000                     
+   905  0000                     
+   906  0000                     
+   907  0000                     
+   908  0000                     
+   909  0000                     
+   910  0000                     
+   911  0000                     
+   912  0000                     
+   913  0000                     
+   914  0000                     
+   915  0000                     
+   916  0000                     
+   917  0000                     
+   918  0000                     
+   919  0000                     
+   920  0000                     
+   921  0000                     
+   922  0000                     
+   923  0000                     
+   924  0000                     
+   925  0000                     
+   926  0000                     
+   927  0000                     
+   928  0000                     
+   929  0000                     
+   930  0000                     
+   931  0000                     
+   932  0000                     
+   933  0000                     
+   934  0000                     
+   935  0000                     
+   936  0000                     
+   937  0000                     
+   938  0000                     
+   939  0000                     
+   940  0000                     
+   941  0000                     
+   942  0000                     
+   943  0000                     
+   944  0000                     
+   945  0000                     
+   946  0000                     
+   947  0000                     
+   948  0000                     
+   949  0000                     
+   950  0000                     
+   951  0000                     
+   952  0000                     
+   953  0000                     
+   954  0000                     
+   955  0000                     
+   956  0000                     
+   957  0000                     
+   958  0000                     
+   959  0000                     
+   960  0000                     
+   961  0000                     
+   962  0000                     
+   963  0000                     
+   964  0000                     
+   965  0000                     
+   966  0000                     
+   967  0000                     
+   968  0000                     
+   969  0000                     
+   970  0000                     
+   971  0000                     
+   972  0000                     
+   973  0000                     
+   974  0000                     
+   975  0000                     
+   976  0000                     
+   977  0000                     
+   978  0000                     
+   979  0000                     
+   980  0000                     
+   981  0000                     
+   982  0000                     
+   983  0000                     
+   984  0000                     
+   985  0000                     
+   986  0000                     
+   987  0000                     
+   988  0000                     
+   989  0000                     
+   990  0000                     
+   991  0000                     
+   992  0000                     
+   993  0000                     
+   994  0000                     
+   995  0000                     
+   996  0000                     
+   997  0000                     
+   998  0000                     
+   999  0000                     
+  1000  0000                     
+  1001  0000                     
+  1002  0000                     
+  1003  0000                     
+  1004  0000                     
+  1005  0000                     
+  1006  0000                     
+  1007  0000                     
+  1008  0000                     
+  1009  0000                     
+  1010  0000                     
+  1011  0000                     
+  1012  0000                     
+  1013  0000                     
+  1014  0000                     
+  1015  0000                     
+  1016  0000                     
+  1017  0000                     
+  1018  0000                     
+  1019  0000                     
+  1020  0000                     
+  1021  0000                     
+  1022  0000                     
+  1023  0000                     
+  1024  0000                     
+  1025  0000                     
+  1026  0000                     
+  1027  0000                     
+  1028  0000                     
+  1029  0000                     
+  1030  0000                     
+  1031  0000                     
+  1032  0000                     
+  1033  0000                     
+  1034  0000                     
+  1035  0000                     
+  1036  0000                     
+  1037  0000                     
+  1038  0000                     
+  1039  0000                     
+  1040  0000                     
+  1041  0000                     
+  1042  0000                     
+  1043  0000                     
+  1044  0000                     
+  1045  0000                     
+  1046  0000                     
+  1047  0000                     
+  1048  0000                     
+  1049  0000                     
+  1050  0000                     
+  1051  0000                     
+  1052  0000                     
+  1053  0000                     
+  1054  0000                     
+  1055  0000                     
+  1056  0000                     
+  1057  0000                     
+  1058  0000                     
+  1059  0000                     
+  1060  0000                     
+  1061  0000                     
+  1062  0000                     
+  1063  0000                     
+  1064  0000                     
+  1065  0000                     
+  1066  0000                     
+  1067  0000                     
+  1068  0000                     
+  1069  0000                     
+  1070  0000                     
+  1071  0000                     
+  1072  0000                     
+  1073  0000                     
+  1074  0000                     
+  1075  0000                     
+  1076  0000                     
+  1077  0000                     
+  1078  0000                     
+  1079  0000                     
+  1080  0000                     
+  1081  0000                     
+  1082  0000                     
+  1083  0000                     
+  1084  0000                     
+  1085  0000                     
+  1086  0000                     
+  1087  0000                     
+  1088  0000                     
+  1089  0000                     
+  1090  0000                     
+  1091  0000                     
+  1092  0000                     
+  1093  0000                     
+  1094  0000                     
+  1095  0000                     
+  1096  0000                     
+  1097  0000                     
+  1098  0000                     
+  1099  0000                     
+  1100  0000                     
+  1101  0000                     
+  1102  0000                     
+  1103  0000                     
+  1104  0000                     
+  1105  0000                     
+  1106  0000                     
+  1107  0000                     
+  1108  0000                     
+  1109  0000                     
+  1110  0000                     
+  1111  0000                     
+  1112  0000                     
+  1113  0000                     
+  1114  0000                     
+  1115  0000                     
+  1116  0000                     
+  1117  0000                     
+  1118  0000                     
+  1119  0000                     
+  1120  0000                     
+  1121  0000                     
+  1122  0000                     
+  1123  0000                     
+  1124  0000                     
+  1125  0000                     
+  1126  0000                     
+  1127  0000                     
+  1128  0000                     
+  1129  0000                     
+  1130  0000                     
+  1131  0000                     
+  1132  0000                     
+  1133  0000                     
+  1134  0000                     
+  1135  0000                     
+  1136  0000                     
+  1137  0000                     
+  1138  0000                     
+  1139  0000                     
+  1140  0000                     
+  1141  0000                     
+  1142  0000                     
+  1143  0000                     
+  1144  0000                     
+  1145  0000                     
+  1146  0000                     
+  1147  0000                     
+  1148  0000                     
+  1149  0000                     
+  1150  0000                     
+  1151  0000                     
+  1152  0000                     
+  1153  0000                     
+  1154  0000                     
+  1155  0000                     
+  1156  0000                     
+  1157  0000                     
+  1158  0000                     
+  1159  0000                     
+  1160  0000                     
+  1161  0000                     
+  1162  0000                     
+  1163  0000                     
+  1164  0000                     
+  1165  0000                     
+  1166  0000                     
+  1167  0000                     
+  1168  0000                     
+  1169  0000                     
+  1170  0000                     
+  1171  0000                     
+  1172  0000                     
+  1173  0000                     
+  1174  0000                     
+  1175  0000                     
+  1176  0000                     
+  1177  0000                     
+  1178  0000                     
+  1179                           
+  1180                           	psect	rbss_0
+  1181  0020                     _temperature
+                     _temperature
+  1182  0020                     	ds	3
+  1183                           
+  1184                           	psect	rbss_1
+  1185  00A0                     _atemperature
+                     _atemperature
+  1186  00A0                     	ds	10
+  1187                           
+  1188                           	psect	temp
+  1189  0074                     btemp
+                     btemp
+  1190  0074                     	ds	6
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+Symbol Table                                          Tue Apr 23 16:22:31 2013
+
+                 ?a_main 0023                        l4 0622  
+                      l7 062F              _temperature 0020  
+                     l21 055C                       l22 0552  
+                     l14 0519                       l40 059C  
+                     l41 0598                       l33 057A  
+                     l25 0544                       l50 05BE  
+                     l18 052F                       l60 0479  
+                     l52 05D4                       l36 0591  
+                     l28 0414                       l37 058E  
+                     l46 05B9                       l55 0440  
+                     l47 05A8                       l64 047B  
+                     l56 04AE                       l66 04B9  
+                     l58 044E                       l67 04B4  
+                     l69 04B6                       fsr 0004  
+                ?_itoa10 0026               ?a_US_delay 0031  
+               _lcd_init 04C5       ?a_LCD_write_string 0028  
+               ?a_itoa10 0028                  ?_strlen 0026  
+    ?a_LCD_write_onechar 002D                 ?a_strlen 0028  
+    ?a_WRITE_DS18B20_CMD 0026                     f3033 002D  
+                   f2823 0025         _LCD_write_string 0549  
+                 _itoa10 0431                     _main 0610  
+                   btemp 0074                     awdiv 0796  
+                   awmod 0796                   _strlen 040F  
+                   ftdiv 06DE             _atemperature 00A0  
+                   ftmul 0716                     fttol 0757  
+                   start 0000             ?a_set_LCD_xy 002A  
+      ?_LCD_write_string 0026        _LCD_write_onechar 0525  
+         ?a_READ_DS18B20 0026                _DAT_BUFF1 00AA  
+      _WRITE_DS18B20_CMD 0573               _Board_init 05F2  
+                code_ptr 0032              string_table 0028  
+            ?_set_LCD_xy 0029                 _US_delay 04B3  
+                  awtoft 078D           _wait_LCD_Ready 050C  
+                  status 0003               _set_LCD_xy 053C  
+     ?_LCD_write_onechar 002C             _DS18B20_INIT 0563  
+           _LCD_en_write 0504             _READ_DS18B20 05A2  
+              ?_US_delay 002F         ?a_wait_LCD_Ready 002E  
+           used_code_ptr 0001               used_btemp0 0001  
+             used_btemp1 0001               used_btemp2 0001  
+             used_btemp3 0001               used_btemp4 0001  
+             used_btemp5 0001  

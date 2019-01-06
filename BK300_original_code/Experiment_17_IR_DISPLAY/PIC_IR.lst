@@ -1,0 +1,830 @@
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+                                                      Tue Apr 23 16:22:15 2013
+
+
+     1                           	processor	16F877A
+     2                           	opt	pw 79
+     3                           	psect	config,global,class=CONFIG,delta=2
+     4                           	psect	rdata_0,global,class=BANK0,space=1,delta
+      +                          =1
+     5                           	psect	idata_0,global,class=CODE,delta=2
+     6                           	psect	text2,local,class=CODE,delta=2
+     7                           	psect	intcode,global,class=CODE,delta=2
+     8                           	psect	intsave_0,global,ovrld,class=COMBANK,spa
+      +                          ce=1,delta=1
+     9                           	psect	intret,global,class=CODE,delta=2
+    10                           	psect	intentry,global,class=CODE,delta=2
+    11                           	psect	intsave,global,class=BANK0,space=1,delta
+      +                          =1
+    12                           	psect	text4,local,class=CODE,delta=2
+    13                           	psect	text6,local,class=CODE,delta=2
+    14                           	psect	rbss_0,global,class=BANK0,space=1,delta=
+      +                          1
+    15                           	psect	temp,global,ovrld,class=BANK0,space=1,de
+      +                          lta=1
+    16  0000                     
+    17  0000                     
+    18  0000                     
+    19  0000                     
+    20  0000                     
+    21  0000                     
+    22  0000                     
+    23  0000                     
+    24  0000                     
+    25  0000                     
+    26                           
+    27                           	psect	config
+    28  2007  3F32               	dw	16178	;#
+    29                           
+    30                           	psect	rdata_0
+    31  0029                     _IR_NUM
+                     _IR_NUM
+    32  0029                     	ds	1
+                     	ds	1
+    33  002A                     	ds	1
+                     	ds	1
+    34  002B                     	ds	1
+                     	ds	1
+    35  002C                     	ds	1
+    36  002D                     _LED_number
+                     _LED_number
+    37  002D                     	ds	1
+                     	ds	1
+    38  002E                     	ds	1
+                     	ds	1
+    39  002F                     	ds	1
+                     	ds	1
+    40  0030                     	ds	1
+                     	ds	1
+    41  0031                     	ds	1
+                     	ds	1
+    42  0032                     	ds	1
+                     	ds	1
+    43  0033                     	ds	1
+                     	ds	1
+    44  0034                     	ds	1
+                     	ds	1
+    45  0035                     	ds	1
+                     	ds	1
+    46  0036                     	ds	1
+                     	ds	1
+    47  0037                     	ds	1
+                     	ds	1
+    48  0038                     	ds	1
+                     	ds	1
+    49  0039                     	ds	1
+                     	ds	1
+    50  003A                     	ds	1
+                     	ds	1
+    51  003B                     	ds	1
+                     	ds	1
+    52  003C                     	ds	1
+    53  003D                     _LED_BIT_SEL
+                     _LED_BIT_SEL
+    54  003D                     	ds	1
+                     	ds	1
+    55  003E                     	ds	1
+                     	ds	1
+    56  003F                     	ds	1
+                     	ds	1
+    57  0040                     	ds	1
+    58                           
+    59                           	psect	idata_0
+    60  006E  3400               	retlw	0
+    61  006F  3400               	retlw	0
+    62  0070  3400               	retlw	0
+    63  0071  3400               	retlw	0
+    64  0072  34C0               	retlw	-64
+    65  0073  34F9               	retlw	-7
+    66  0074  34A4               	retlw	-92
+    67  0075  34B0               	retlw	-80
+    68  0076  3499               	retlw	-103
+    69  0077  3492               	retlw	-110
+    70  0078  3482               	retlw	-126
+    71  0079  34F8               	retlw	-8
+    72  007A  3480               	retlw	-128
+    73  007B  3490               	retlw	-112
+    74  007C  3488               	retlw	-120
+    75  007D  3483               	retlw	-125
+    76  007E  34C6               	retlw	-58
+    77  007F  34A1               	retlw	-95
+    78  0080  3486               	retlw	-122
+    79  0081  348E               	retlw	-114
+    80  0082  3410               	retlw	16
+    81  0083  3420               	retlw	32
+    82  0084  3440               	retlw	64
+    83  0085  3480               	retlw	-128
+    84                           
+    85                           	psect	intcode
+    86  000D                     _TMR0INT
+    87  000D                     int_func
+    88                           ;PIC_IR.C: 49: void interrupt TMR0INT(void)
+    89  000D  110B               	bcf	11,2
+    90                           ;PIC_IR.C: 52: TMR0=0x05;
+    91  000E  3005               	movlw	5
+    92  000F  1283               	bcf	3,5
+    93  0010  1303               	bcf	3,6	;carry unused
+    94  0011  0081               	movwf	1	;volatile
+    95                           ;PIC_IR.C: 56: RC4=1;
+    96  0012  1607               	bsf	7,4
+    97                           ;PIC_IR.C: 57: PORTD=LED_BIT_SEL[Led_Index];
+    98  0013  0820               	movf	_Led_Index,w
+    99  0014  3E3D               	addlw	_LED_BIT_SEL
+   100  0015  0084               	movwf	4
+   101  0016  1383               	bcf	3,7
+   102  0017  0800               	movf	0,w
+   103  0018  0088               	movwf	8	;volatile
+   104                           ;PIC_IR.C: 58: RC4=0;
+   105  0019  1207               	bcf	7,4
+   106                           ;PIC_IR.C: 62: RC3=1;
+   107  001A  1587               	bsf	7,3
+   108                           ;PIC_IR.C: 63: PORTD=LED_number[IR_NUM[Led_Inde
+      +                          x]];
+   109  001B  0820               	movf	_Led_Index,w
+   110  001C  3E29               	addlw	_IR_NUM
+   111  001D  0084               	movwf	4
+   112  001E  1383               	bcf	3,7
+   113  001F  0800               	movf	0,w
+   114  0020  3E2D               	addlw	_LED_number
+   115  0021  0084               	movwf	4
+   116  0022  1383               	bcf	3,7
+   117  0023  0800               	movf	0,w
+   118  0024  0088               	movwf	8	;volatile
+   119                           ;PIC_IR.C: 64: RC3=0;
+   120  0025  1187               	bcf	7,3
+   121                           ;PIC_IR.C: 67: if(++Led_Index>3)Led_Index=0;
+   122  0026  3004               	movlw	4
+   123  0027  0AA0               	incf	_Led_Index
+   124  0028  0220               	subwf	_Led_Index,w
+   125  0029  1803               	btfsc	3,0
+   126  002A  01A0               	clrf	_Led_Index
+   127                           
+   128                           	psect	intsave_0
+   129  007D                     saved_w
+                     saved_w
+   130  007D                     	ds	1
+   131                           
+   132                           	psect	intret
+   133  002B  0842               	movf	saved_fsr,w
+   134  002C  0084               	movwf	4	;restore FSR
+   135  002D  0843               	movf	saved_pclath,w
+   136  002E  008A               	movwf	10
+   137  002F                     int_restore
+   138  002F  0841               	movf	saved_status,w
+   139  0030  0083               	movwf	3
+   140  0031  0EFD               	swapf	saved_w
+   141  0032  0E7D               	swapf	saved_w,w
+   142  0033  0009               	retfie
+   143                           
+   144                           	psect	intentry
+   145  0004                     int_entry
+   146  0004  00FD               	movwf	saved_w
+   147  0005  0803               	movf	3,w
+   148  0006  0183               	clrf	3
+   149  0007  00C1               	movwf	saved_status
+   150  0008  0804               	movf	4,w
+   151  0009  00C2               	movwf	saved_fsr
+   152  000A  080A               	movf	10,w
+   153  000B  00C3               	movwf	saved_pclath
+   154  000C  018A               	clrf	10
+   155                           
+   156                           	psect	intsave
+   157  0041                     saved_status
+                     saved_status
+   158  0041                     	ds	1
+   159  0042                     saved_fsr
+                     saved_fsr
+   160  0042                     	ds	1
+   161  0043                     saved_pclath
+                     saved_pclath
+   162  0043                     	ds	1
+   163                           
+   164                           	psect	text4
+   165  0086                     _Ir_Get_High
+   166                           ;PIC_IR.C: 83: unsigned int Ir_Get_High(void)
+   167  0086  0183               	clrf	3	;select bank 0
+   168  0087  018E               	clrf	14	;volatile
+   169                           ;PIC_IR.C: 86: TMR1H=0;
+   170  0088  018F               	clrf	15	;volatile
+   171                           ;PIC_IR.C: 87: T1CON=0X01;
+   172  0089  3001               	movlw	1
+   173  008A  0090               	movwf	16	;volatile
+   174                           ;PIC_IR.C: 89: while(RA2 && (TMR1H&0x80)==0);
+   175  008B                     l10
+   176  008B  1D05               	btfss	5,2
+   177  008C  288F               	goto	l12
+   178  008D  1F8F               	btfss	15,7	;volatile
+   179  008E  288B               	goto	l10
+   180  008F                     l12
+   181                           ;PIC_IR.C: 90: T1CON=0X00;
+   182  008F  0190               	clrf	16	;volatile
+   183                           ;PIC_IR.C: 91: return TMR1H*256+TMR1L;
+   184  0090  080F               	movf	15,w	;volatile
+   185  0091  00A8               	movwf	?a_Ir_Get_High+1
+   186  0092  01A7               	clrf	?a_Ir_Get_High
+   187  0093  080E               	movf	14,w	;volatile
+   188  0094  00FE               	movwf	btemp
+   189  0095  01FF               	clrf	btemp+1
+   190  0096  0827               	movf	?a_Ir_Get_High,w
+   191  0097  07FE               	addwf	btemp
+   192  0098  1803               	btfsc	3,0
+   193  0099  0AFF               	incf	btemp+1
+   194  009A  0828               	movf	?a_Ir_Get_High+1,w
+   195  009B  07FF               	addwf	btemp+1
+   196                           ;PIC_IR.C: 92: }
+   197  009C  0008               	return	;W free
+   198  009D                     _Board_init
+   199                           ;BoardConfig.h: 17: void Board_init(void)
+   200  009D  1683               	bsf	3,5
+   201  009E  1303               	bcf	3,6	;carry unused
+   202  009F  0185               	clrf	5	;volatile
+   203                           ;BoardConfig.h: 22: TRISB=0x00;
+   204  00A0  0186               	clrf	6	;volatile
+   205                           ;BoardConfig.h: 23: TRISC=0x00;
+   206  00A1  0187               	clrf	7	;volatile
+   207                           ;BoardConfig.h: 24: TRISD=0x00;
+   208  00A2  0188               	clrf	8	;volatile
+   209                           ;BoardConfig.h: 25: TRISE=0X00;
+   210  00A3  0189               	clrf	9	;volatile
+   211                           ;BoardConfig.h: 30: PORTD=0XFF;
+   212  00A4  30FF               	movlw	-1
+   213  00A5  1283               	bcf	3,5
+   214  00A6  0088               	movwf	8	;volatile
+   215                           ;BoardConfig.h: 31: RA3=0;
+   216  00A7  1185               	bcf	5,3
+   217                           ;BoardConfig.h: 32: RC5=1;
+   218  00A8  1687               	bsf	7,5
+   219                           ;BoardConfig.h: 33: asm ("NOP");
+   220  00A9  0000               	nop	;#
+   221                           ;BoardConfig.h: 34: asm ("NOP");
+   222  00AA  0000               	nop	;#
+   223                           ;BoardConfig.h: 35: RC5=0;
+   224  00AB  1287               	bcf	7,5
+   225                           ;BoardConfig.h: 39: RC3=1;
+   226  00AC  1587               	bsf	7,3
+   227                           ;BoardConfig.h: 40: asm ("NOP");
+   228  00AD  0000               	nop	;#
+   229                           ;BoardConfig.h: 41: asm ("NOP");
+   230  00AE  0000               	nop	;#
+   231                           ;BoardConfig.h: 42: RC3=0;
+   232  00AF  1187               	bcf	7,3
+   233                           ;BoardConfig.h: 46: RC4=1;
+   234  00B0  1607               	bsf	7,4
+   235                           ;BoardConfig.h: 47: PORTD=0X00;
+   236  00B1  0188               	clrf	8	;volatile
+   237                           ;BoardConfig.h: 48: asm ("NOP");
+   238  00B2  0000               	nop	;#
+   239                           ;BoardConfig.h: 49: asm ("NOP");
+   240  00B3  0000               	nop	;#
+   241                           ;BoardConfig.h: 50: RC4=0;
+   242  00B4  1207               	bcf	7,4
+   243                           ;BoardConfig.h: 52: PORTD=0XFF;
+   244  00B5  0088               	movwf	8	;volatile
+   245                           ;BoardConfig.h: 54: RC2=1;
+   246  00B6  1507               	bsf	7,2
+   247                           ;BoardConfig.h: 56: RE0=0;
+   248  00B7  1009               	bcf	9,0
+   249                           ;BoardConfig.h: 57: RE1=0;
+   250  00B8  1089               	bcf	9,1
+   251                           ;BoardConfig.h: 58: RE2=0;
+   252  00B9  1109               	bcf	9,2
+   253                           ;BoardConfig.h: 59: }
+   254  00BA  0008               	return	;#
+   255  00BB                     _mcu_init
+   256                           ;PIC_IR.C: 30: void mcu_init(void)
+   257  00BB  209D               	fcall	_Board_init
+   258                           ;PIC_IR.C: 35: ADCON1=0X07;
+   259  00BC  3007               	movlw	7
+   260  00BD  1683               	bsf	3,5
+   261  00BE  009F               	movwf	31	;volatile
+   262                           ;PIC_IR.C: 36: TRISA2=1;
+   263  00BF  1505               	bsf	5,2
+   264                           ;PIC_IR.C: 37: RA2=1;
+   265  00C0  1283               	bcf	3,5
+   266  00C1  1505               	bsf	5,2
+   267                           ;PIC_IR.C: 40: OPTION=0x03;
+   268  00C2  3003               	movlw	3
+   269  00C3  1683               	bsf	3,5
+   270  00C4  0081               	movwf	1
+   271                           ;PIC_IR.C: 41: INTCON=0XA0;
+   272  00C5  30A0               	movlw	-96
+   273  00C6  008B               	movwf	11	;volatile
+   274                           ;PIC_IR.C: 42: TMR0=0xc3;
+   275  00C7  30C3               	movlw	-61
+   276  00C8  1283               	bcf	3,5
+   277  00C9  0081               	movwf	1	;volatile
+   278                           ;PIC_IR.C: 45: T1CON=0X00;
+   279  00CA  0190               	clrf	16	;volatile
+   280                           ;PIC_IR.C: 46: }
+   281  00CB  0008               	return	;W free
+   282  00CC                     _Ir_Get_Low
+   283                           ;PIC_IR.C: 71: unsigned int Ir_Get_Low(void)
+   284  00CC  0183               	clrf	3	;select bank 0
+   285  00CD  018E               	clrf	14	;volatile
+   286                           ;PIC_IR.C: 74: TMR1H=0;
+   287  00CE  018F               	clrf	15	;volatile
+   288                           ;PIC_IR.C: 75: T1CON=0X01;
+   289  00CF  3001               	movlw	1
+   290  00D0  0090               	movwf	16	;volatile
+   291                           ;PIC_IR.C: 77: while(!RA2 && (TMR1H&0x80)==0);
+   292  00D1                     l6
+   293  00D1  1905               	btfsc	5,2
+   294  00D2  28D5               	goto	l8
+   295  00D3  1F8F               	btfss	15,7	;volatile
+   296  00D4  28D1               	goto	l6
+   297  00D5                     l8
+   298                           ;PIC_IR.C: 78: T1CON=0X00;
+   299  00D5  0190               	clrf	16	;volatile
+   300                           ;PIC_IR.C: 79: return TMR1H*256+TMR1L;
+   301  00D6  080F               	movf	15,w	;volatile
+   302  00D7  00A8               	movwf	?a_Ir_Get_Low+1
+   303  00D8  01A7               	clrf	?a_Ir_Get_Low
+   304  00D9  080E               	movf	14,w	;volatile
+   305  00DA  00FE               	movwf	btemp
+   306  00DB  01FF               	clrf	btemp+1
+   307  00DC  0827               	movf	?a_Ir_Get_Low,w
+   308  00DD  07FE               	addwf	btemp
+   309  00DE  1803               	btfsc	3,0
+   310  00DF  0AFF               	incf	btemp+1
+   311  00E0  0828               	movf	?a_Ir_Get_Low+1,w
+   312  00E1  07FF               	addwf	btemp+1
+   313                           ;PIC_IR.C: 80: }
+   314  00E2  0008               	return	;W free
+   315  00E3                     _main
+   316                           ;	_j assigned to ?a_main+0
+   317  0000                     _main$j	set	?a_main
+   318                           ;	_i assigned to ?a_main+2
+   319  0000                     _main$i	set	?a_main+2
+   320                           ;	_temp assigned to ?a_main+4
+   321  0000                     _main$temp	set	?a_main+4
+   322                           ;PIC_IR.C: 94: void main(void)
+   323  00E3  20BB  120A  118A   	fcall	_mcu_init
+   324                           ;PIC_IR.C: 99: do{
+   325                           ;PIC_IR.C: 100: restart:
+   326                           ;PIC_IR.C: 101: while(RA2);
+   327  00E6                     l18
+   328  00E6  1905               	btfsc	5,2
+   329  00E7  28E6               	goto	l18
+   330                           ;PIC_IR.C: 102: temp=Ir_Get_Low();
+   331  00E8  20CC               	fcall	_Ir_Get_Low
+   332  00E9  087E               	movf	btemp,w
+   333  00EA  00A5               	movwf	?a_main+4
+   334  00EB  087F               	movf	btemp+1,w
+   335  00EC  00A6               	movwf	?a_main+5
+   336                           ;PIC_IR.C: 103: if(temp<8500 || temp>9500) cont
+      +                          inue;
+   337  00ED  3021               	movlw	33
+   338  00EE  0226               	subwf	?a_main+5,w
+   339  00EF  3034               	movlw	52
+   340  00F0  1903               	btfsc	3,2
+   341  00F1  0225               	subwf	?a_main+4,w
+   342  00F2  1C03               	btfss	3,0
+   343  00F3  28E6               	goto	l18
+   344  00F4  3025               	movlw	37
+   345  00F5  0226               	subwf	?a_main+5,w
+   346  00F6  301D               	movlw	29
+   347  00F7  1903               	btfsc	3,2
+   348  00F8  0225               	subwf	?a_main+4,w
+   349  00F9  1803               	btfsc	3,0
+   350  00FA  28E6               	goto	l18
+   351                           ;PIC_IR.C: 104: temp=Ir_Get_High();
+   352  00FB  2086               	fcall	_Ir_Get_High
+   353  00FC  087E               	movf	btemp,w
+   354  00FD  00A5               	movwf	?a_main+4
+   355  00FE  087F               	movf	btemp+1,w
+   356  00FF  00A6               	movwf	?a_main+5
+   357                           ;PIC_IR.C: 105: if(temp<4000 || temp>5000) cont
+      +                          inue;
+   358  0100  300F               	movlw	15
+   359  0101  0226               	subwf	?a_main+5,w
+   360  0102  30A0               	movlw	160
+   361  0103  1903               	btfsc	3,2
+   362  0104  0225               	subwf	?a_main+4,w
+   363  0105  1C03               	btfss	3,0
+   364  0106  28E6               	goto	l18
+   365  0107  3013               	movlw	19
+   366  0108  0226               	subwf	?a_main+5,w
+   367  0109  3089               	movlw	137
+   368  010A  1903               	btfsc	3,2
+   369  010B  0225               	subwf	?a_main+4,w
+   370  010C  1803               	btfsc	3,0
+   371  010D  28E6               	goto	l18
+   372                           ;PIC_IR.C: 106: for(i=0;i<4;i++)
+   373  010E  01A3               	clrf	?a_main+2
+   374  010F  01A4               	clrf	?a_main+3
+   375  0110                     l23
+   376                           ;PIC_IR.C: 107: for(j=0;j<8;j++)
+   377  0110  01A1               	clrf	?a_main
+   378  0111  01A2               	clrf	?a_main+1
+   379  0112                     l26
+   380                           ;PIC_IR.C: 108: {
+   381  0112  20CC               	fcall	_Ir_Get_Low
+   382  0113  087E               	movf	btemp,w
+   383  0114  00A5               	movwf	?a_main+4
+   384  0115  087F               	movf	btemp+1,w
+   385  0116  00A6               	movwf	?a_main+5
+   386                           ;PIC_IR.C: 110: if(temp<200 || temp>800) goto r
+      +                          estart;
+   387  0117  3000               	movlw	0
+   388  0118  0226               	subwf	?a_main+5,w
+   389  0119  30C8               	movlw	200
+   390  011A  1903               	btfsc	3,2
+   391  011B  0225               	subwf	?a_main+4,w
+   392  011C  1C03               	btfss	3,0
+   393  011D  28E6               	goto	l18
+   394  011E  3003               	movlw	3
+   395  011F  0226               	subwf	?a_main+5,w
+   396  0120  3021               	movlw	33
+   397  0121  1903               	btfsc	3,2
+   398  0122  0225               	subwf	?a_main+4,w
+   399  0123  1803               	btfsc	3,0
+   400  0124  28E6               	goto	l18
+   401                           ;PIC_IR.C: 111: temp=Ir_Get_High();
+   402  0125  2086               	fcall	_Ir_Get_High
+   403  0126  087E               	movf	btemp,w
+   404  0127  00A5               	movwf	?a_main+4
+   405  0128  087F               	movf	btemp+1,w
+   406  0129  00A6               	movwf	?a_main+5
+   407                           ;PIC_IR.C: 112: if(temp<200 || temp>2000) goto 
+      +                          restart;
+   408  012A  3000               	movlw	0
+   409  012B  0226               	subwf	?a_main+5,w
+   410  012C  30C8               	movlw	200
+   411  012D  1903               	btfsc	3,2
+   412  012E  0225               	subwf	?a_main+4,w
+   413  012F  1C03               	btfss	3,0
+   414  0130  28E6               	goto	l18
+   415  0131  3007               	movlw	7
+   416  0132  0226               	subwf	?a_main+5,w
+   417  0133  30D1               	movlw	209
+   418  0134  1903               	btfsc	3,2
+   419  0135  0225               	subwf	?a_main+4,w
+   420  0136  1803               	btfsc	3,0
+   421  0137  28E6               	goto	l18
+   422                           ;PIC_IR.C: 113: IR_NUM[i]>>=1;
+   423  0138  0823               	movf	?a_main+2,w
+   424  0139  3E29               	addlw	_IR_NUM
+   425  013A  0084               	movwf	4
+   426  013B  1383               	bcf	3,7
+   427  013C  1003               	bcf	3,0
+   428  013D  0C80               	rrf	0
+   429                           ;PIC_IR.C: 114: if(temp>1120) IR_NUM[i]|=0x80;
+   430  013E  3004               	movlw	4
+   431  013F  0226               	subwf	?a_main+5,w
+   432  0140  3061               	movlw	97
+   433  0141  1903               	btfsc	3,2
+   434  0142  0225               	subwf	?a_main+4,w
+   435  0143  1C03               	btfss	3,0
+   436  0144  2949               	goto	l31
+   437  0145  0823               	movf	?a_main+2,w
+   438  0146  3E29               	addlw	_IR_NUM
+   439  0147  0084               	movwf	4
+   440  0148  1780               	bsf	0,7
+   441  0149                     l31
+   442  0149  0AA1               	incf	?a_main
+   443  014A  1903               	btfsc	3,2
+   444  014B  0AA2               	incf	?a_main+1
+   445  014C  3000               	movlw	0
+   446  014D  0222               	subwf	?a_main+1,w
+   447  014E  3008               	movlw	8
+   448  014F  1903               	btfsc	3,2
+   449  0150  0221               	subwf	?a_main,w
+   450  0151  1C03               	btfss	3,0
+   451  0152  2912               	goto	l26
+   452  0153  0AA3               	incf	?a_main+2
+   453  0154  1903               	btfsc	3,2
+   454  0155  0AA4               	incf	?a_main+3
+   455  0156  3000               	movlw	0
+   456  0157  0224               	subwf	?a_main+3,w
+   457  0158  3004               	movlw	4
+   458  0159  1903               	btfsc	3,2
+   459  015A  0223               	subwf	?a_main+2,w
+   460  015B  1C03               	btfss	3,0
+   461  015C  2910               	goto	l23
+   462                           ;PIC_IR.C: 115: }
+   463  015D  082B               	movf	_IR_NUM+2,w
+   464  015E  390F               	andlw	15
+   465  015F  00A9               	movwf	_IR_NUM
+   466                           ;PIC_IR.C: 117: IR_NUM[1]=(IR_NUM[2]/16)&0xf;
+   467  0160  0E2B               	swapf	_IR_NUM+2,w
+   468  0161  390F               	andlw	15
+   469  0162  00AA               	movwf	_IR_NUM+1
+   470                           ;PIC_IR.C: 118: IR_NUM[2]=IR_NUM[3]&0xf;
+   471  0163  082C               	movf	_IR_NUM+3,w
+   472  0164  390F               	andlw	15
+   473  0165  00AB               	movwf	_IR_NUM+2
+   474                           ;PIC_IR.C: 119: IR_NUM[3]=(IR_NUM[3]/16)&0xf;
+   475  0166  0E2C               	swapf	_IR_NUM+3,w
+   476  0167  390F               	andlw	15
+   477  0168  00AC               	movwf	_IR_NUM+3
+   478                           ;PIC_IR.C: 120: }while(1);
+   479  0169  28E6               	goto	l18
+   480                           
+   481                           	psect	text6
+   482  0000                     
+   483  0000                     
+   484  0000                     
+   485  0000                     
+   486  0000                     
+   487  0000                     
+   488  0000                     
+   489  0000                     
+   490  0000                     
+   491  0000                     
+   492  0000                     
+   493  0000                     
+   494  0000                     
+   495  0000                     
+   496  0000                     
+   497  0000                     
+   498  0000                     
+   499  0000                     
+   500  0000                     
+   501  0000                     
+   502  0000                     
+   503  0000                     
+   504  0000                     
+   505  0000                     
+   506  0000                     
+   507  0000                     
+   508  0000                     
+   509  0000                     
+   510  0000                     
+   511  0000                     
+   512  0000                     
+   513  0000                     
+   514  0000                     
+   515  0000                     
+   516  0000                     
+   517  0000                     
+   518  0000                     
+   519  0000                     
+   520  0000                     
+   521  0000                     
+   522  0000                     
+   523  0000                     
+   524  0000                     
+   525  0000                     
+   526  0000                     
+   527  0000                     
+   528  0000                     
+   529  0000                     
+   530  0000                     
+   531  0000                     
+   532  0000                     
+   533  0000                     
+   534  0000                     
+   535  0000                     
+   536  0000                     
+   537  0000                     
+   538  0000                     
+   539  0000                     
+   540  0000                     
+   541  0000                     
+   542  0000                     
+   543  0000                     
+   544  0000                     
+   545  0000                     
+   546  0000                     
+   547  0000                     
+   548  0000                     
+   549  0000                     
+   550  0000                     
+   551  0000                     
+   552  0000                     
+   553  0000                     
+   554  0000                     
+   555  0000                     
+   556  0000                     
+   557  0000                     
+   558  0000                     
+   559  0000                     
+   560  0000                     
+   561  0000                     
+   562  0000                     
+   563  0000                     
+   564  0000                     
+   565  0000                     
+   566  0000                     
+   567  0000                     
+   568  0000                     
+   569  0000                     
+   570  0000                     
+   571  0000                     
+   572  0000                     
+   573  0000                     
+   574  0000                     
+   575  0000                     
+   576  0000                     
+   577  0000                     
+   578  0000                     
+   579  0000                     
+   580  0000                     
+   581  0000                     
+   582  0000                     
+   583  0000                     
+   584  0000                     
+   585  0000                     
+   586  0000                     
+   587  0000                     
+   588  0000                     
+   589  0000                     
+   590  0000                     
+   591  0000                     
+   592  0000                     
+   593  0000                     
+   594  0000                     
+   595  0000                     
+   596  0000                     
+   597  0000                     
+   598  0000                     
+   599  0000                     
+   600  0000                     
+   601  0000                     
+   602  0000                     
+   603  0000                     
+   604  0000                     
+   605  0000                     
+   606  0000                     
+   607  0000                     
+   608  0000                     
+   609  0000                     
+   610  0000                     
+   611  0000                     
+   612  0000                     
+   613  0000                     
+   614  0000                     
+   615  0000                     
+   616  0000                     
+   617  0000                     
+   618  0000                     
+   619  0000                     
+   620  0000                     
+   621  0000                     
+   622  0000                     
+   623  0000                     
+   624  0000                     
+   625  0000                     
+   626  0000                     
+   627  0000                     
+   628  0000                     
+   629  0000                     
+   630  0000                     
+   631  0000                     
+   632  0000                     
+   633  0000                     
+   634  0000                     
+   635  0000                     
+   636  0000                     
+   637  0000                     
+   638  0000                     
+   639  0000                     
+   640  0000                     
+   641  0000                     
+   642  0000                     
+   643  0000                     
+   644  0000                     
+   645  0000                     
+   646  0000                     
+   647  0000                     
+   648  0000                     
+   649  0000                     
+   650  0000                     
+   651  0000                     
+   652  0000                     
+   653  0000                     
+   654  0000                     
+   655  0000                     
+   656  0000                     
+   657  0000                     
+   658  0000                     
+   659  0000                     
+   660  0000                     
+   661  0000                     
+   662  0000                     
+   663  0000                     
+   664  0000                     
+   665  0000                     
+   666  0000                     
+   667  0000                     
+   668  0000                     
+   669  0000                     
+   670  0000                     
+   671  0000                     
+   672  0000                     
+   673  0000                     
+   674  0000                     
+   675  0000                     
+   676  0000                     
+   677  0000                     
+   678  0000                     
+   679  0000                     
+   680  0000                     
+   681  0000                     
+   682  0000                     
+   683  0000                     
+   684  0000                     
+   685  0000                     
+   686  0000                     
+   687  0000                     
+   688  0000                     
+   689  0000                     
+   690  0000                     
+   691  0000                     
+   692  0000                     
+   693  0000                     
+   694  0000                     
+   695  0000                     
+   696  0000                     
+   697  0000                     
+   698  0000                     
+   699  0000                     
+   700  0000                     
+   701  0000                     
+   702  0000                     
+   703  0000                     
+   704  0000                     
+   705  0000                     
+   706  0000                     
+   707  0000                     
+   708  0000                     
+   709  0000                     
+   710  0000                     
+   711  0000                     
+   712  0000                     
+   713  0000                     
+   714  0000                     
+   715  0000                     
+   716  0000                     
+   717  0000                     
+   718  0000                     
+   719  0000                     
+   720  0000                     
+   721  0000                     
+   722  0000                     
+   723                           
+   724                           	psect	rbss_0
+   725  0020                     _Led_Index
+                     _Led_Index
+   726  0020                     	ds	1
+   727  0000                     
+   728  0000                     
+   729  0000                     
+   730  0000                     
+   731  0000                     
+   732  0000                     
+   733  0000                     
+   734  0000                     
+   735  0000                     
+   736  0000                     
+   737  0000                     
+   738  0000                     
+   739  0000                     
+   740  0000                     
+   741  0000                     
+   742  0000                     
+   743  0000                     
+   744  0000                     
+   745  0000                     
+   746  0000                     
+   747  0000                     
+   748  0000                     
+   749  0000                     
+   750  0000                     
+   751  0000                     
+   752  0000                     
+   753  0000                     
+   754  0000                     
+   755  0000                     
+   756  0000                     
+   757  0000                     
+   758  0000                     
+   759  0000                     
+   760  0000                     
+   761  0000                     
+   762  0000                     
+   763                           
+   764                           	psect	temp
+   765  007E                     btemp
+                     btemp
+   766  007E                     	ds	2
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+Symbol Table                                          Tue Apr 23 16:22:15 2013
+
+       ?a_main 0021              l6 00D1              l8 00D5  
+           l10 008B             l12 008F             l31 0149  
+           l23 0110             l26 0112             l18 00E6  
+           fsr 0004         _IR_NUM 0029       _mcu_init 00BB  
+      _TMR0INT 000D           f2853 0027           f2863 0027  
+         _main 00E3      _Led_Index 0020           btemp 007E  
+ ?a_Ir_Get_Low 0027           start 0034    _Ir_Get_High 0086  
+       saved_w 007D       int_entry 0004     _Board_init 009D  
+   _LED_number 002D       saved_fsr 0042    _LED_BIT_SEL 003D  
+  saved_pclath 0043  ?a_Ir_Get_High 0027          pclath 000A  
+  saved_status 0041     _Ir_Get_Low 00CC          status 0003  
+      int_func 000D     int_restore 002F     used_btemp0 0001  
+   used_btemp1 0001  
