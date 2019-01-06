@@ -17,4 +17,4 @@ When time permits, I hope to load versions of these programs so that they can be
   - "Pickit 3" programmer not supplied - You need to purchase this separately. If you don't have this programmer, you cannot load anything into the pic (Note in the schematic that nothing is connected to the data pins of USB connection. This Dev board only uses the USB connector to get regulated 5V power. 
   - "DS18B20 temperature sensor" (or any 1-wire sensor) is not supplied  - You need to purchase this separately and insert the wires into the U10 connector - Thankfully, this isn't a show stopper for any other experiments that don't use the DS18B20
   - "Stepper motor" is not supplied - You need to purchase this separately
-- The 7 segment displays are connected to 74HC573 latches. This is a good thing because the use of latches means you don't have to repeatedly strobe the 7 segment displays
+- The 7 segment displays and LEDs are connected to 74HC573 latches. This is a good thing because the use of latches means you don't have to repeatedly strobe data and rely on your eyes having "persistance of vision" 
