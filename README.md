@@ -2,7 +2,7 @@
 <img src="BK300.jpg" alt="BK300 Dev board"/>
 
 This repository is for collecting the programs as supplied with the BK300 Pic Development board as seen in the picture above
-When time permits, I hope to load versions of these programs so that they can be easily used with the latest version of the MPLAB X and the XC8 compiler. The programs are in folder "BK300_original_code" and are as follows
+When time permits, I hope to load versions of these programs so that they can be easily used with the latest version of the MPLAB X and the XC8 compiler. The original programs are in folder "BK300_original_code" and are as follows
  - Experiment_1_LED  
  - Experiment_2_4x4_Keyboard  
  - Experiment_3_LED 	 
@@ -36,11 +36,13 @@ When time permits, I hope to load versions of these programs so that they can be
 <img src="BK300_Circuit_Diagram.jpg" alt="BK300 Schematics"/>
 
 # Important points
-- The following 6 items are not normally supplied with the development board. If you have this board, try to have teh following so you can try all the software
-  - "Pickit 3" programmer not supplied - You need to purchase this separately. If you don't have this programmer, you cannot load anything into the pic (Note in the schematic that nothing is connected to the data pins of USB connection. This Dev board only uses the USB connector to get regulated 5V power. 
-  - "DS18B20 temperature sensor" (or any 1-wire sensor) not supplied  - You need to purchase this separately and insert the wires into the U10 connector - Thankfully, this isn't a show stopper for any other experiments that don't use the DS18B20
-  - "Stepper motor" not supplied - You need to purchase this separately
+- The following 6 items are not normally supplied with the development board. You will need to obtain the following so you can use the associated software
+  - "Pickit 3" programmer not supplied - You need to purchase this separately. If you don't have this programmer, you cannot load anything into the pic 
+  - "DS18B20 temperature sensor" (or any 1-wire sensor) not supplied  - You need to purchase this separately and insert the wires into the U10 connector 
+  - "Stepper motor" not supplied 
   - "PS2 Keyboard" not supplied
   - "LCD 16x2" not supplied
   - "LCD 128x64" not supplied
-- The 7 segment displays and LEDs are connected to 74HC573 latches. This is a good thing because the use of latches means you don't have to repeatedly strobe data to the 7 segment disaplays and rely on your eyes having "persistance of vision". It also means that you can re-use all 8 data pins for PORTD (at the expense of tying up pin RA3 for "output enabling" and pins RC3,RC4 and RC5 for "latching" each of the the 3 x 74HC573 chips)   
+ - The USB connector on this Dev board is used only to supply regulated 5V power to the board. If you look at the schematic, the data pins of USB connection are not connected. An alternative way to power the baord is vis the unregulated power connector
+ - There is an alternative method to supply power. (The other optio si to sue the 
+ - The 7 segment displays and LEDs are connected to 74HC573 latches. This is a good thing because the use of latches means you don't have to repeatedly strobe data to the 7 segment disaplays and rely on your eyes having "persistance of vision". It also means that you can re-use all 8 data pins for PORTD (at the expense of tying up pin RA3 for "output enabling" and pins RC3,RC4 and RC5 for "latching" each of the the 3 x 74HC573 chips)   
