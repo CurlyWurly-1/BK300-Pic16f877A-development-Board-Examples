@@ -1,0 +1,27 @@
+### HEXMate logfile and output summary ###
+### Memory Usage ###
+ Unused memory ranges:
+  6h - 7h
+  AEh - 400Dh
+  4010h - 403Fh
+  
+ IR_RELAY.hex ranges:
+  0h - 5h
+  8h - ADh
+  400Eh - 400Fh
+  
+### Hex Memory Map ###
+ Legend:
+  - = Unused memory
+  F = Filled ROM
+  S = Stored serial code
+  A = Stored ASCII string
+  R = Reserved for checksum
+  C = Stored checksum result
+  T = Trailing code
+  & = Find & replace opcode
+  1 = IR_RELAY.hex
+00000000: 111111--11111111111111111111111111111111111111111111111111111111
+00000040: 1111111111111111111111111111111111111111111111111111111111111111
+00000080: 1111111111111111111111111111111111111111111111------------------
+00004000: --------------11------------------------------------------------

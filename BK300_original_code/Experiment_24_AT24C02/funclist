@@ -1,0 +1,21 @@
+_lcd_write_data: CODE, 785 0 18
+_lcd_write_char: CODE, 824 0 22
+___awdiv: CODE, 1424 0 118
+_lcd_wait_busy: CODE, 767 0 18
+_delay: CODE, 803 0 21
+_lcd_write_address: CODE, 876 0 32
+_i2cstart: CODE, 908 0 33
+_read: CODE, 1046 0 45
+___awmod: CODE, 1322 0 102
+_i2cwrite: CODE, 1141 0 50
+_main: CODE, 1542 0 506
+_bitin: CODE, 1009 0 37
+_i2cstop: CODE, 975 0 34
+_write: CODE, 846 0 30
+_lcd_write_com_busy: CODE, 754 0 13
+_i2cread: CODE, 1191 0 55
+_lcdreset: CODE, 1246 0 76
+_lcd_write_com: CODE, 741 0 13
+_bitout: CODE, 941 0 34
+_delay1: CODE, 1091 0 50
+Total: 1307

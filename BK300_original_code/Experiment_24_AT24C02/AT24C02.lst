@@ -1,0 +1,797 @@
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+                                                      Tue Apr 23 16:21:49 2013
+
+
+     1                           	processor	16F877A
+     2                           	opt	pw 79
+     3                           	psect	config,global,class=CONFIG,delta=2
+     4                           	psect	rdata_0,global,class=BANK0,space=1,delta
+      +                          =1
+     5                           	psect	idata_0,global,class=CODE,delta=2
+     6                           	psect	text3,local,class=CODE,delta=2
+     7                           	psect	text9,local,class=CODE,delta=2
+     8                           	psect	rbss_0,global,class=BANK0,space=1,delta=
+      +                          1
+     9  0000                     
+    10  0000                     
+    11  0000                     
+    12  0000                     
+    13  0000                     
+    14  0000                     
+    15  0000                     
+    16  0000                     
+    17  0000                     
+    18  0000                     
+    19                           
+    20                           	psect	config
+    21  2007  3F32               	dw	16178	;#
+    22                           
+    23                           	psect	rdata_0
+    24  002F                     _code
+                     _code
+    25  002F                     	ds	1
+                     	ds	1
+    26  0030                     	ds	1
+    27                           
+    28                           	psect	idata_0
+    29  07FE  34AA               	retlw	-86
+    30  07FF  3455               	retlw	85
+    31                           
+    32                           	psect	text3
+    33  06F6                     _stop_i2c
+    34                           ;AT24C02.C: 90: void stop_i2c()
+    35  06F6  0183               	clrf	3	;select bank 0
+    36  06F7  1285               	bcf	5,5
+    37                           ;AT24C02.C: 94: asm("nop");
+    38  06F8  0000               	nop	;#
+    39                           ;AT24C02.C: 95: RA4=1;
+    40  06F9  1605               	bsf	5,4
+    41                           ;AT24C02.C: 96: asm("nop");asm("nop");asm("nop"
+      +                          );asm("nop");asm("nop");
+    42  06FA  0000               	nop	;#
+    43  06FB  0000               	nop	;#
+    44  06FC  0000               	nop	;#
+    45  06FD  0000               	nop	;#
+    46  06FE  0000               	nop	;#
+    47                           ;AT24C02.C: 97: RA5=1;
+    48  06FF  1685               	bsf	5,5
+    49                           ;AT24C02.C: 98: asm("nop");asm("nop");asm("nop"
+      +                          );asm("nop");
+    50  0700  0000               	nop	;#
+    51  0701  0000               	nop	;#
+    52  0702  0000               	nop	;#
+    53  0703  0000               	nop	;#
+    54                           ;AT24C02.C: 99: }
+    55  0704  0008               	return	;W free
+    56  0705                     _receive_byte
+    57                           ;	_bit_count assigned to ?a_receive_byte+0
+    58  0000                     _receive_byte$bit_count	set	?a_receive_byte
+    59                           ;	_retc assigned to ?a_receive_byte+1
+    60  0000                     _receive_byte$retc	set	?a_receive_byte+1
+    61                           ;AT24C02.C: 139: unsigned char receive_byte()
+    62  0705  0183               	clrf	3	;select bank 0
+    63  0706  01A6               	clrf	?a_receive_byte+1
+    64                           ;AT24C02.C: 143: RA5=1;
+    65  0707  1685               	bsf	5,5
+    66                           ;AT24C02.C: 144: for (bit_count=0;bit_count<8;b
+      +                          it_count++)
+    67  0708  01A5               	clrf	?a_receive_byte
+    68  0709                     l23
+    69                           ;AT24C02.C: 145: {
+    70  0709  0000               	nop	;#
+    71                           ;AT24C02.C: 147: RA4=0;
+    72  070A  1205               	bcf	5,4
+    73                           ;AT24C02.C: 148: asm("nop");asm("nop");asm("nop
+      +                          ");asm("nop");asm("nop");
+    74  070B  0000               	nop	;#
+    75  070C  0000               	nop	;#
+    76  070D  0000               	nop	;#
+    77  070E  0000               	nop	;#
+    78  070F  0000               	nop	;#
+    79                           ;AT24C02.C: 149: RA4=1;
+    80  0710  1605               	bsf	5,4
+    81                           ;AT24C02.C: 150: asm("nop");asm("nop");
+    82  0711  0000               	nop	;#
+    83  0712  0000               	nop	;#
+    84                           ;AT24C02.C: 151: retc=retc<<1;
+    85  0713  1003               	bcf	3,0
+    86  0714  0DA6               	rlf	?a_receive_byte+1
+    87                           ;AT24C02.C: 152: TRISA5=1;
+    88  0715  1683               	bsf	3,5
+    89  0716  1685               	bsf	5,5
+    90                           ;AT24C02.C: 153: if (RA5==1) retc=retc+1;
+    91  0717  1283               	bcf	3,5
+    92  0718  1A85               	btfsc	5,5
+    93  0719  0AA6               	incf	?a_receive_byte+1
+    94                           ;AT24C02.C: 154: TRISA5=0;
+    95  071A  1683               	bsf	3,5
+    96  071B  1285               	bcf	5,5
+    97                           ;AT24C02.C: 155: asm("nop");asm("nop");
+    98  071C  0000               	nop	;#
+    99  071D  0000               	nop	;#
+   100  071E  1283               	bcf	3,5
+   101  071F  0AA5               	incf	?a_receive_byte
+   102  0720  3008               	movlw	8
+   103  0721  0225               	subwf	?a_receive_byte,w
+   104  0722  1C03               	btfss	3,0
+   105  0723  2F09               	goto	l23
+   106                           ;AT24C02.C: 156: }
+   107  0724  1205               	bcf	5,4
+   108                           ;AT24C02.C: 158: asm("nop");asm("nop");
+   109  0725  0000               	nop	;#
+   110  0726  0000               	nop	;#
+   111                           ;AT24C02.C: 159: return (retc);
+   112  0727  0826               	movf	?a_receive_byte+1,w
+   113                           ;AT24C02.C: 160: }
+   114  0728  0008               	return	;uses W
+   115  0729                     _delay_250ms
+   116                           ;	_d assigned to ?a_delay_250ms+0
+   117  0000                     _delay_250ms$d	set	?a_delay_250ms
+   118                           ;AT24C02.C: 192: void delay_250ms()
+   119  0729  30A7               	movlw	167
+   120  072A  0183               	clrf	3	;select bank 0
+   121  072B  00AB               	movwf	?a_delay_250ms
+   122  072C  3061               	movlw	97
+   123  072D  00AC               	movwf	?a_delay_250ms+1
+   124                           ;AT24C02.C: 195: while (--d);
+   125  072E                     l36
+   126  072E  30FF               	movlw	-1
+   127  072F  07AB               	addwf	?a_delay_250ms
+   128  0730  1C03               	btfss	3,0
+   129  0731  03AC               	decf	?a_delay_250ms+1
+   130  0732  082C               	movf	?a_delay_250ms+1,w
+   131  0733  042B               	iorwf	?a_delay_250ms,w
+   132  0734  1903               	btfsc	3,2
+   133  0735  0008               	return
+   134  0736  2F2E               	goto	l36
+   135  0737                     _i2c_error
+   136                           ;	_i assigned to ?a_i2c_error+0
+   137  0000                     _i2c_error$i	set	?a_i2c_error
+   138                           ;AT24C02.C: 203: void i2c_error ()
+   139  0737  0183               	clrf	3	;select bank 0
+   140  0738  01AA               	clrf	?a_i2c_error
+   141  0739                     l40
+   142                           ;AT24C02.C: 207: {
+   143  0739  1388               	bcf	8,7
+   144                           ;AT24C02.C: 209: delay_250ms();
+   145  073A  2729               	fcall	_delay_250ms
+   146                           ;AT24C02.C: 210: RD7=1;
+   147  073B  1788               	bsf	8,7
+   148                           ;AT24C02.C: 211: delay_250ms();
+   149  073C  2729               	fcall	_delay_250ms
+   150  073D  0AAA               	incf	?a_i2c_error
+   151  073E  3008               	movlw	8
+   152  073F  022A               	subwf	?a_i2c_error,w
+   153  0740  1803               	btfsc	3,0
+   154  0741  0008               	return
+   155  0742  2F39               	goto	l40
+   156  0743                     _Board_init
+   157                           ;BoardConfig.h: 17: void Board_init(void)
+   158  0743  1683               	bsf	3,5
+   159  0744  1303               	bcf	3,6	;carry unused
+   160  0745  0185               	clrf	5	;volatile
+   161                           ;BoardConfig.h: 22: TRISB=0x00;
+   162  0746  0186               	clrf	6	;volatile
+   163                           ;BoardConfig.h: 23: TRISC=0x00;
+   164  0747  0187               	clrf	7	;volatile
+   165                           ;BoardConfig.h: 24: TRISD=0x00;
+   166  0748  0188               	clrf	8	;volatile
+   167                           ;BoardConfig.h: 25: TRISE=0X00;
+   168  0749  0189               	clrf	9	;volatile
+   169                           ;BoardConfig.h: 30: PORTD=0XFF;
+   170  074A  30FF               	movlw	-1
+   171  074B  1283               	bcf	3,5
+   172  074C  0088               	movwf	8	;volatile
+   173                           ;BoardConfig.h: 31: RA3=0;
+   174  074D  1185               	bcf	5,3
+   175                           ;BoardConfig.h: 32: RC5=1;
+   176  074E  1687               	bsf	7,5
+   177                           ;BoardConfig.h: 33: asm ("NOP");
+   178  074F  0000               	nop	;#
+   179                           ;BoardConfig.h: 34: asm ("NOP");
+   180  0750  0000               	nop	;#
+   181                           ;BoardConfig.h: 35: RC5=0;
+   182  0751  1287               	bcf	7,5
+   183                           ;BoardConfig.h: 39: RC3=1;
+   184  0752  1587               	bsf	7,3
+   185                           ;BoardConfig.h: 40: asm ("NOP");
+   186  0753  0000               	nop	;#
+   187                           ;BoardConfig.h: 41: asm ("NOP");
+   188  0754  0000               	nop	;#
+   189                           ;BoardConfig.h: 42: RC3=0;
+   190  0755  1187               	bcf	7,3
+   191                           ;BoardConfig.h: 46: RC4=1;
+   192  0756  1607               	bsf	7,4
+   193                           ;BoardConfig.h: 47: PORTD=0X00;
+   194  0757  0188               	clrf	8	;volatile
+   195                           ;BoardConfig.h: 48: asm ("NOP");
+   196  0758  0000               	nop	;#
+   197                           ;BoardConfig.h: 49: asm ("NOP");
+   198  0759  0000               	nop	;#
+   199                           ;BoardConfig.h: 50: RC4=0;
+   200  075A  1207               	bcf	7,4
+   201                           ;BoardConfig.h: 52: PORTD=0XFF;
+   202  075B  0088               	movwf	8	;volatile
+   203                           ;BoardConfig.h: 54: RC2=1;
+   204  075C  1507               	bsf	7,2
+   205                           ;BoardConfig.h: 56: RE0=0;
+   206  075D  1009               	bcf	9,0
+   207                           ;BoardConfig.h: 57: RE1=0;
+   208  075E  1089               	bcf	9,1
+   209                           ;BoardConfig.h: 58: RE2=0;
+   210  075F  1109               	bcf	9,2
+   211                           ;BoardConfig.h: 59: }
+   212  0760  0008               	return	;#
+   213  0761                     _main
+   214                           ;	_i assigned to ?a_main+0
+   215  0000                     _main$i	set	?a_main
+   216                           ;AT24C02.C: 32: void main(void)
+   217  0761  3007               	movlw	7
+   218  0762  1683               	bsf	3,5
+   219  0763  1303               	bcf	3,6	;carry unused
+   220  0764  009F               	movwf	31	;volatile
+   221                           ;AT24C02.C: 37: Board_init();
+   222  0765  2743               	fcall	_Board_init
+   223                           ;AT24C02.C: 38: RC5=1;
+   224  0766  1687               	bsf	7,5
+   225                           ;AT24C02.C: 40: I_send_str(0xa0,0x00,code,2);
+   226  0767  01A5               	clrf	?_I_send_str
+   227  0768  302F               	movlw	_code
+   228  0769  00A6               	movwf	?_I_send_str+1
+   229  076A  3002               	movlw	2
+   230  076B  00A7               	movwf	?_I_send_str+2
+   231  076C  30A0               	movlw	-96
+   232  076D  27DD  120A  118A   	fcall	_I_send_str
+   233                           ;AT24C02.C: 42: delay_250ms();
+   234  0770  2729               	fcall	_delay_250ms
+   235  0771                     l4
+   236                           ;AT24C02.C: 46: while (1)
+   237                           ;AT24C02.C: 47: {
+   238  0771  01A4               	clrf	?a_main
+   239  0772                     l6
+   240                           ;AT24C02.C: 49: {
+   241  0772  27CA               	fcall	_start_i2c
+   242                           ;AT24C02.C: 51: send_byte(0xa0);
+   243  0773  30A0               	movlw	-96
+   244  0774  2793               	fcall	_send_byte
+   245                           ;AT24C02.C: 52: if (ack==0) i2c_error();
+   246  0775  08A0               	movf	_ack
+   247  0776  1D03               	btfss	3,2
+   248  0777  2F79               	goto	l9
+   249  0778  2737               	fcall	_i2c_error
+   250  0779                     l9
+   251                           ;AT24C02.C: 53: send_byte(i);
+   252  0779  0824               	movf	?a_main,w
+   253  077A  2793               	fcall	_send_byte
+   254                           ;AT24C02.C: 54: if (ack==0) i2c_error();
+   255  077B  08A0               	movf	_ack
+   256  077C  1D03               	btfss	3,2
+   257  077D  2F7F               	goto	l10
+   258  077E  2737               	fcall	_i2c_error
+   259  077F                     l10
+   260                           ;AT24C02.C: 55: start_i2c();
+   261  077F  27CA               	fcall	_start_i2c
+   262                           ;AT24C02.C: 56: send_byte(0xa1);
+   263  0780  30A1               	movlw	-95
+   264  0781  2793               	fcall	_send_byte
+   265                           ;AT24C02.C: 57: if (ack==0) i2c_error();
+   266  0782  08A0               	movf	_ack
+   267  0783  1D03               	btfss	3,2
+   268  0784  2F86               	goto	l11
+   269  0785  2737               	fcall	_i2c_error
+   270  0786                     l11
+   271                           ;AT24C02.C: 58: data=receive_byte();
+   272  0786  2705               	fcall	_receive_byte
+   273  0787  00A2               	movwf	_data
+   274                           ;AT24C02.C: 59: stop_i2c();
+   275  0788  26F6               	fcall	_stop_i2c
+   276                           ;AT24C02.C: 60: PORTD=data;
+   277  0789  0822               	movf	_data,w
+   278  078A  0088               	movwf	8	;volatile
+   279                           ;AT24C02.C: 61: delay_250ms();
+   280  078B  2729               	fcall	_delay_250ms
+   281                           ;AT24C02.C: 62: delay_250ms();
+   282  078C  2729               	fcall	_delay_250ms
+   283  078D  0AA4               	incf	?a_main
+   284  078E  3002               	movlw	2
+   285  078F  0224               	subwf	?a_main,w
+   286  0790  1803               	btfsc	3,0
+   287  0791  2F71               	goto	l4
+   288  0792  2F72               	goto	l6
+   289  0793                     _send_byte
+   290                           ;	_c assigned to ?a_send_byte+0
+   291  0000                     _send_byte$c	set	?a_send_byte
+   292                           ;	_bit_count assigned to ?a_send_byte+1
+   293  0000                     _send_byte$bit_count	set	?a_send_byte+1
+   294                           ;_c stored from w
+   295  0793  0183               	clrf	3	;select bank 0
+   296  0794  00AA               	movwf	?a_send_byte
+   297                           ;AT24C02.C: 108: void send_byte(unsigned char c
+      +                          )
+   298  0795  01AB               	clrf	?a_send_byte+1
+   299  0796                     l15
+   300                           ;AT24C02.C: 112: {
+   301  0796  082B               	movf	?a_send_byte+1,w
+   302  0797  00AC               	movwf	?a_send_byte+2
+   303  0798  082A               	movf	?a_send_byte,w
+   304  0799  00AD               	movwf	?a_send_byte+3
+   305  079A  01AE               	clrf	?a_send_byte+4
+   306  079B  0AAC               	incf	?a_send_byte+2
+   307  079C  2FA0               	goto	u54
+   308  079D                     u55
+   309  079D  1003               	bcf	3,0
+   310  079E  0DAD               	rlf	?a_send_byte+3
+   311  079F  0DAE               	rlf	?a_send_byte+4
+   312  07A0                     u54
+   313  07A0  0BAC               	decfsz	?a_send_byte+2
+   314  07A1  2F9D               	goto	u55
+   315  07A2  1FAD               	btfss	?a_send_byte+3,7
+   316  07A3  2FA6               	goto	l18
+   317  07A4  1685               	bsf	5,5
+   318  07A5  2FA7               	goto	l19
+   319  07A6                     l18
+   320                           ;AT24C02.C: 114: else {RA5=0;}
+   321  07A6  1285               	bcf	5,5
+   322  07A7                     l19
+   323                           ;AT24C02.C: 115: asm("nop");
+   324  07A7  0000               	nop	;#
+   325                           ;AT24C02.C: 116: RA4=1;
+   326  07A8  1605               	bsf	5,4
+   327                           ;AT24C02.C: 117: asm("nop");asm("nop");asm("nop
+      +                          ");asm("nop");asm("nop");
+   328  07A9  0000               	nop	;#
+   329  07AA  0000               	nop	;#
+   330  07AB  0000               	nop	;#
+   331  07AC  0000               	nop	;#
+   332  07AD  0000               	nop	;#
+   333                           ;AT24C02.C: 118: RA4=0;
+   334  07AE  1205               	bcf	5,4
+   335  07AF  0AAB               	incf	?a_send_byte+1
+   336  07B0  3008               	movlw	8
+   337  07B1  022B               	subwf	?a_send_byte+1,w
+   338  07B2  1C03               	btfss	3,0
+   339  07B3  2F96               	goto	l15
+   340                           ;AT24C02.C: 119: }
+   341  07B4  0000               	nop	;#
+   342  07B5  0000               	nop	;#
+   343                           ;AT24C02.C: 121: RA5=1;
+   344  07B6  1685               	bsf	5,5
+   345                           ;AT24C02.C: 122: asm("nop");asm("nop");
+   346  07B7  0000               	nop	;#
+   347  07B8  0000               	nop	;#
+   348                           ;AT24C02.C: 123: RA4=1;
+   349  07B9  1605               	bsf	5,4
+   350                           ;AT24C02.C: 124: asm("nop");asm("nop");asm("nop
+      +                          ");
+   351  07BA  0000               	nop	;#
+   352  07BB  0000               	nop	;#
+   353  07BC  0000               	nop	;#
+   354                           ;AT24C02.C: 125: TRISA5=1;
+   355  07BD  1683               	bsf	3,5
+   356  07BE  1685               	bsf	5,5
+   357                           ;AT24C02.C: 126: if (RA5==1) ack=0;
+   358  07BF  1283               	bcf	3,5
+   359  07C0  01A0               	clrf	_ack
+   360  07C1  1E85               	btfss	5,5
+   361                           ;AT24C02.C: 127: else ack=1;
+   362  07C2  0AA0               	incf	_ack
+   363                           ;AT24C02.C: 128: TRISA5=0;
+   364  07C3  1683               	bsf	3,5
+   365  07C4  1285               	bcf	5,5
+   366                           ;AT24C02.C: 129: RA4=0;
+   367  07C5  1283               	bcf	3,5
+   368  07C6  1205               	bcf	5,4
+   369                           ;AT24C02.C: 130: asm("nop");asm("nop");
+   370  07C7  0000               	nop	;#
+   371  07C8  0000               	nop	;#
+   372                           ;AT24C02.C: 131: }
+   373  07C9  0008               	return	;W free
+   374  07CA                     _start_i2c
+   375                           ;AT24C02.C: 72: void start_i2c()
+   376  07CA  0183               	clrf	3	;select bank 0
+   377  07CB  1685               	bsf	5,5
+   378                           ;AT24C02.C: 75: asm("nop");
+   379  07CC  0000               	nop	;#
+   380                           ;AT24C02.C: 76: RA4=1;
+   381  07CD  1605               	bsf	5,4
+   382                           ;AT24C02.C: 77: asm("nop");asm("nop");asm("nop"
+      +                          );asm("nop");asm("nop");
+   383  07CE  0000               	nop	;#
+   384  07CF  0000               	nop	;#
+   385  07D0  0000               	nop	;#
+   386  07D1  0000               	nop	;#
+   387  07D2  0000               	nop	;#
+   388                           ;AT24C02.C: 78: RA5=0;
+   389  07D3  1285               	bcf	5,5
+   390                           ;AT24C02.C: 79: asm("nop");asm("nop");asm("nop"
+      +                          );asm("nop");asm("nop");
+   391  07D4  0000               	nop	;#
+   392  07D5  0000               	nop	;#
+   393  07D6  0000               	nop	;#
+   394  07D7  0000               	nop	;#
+   395  07D8  0000               	nop	;#
+   396                           ;AT24C02.C: 80: RA4=0;
+   397  07D9  1205               	bcf	5,4
+   398                           ;AT24C02.C: 81: asm("nop");asm("nop");
+   399  07DA  0000               	nop	;#
+   400  07DB  0000               	nop	;#
+   401                           ;AT24C02.C: 82: }
+   402  07DC  0008               	return	;W free
+   403  07DD                     _I_send_str
+   404                           ;	_sla assigned to ?a_I_send_str+0
+   405  0000                     _I_send_str$sla	set	?a_I_send_str
+   406                           ;	_i assigned to ?a_I_send_str+1
+   407  0000                     _I_send_str$i	set	?a_I_send_str+1
+   408                           ;_sla stored from w
+   409  07DD  0183               	clrf	3	;select bank 0
+   410  07DE  00A8               	movwf	?a_I_send_str
+   411                           ;AT24C02.C: 169: void I_send_str(unsigned char 
+      +                          sla,unsigned char suba,unsigned char *s,unsigne
+      +                          d char no)
+   412  07DF  27CA               	fcall	_start_i2c
+   413                           ;AT24C02.C: 173: send_byte(sla);
+   414  07E0  0828               	movf	?a_I_send_str,w
+   415  07E1  2793               	fcall	_send_byte
+   416                           ;AT24C02.C: 174: if (ack==0) i2c_error();
+   417  07E2  08A0               	movf	_ack
+   418  07E3  1D03               	btfss	3,2
+   419  07E4  2FE6               	goto	l28
+   420  07E5  2737               	fcall	_i2c_error
+   421  07E6                     l28
+   422                           ;AT24C02.C: 175: send_byte(suba);
+   423  07E6  0825               	movf	?_I_send_str,w
+   424  07E7  2793               	fcall	_send_byte
+   425                           ;AT24C02.C: 176: if (ack==0) i2c_error();
+   426  07E8  08A0               	movf	_ack
+   427  07E9  1D03               	btfss	3,2
+   428  07EA  2FEC               	goto	l29
+   429  07EB  2737               	fcall	_i2c_error
+   430  07EC                     l29
+   431                           ;AT24C02.C: 177: for (i=0;i<no;i++)
+   432  07EC  01A9               	clrf	?a_I_send_str+1
+   433  07ED                     l33
+   434  07ED  0827               	movf	?_I_send_str+2,w
+   435  07EE  0229               	subwf	?a_I_send_str+1,w
+   436  07EF  1803               	btfsc	3,0
+   437  07F0  2FFD               	goto	l31
+   438                           ;AT24C02.C: 178: {
+   439  07F1  0826               	movf	?_I_send_str+1,w
+   440  07F2  0084               	movwf	4
+   441  07F3  1383               	bcf	3,7
+   442  07F4  0800               	movf	0,w
+   443  07F5  2793               	fcall	_send_byte
+   444                           ;AT24C02.C: 180: if (ack==0) i2c_error();
+   445  07F6  08A0               	movf	_ack
+   446  07F7  1D03               	btfss	3,2
+   447  07F8  2FFA               	goto	l34
+   448  07F9  2737               	fcall	_i2c_error
+   449  07FA                     l34
+   450                           ;AT24C02.C: 181: s++;
+   451  07FA  0AA6               	incf	?_I_send_str+1
+   452  07FB  0AA9               	incf	?a_I_send_str+1
+   453  07FC  2FED               	goto	l33
+   454  07FD                     l31
+   455                           ;AT24C02.C: 182: }
+   456  07FD  2EF6               	ljmp	_stop_i2c
+   457                           
+   458                           	psect	text9
+   459  0000                     
+   460  0000                     
+   461  0000                     
+   462  0000                     
+   463  0000                     
+   464  0000                     
+   465  0000                     
+   466  0000                     
+   467  0000                     
+   468  0000                     
+   469  0000                     
+   470  0000                     
+   471  0000                     
+   472  0000                     
+   473  0000                     
+   474  0000                     
+   475  0000                     
+   476  0000                     
+   477  0000                     
+   478  0000                     
+   479  0000                     
+   480  0000                     
+   481  0000                     
+   482  0000                     
+   483  0000                     
+   484  0000                     
+   485  0000                     
+   486  0000                     
+   487  0000                     
+   488  0000                     
+   489  0000                     
+   490  0000                     
+   491  0000                     
+   492  0000                     
+   493  0000                     
+   494  0000                     
+   495  0000                     
+   496  0000                     
+   497  0000                     
+   498  0000                     
+   499  0000                     
+   500  0000                     
+   501  0000                     
+   502  0000                     
+   503  0000                     
+   504  0000                     
+   505  0000                     
+   506  0000                     
+   507  0000                     
+   508  0000                     
+   509  0000                     
+   510  0000                     
+   511  0000                     
+   512  0000                     
+   513  0000                     
+   514  0000                     
+   515  0000                     
+   516  0000                     
+   517  0000                     
+   518  0000                     
+   519  0000                     
+   520  0000                     
+   521  0000                     
+   522  0000                     
+   523  0000                     
+   524  0000                     
+   525  0000                     
+   526  0000                     
+   527  0000                     
+   528  0000                     
+   529  0000                     
+   530  0000                     
+   531  0000                     
+   532  0000                     
+   533  0000                     
+   534  0000                     
+   535  0000                     
+   536  0000                     
+   537  0000                     
+   538  0000                     
+   539  0000                     
+   540  0000                     
+   541  0000                     
+   542  0000                     
+   543  0000                     
+   544  0000                     
+   545  0000                     
+   546  0000                     
+   547  0000                     
+   548  0000                     
+   549  0000                     
+   550  0000                     
+   551  0000                     
+   552  0000                     
+   553  0000                     
+   554  0000                     
+   555  0000                     
+   556  0000                     
+   557  0000                     
+   558  0000                     
+   559  0000                     
+   560  0000                     
+   561  0000                     
+   562  0000                     
+   563  0000                     
+   564  0000                     
+   565  0000                     
+   566  0000                     
+   567  0000                     
+   568  0000                     
+   569  0000                     
+   570  0000                     
+   571  0000                     
+   572  0000                     
+   573  0000                     
+   574  0000                     
+   575  0000                     
+   576  0000                     
+   577  0000                     
+   578  0000                     
+   579  0000                     
+   580  0000                     
+   581  0000                     
+   582  0000                     
+   583  0000                     
+   584  0000                     
+   585  0000                     
+   586  0000                     
+   587  0000                     
+   588  0000                     
+   589  0000                     
+   590  0000                     
+   591  0000                     
+   592  0000                     
+   593  0000                     
+   594  0000                     
+   595  0000                     
+   596  0000                     
+   597  0000                     
+   598  0000                     
+   599  0000                     
+   600  0000                     
+   601  0000                     
+   602  0000                     
+   603  0000                     
+   604  0000                     
+   605  0000                     
+   606  0000                     
+   607  0000                     
+   608  0000                     
+   609  0000                     
+   610  0000                     
+   611  0000                     
+   612  0000                     
+   613  0000                     
+   614  0000                     
+   615  0000                     
+   616  0000                     
+   617  0000                     
+   618  0000                     
+   619  0000                     
+   620  0000                     
+   621  0000                     
+   622  0000                     
+   623  0000                     
+   624  0000                     
+   625  0000                     
+   626  0000                     
+   627  0000                     
+   628  0000                     
+   629  0000                     
+   630  0000                     
+   631  0000                     
+   632  0000                     
+   633  0000                     
+   634  0000                     
+   635  0000                     
+   636  0000                     
+   637  0000                     
+   638  0000                     
+   639  0000                     
+   640  0000                     
+   641  0000                     
+   642  0000                     
+   643  0000                     
+   644  0000                     
+   645  0000                     
+   646  0000                     
+   647  0000                     
+   648  0000                     
+   649  0000                     
+   650  0000                     
+   651  0000                     
+   652  0000                     
+   653  0000                     
+   654  0000                     
+   655  0000                     
+   656  0000                     
+   657  0000                     
+   658  0000                     
+   659  0000                     
+   660  0000                     
+   661  0000                     
+   662  0000                     
+   663  0000                     
+   664  0000                     
+   665  0000                     
+   666  0000                     
+   667  0000                     
+   668  0000                     
+   669  0000                     
+   670  0000                     
+   671  0000                     
+   672  0000                     
+   673  0000                     
+   674  0000                     
+   675  0000                     
+   676  0000                     
+   677  0000                     
+   678  0000                     
+   679  0000                     
+   680  0000                     
+   681  0000                     
+   682  0000                     
+   683  0000                     
+   684  0000                     
+   685  0000                     
+   686  0000                     
+   687  0000                     
+   688  0000                     
+   689  0000                     
+   690  0000                     
+   691  0000                     
+   692  0000                     
+   693  0000                     
+   694  0000                     
+   695  0000                     
+   696  0000                     
+   697  0000                     
+   698  0000                     
+   699  0000                     
+   700  0000                     
+   701  0000                     
+   702  0000                     
+   703  0000                     
+   704  0000                     
+   705  0000                     
+   706  0000                     
+   707  0000                     
+   708  0000                     
+   709  0000                     
+   710  0000                     
+   711  0000                     
+   712  0000                     
+   713  0000                     
+   714  0000                     
+   715  0000                     
+   716  0000                     
+   717  0000                     
+   718  0000                     
+   719  0000                     
+   720  0000                     
+   721  0000                     
+   722  0000                     
+   723  0000                     
+   724  0000                     
+   725  0000                     
+   726  0000                     
+   727  0000                     
+   728  0000                     
+   729  0000                     
+   730  0000                     
+   731  0000                     
+   732  0000                     
+   733  0000                     
+   734  0000                     
+   735  0000                     
+   736                           
+   737                           	psect	rbss_0
+   738  0020                     _ack
+                     _ack
+   739  0020                     	ds	1
+   740  0021                     _c
+                     _c
+   741  0021                     	ds	1
+   742  0022                     _data
+                     _data
+   743  0022                     	ds	1
+   744  0023                     _no
+                     _no
+   745  0023                     	ds	1
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+Symbol Table                                          Tue Apr 23 16:21:49 2013
+
+                ?a_main 0024                       l4 0771  
+                     l6 0772                       l9 0779  
+                     _c 0021                      l10 077F  
+                    l11 0786                      l31 07FD  
+                    l23 0709                      l15 0796  
+                    l40 0739                      l33 07ED  
+                    l34 07FA                      l18 07A6  
+                    l19 07A7                      l36 072E  
+                    l28 07E6                      l29 07EC  
+                    u54 07A0                      u55 079D  
+                    _no 0023                      fsr 0004  
+           _delay_250ms 0729                     _ack 0020  
+                  f2943 002C             ?a_send_byte 002A  
+           ?a_i2c_error 002A                    _data 0022  
+                  _code 002F                    _main 0761  
+          ?a_I_send_str 0028                _stop_i2c 06F6  
+                  start 0000           ?a_delay_250ms 002B  
+             _send_byte 0793               _i2c_error 0737  
+        ?a_receive_byte 0025              _Board_init 0743  
+           ?_I_send_str 0025               _start_i2c 07CA  
+            _I_send_str 07DD                   status 0003  
+          _receive_byte 0705  
