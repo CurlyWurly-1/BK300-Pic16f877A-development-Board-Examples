@@ -36,8 +36,11 @@ When time permits, I hope to load versions of these programs so that they can be
 <img src="BK300_Circuit_Diagram.jpg" alt="BK300 Schematics"/>
 
 # Important points
-- The following 3 items are not normally supplied with the development board
+- The following 6 items are not normally supplied with the development board. If you have this board, try to have teh following so you can try all the software
   - "Pickit 3" programmer not supplied - You need to purchase this separately. If you don't have this programmer, you cannot load anything into the pic (Note in the schematic that nothing is connected to the data pins of USB connection. This Dev board only uses the USB connector to get regulated 5V power. 
-  - "DS18B20 temperature sensor" (or any 1-wire sensor) is not supplied  - You need to purchase this separately and insert the wires into the U10 connector - Thankfully, this isn't a show stopper for any other experiments that don't use the DS18B20
-  - "Stepper motor" is not supplied - You need to purchase this separately
+  - "DS18B20 temperature sensor" (or any 1-wire sensor) not supplied  - You need to purchase this separately and insert the wires into the U10 connector - Thankfully, this isn't a show stopper for any other experiments that don't use the DS18B20
+  - "Stepper motor" not supplied - You need to purchase this separately
+  - "PS2 Keyboard" not supplied
+  - "LCD 16x2" not supplied
+  - "LCD 128x64" not supplied
 - The 7 segment displays and LEDs are connected to 74HC573 latches. This is a good thing because the use of latches means you don't have to repeatedly strobe data to the 7 segment disaplays and rely on your eyes having "persistance of vision". It also means that you can re-use all 8 data pins for PORTD (at the expense of tying up pin RA3 for "output enabling" and pins RC3,RC4 and RC5 for "latching" each of the the 3 x 74HC573 chips)   
