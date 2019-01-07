@@ -46,5 +46,4 @@ When time permits, I hope to load versions of these programs so that they can be
  - There are 2 ways to supply regulated 5V to this dev board. (N.B. There is no power supply regulator onboard - a regulated 5v supply must be used)
    - via a USB (printer cable type) connector -  N.B. If you look at the schematic, the data pins of USB connection are not connected. 
    - Via power plug 
- - There is an alternative method to supply power. (The other optio si to sue the 
- - The 7 segment displays and LEDs are connected to 74HC573 latches. The use of latches means that if only one 7 segment display digit is needed, it would not be necessary to repeatedly strobe data and rely on your eyes having "persistance of vision". It also means that all 8 data pins for PORTD could be potentially be used elsewhere (at the expense of tying up pin RA3 for "output enabling" and pins RC3, RC4 and RC5 for "latching" each of the the 3 x 74HC573 chips)   
+ - The 7 segment displays and LEDs are connected through 74HC573 latches. This enables the 7 segment displays to be strobed for slightly longer periods and for all 8 data pins for PORTD being potentially re-used elsewhere (at the expense of tying up pin RA3 for "output enabling" and pins RC3, RC4 and RC5 for "latching" each of the the 3 x 74HC573 chips)   
