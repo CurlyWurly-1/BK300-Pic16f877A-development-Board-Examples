@@ -46,7 +46,7 @@ When time permits, I hope to load versions of these programs so that they can be
  - There are 2 ways to supply regulated 5V to this dev board. (N.B. There is no power supply regulator onboard - a regulated 5v supply must be used)
    - via a USB (printer cable type) connector -  N.B. If you look at the schematic, the data pins of USB connection are not connected. 
    - Via power plug 
- - The four "7 segment" displays, eight LEDs and four Stepper motor pins are controlled with the use of three 74HC573 "One way latches" which are connected to the PORTD bus as follows (N.B. All three latches are Output enabled using pin RA3):   
+ - The four *7 segment display units*, eight *LEDs* and four *Stepper motor pins* are powered with the use of three 74HC573 "One way latches" which are all connected to the PORTD bus as follows and all three latches are Output enabled using the same pin RA3:   
    - Latch 1 - Latched via RC3
      - PORTD pins RD0 to RD7  - used for sinking the current of one segment in ecah of the four 7 segment display units, plus its decimal point  
    - Latch 2 - Latched via RC4
