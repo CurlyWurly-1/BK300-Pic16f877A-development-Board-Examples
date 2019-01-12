@@ -3,15 +3,15 @@
 
 This repository is for collecting the programs as supplied with the BK300 Pic Development board as seen in the picture above
 When time permits, I hope to load versions of these programs so that they can be easily used with the latest version of the MPLAB X and the XC8 compiler. The original programs are in folder "BK300_original_code" and are as follows
- - Experiment_1_LED  
- - Experiment_2_4x4_Keyboard  
- - Experiment_3_LED 	 
- - Experiment_4_Interupt 	 
- - Experiment_5_timer1 	 	 
- - Experiment_6_timer2 	 
- - Experiment_7_RS232 	 
- - Experiment_8_EEPROM  
- - Experiment_9_Watchdog
+ - Experiment_01_LED  
+ - Experiment_02_4x4_Keyboard  
+ - Experiment_03_LED 	 
+ - Experiment_04_Interupt 	 
+ - Experiment_05_timer1 	 	 
+ - Experiment_06_timer2 	 
+ - Experiment_07_RS232 	 
+ - Experiment_08_EEPROM  
+ - Experiment_09_Watchdog
  - Experiment_10_ADC 
  - Experiment_11_Speaker  
  - Experiment_12_PWM  
