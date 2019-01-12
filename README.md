@@ -46,5 +46,13 @@ When time permits, I hope to load versions of these programs so that they can be
  - There are 2 ways to supply regulated 5V to this dev board. (N.B. There is no power supply regulator onboard - a regulated 5v supply must be used)
    - via a USB (printer cable type) connector -  N.B. If you look at the schematic, the data pins of USB connection are not connected. 
    - Via power plug 
- - The 7 segment displays and LEDs are connected through 74HC573 latches. The use of the latches enables the 7 segment displays and LEDS to be "active" when the data pins are strobed or isolated if you want to re-use all 8 data pins of PORTD for something else. This activation or isolation is at the expense of tying up pin RA3 for "output enabling" and the 3 pins RC3, RC4 and RC5 which have been respectively used for "latching" the 3 banks of 74HC573 chips.
+ - The four "7 segment" displays, eight LEDs and four Stepper motor pins are controlled with the use of three 74HC573 "One way latches" which are connected to the PORTD bus as follows (N.B. All three latches are Output enabled using pin RA3):   
+   - Latch 1 - Latched via RC3
+     - PORTD pins RD0 to RD7  - used for sinking the current of one segment in ecah of the four 7 segment display units, plus its decimal point  
+   - Latch 2 - Latched via RC4
+     - PORTD pins RD0 to RD3  - used for selecting each of the four 7 segment display units
+     - PORTD pins RD4 to RD7  - used for driving the stepper motor pins 
+   - Latch 3 - Latched via RC5
+     - PORTD pins RD0 to RD7  - used for driving the eight LEDS 
+ - Not that it is required to do so, but if all 3 latches above are disabled for output by pin RA3 being HIGH, then the eight data pins of PORTD are available for use for anything else. However, if you were to mix output enabling with the strobing of data on PORTD, you could make it appear that all three sets of output devices are used with the use of PORTD only  - but uniquely controlling each latch very quickly one after the other
  - Jumper J16 is used for when you use a LCD_128x64 only. The position of the jumper determines if a HIGH or LOW is to be defaulted to the PSB pin of the LCD_128x64 - it is set to HIGH as this sems ot be the default for most programs 
