@@ -13,19 +13,19 @@ When time permits, I hope to load versions of these programs so that they can be
  - Experiment_8_EEPROM  
  - Experiment_9_Watchdog
  - Experiment_10_ADC 
- - Experiment_11_SPEAKER  
+ - Experiment_11_Speaker  
  - Experiment_12_PWM  
  - Experiment_13_3x3_Keyboard  
  - Experiment_14_LCD_16x2 	 
  - Experiment_15_AT24C02 	 
  - Experiment_16_stepper 	 
- - Experiment_17_IR_DISPLAY   
+ - Experiment_17_IR_Display   
  - Experiment_18_DS18B20  
  - Experiment_19_DS1302  
  - Experiment_20_LCD_128x64  
  - Experiment_21_RS485 	 
- - Experiment_22  
- - Experiment_23_IR_RELAY  
+ - Experiment_22_PS2_Keyboard
+ - Experiment_23_IR_Relay  
  - Experiment_24_AT24C02  
 
 # Layout of Components
@@ -46,4 +46,5 @@ When time permits, I hope to load versions of these programs so that they can be
  - There are 2 ways to supply regulated 5V to this dev board. (N.B. There is no power supply regulator onboard - a regulated 5v supply must be used)
    - via a USB (printer cable type) connector -  N.B. If you look at the schematic, the data pins of USB connection are not connected. 
    - Via power plug 
- - The 7 segment displays and LEDs are connected through 74HC573 latches. This enables the 7 segment displays to be strobed for slightly longer periods and for all 8 data pins for PORTD being potentially re-used elsewhere (at the expense of tying up pin RA3 for "output enabling" and pins RC3, RC4 and RC5 for "latching" each of the the 3 x 74HC573 chips)   
+ - The 7 segment displays and LEDs are connected through 74HC573 latches. This enables the 7 segment displays and LEDS can be be strobed or isolated if you want to re-use all 8 data pins for PORTD for something else (at the expense of tying up pin RA3 for "output enabling" and pins RC3, RC4 and RC5 for "latching" each of the the 3 x 74HC573 chips)   
+ - Jumper J16 is used for when you use a LCD_128x64 only. The position of the jumper determines if a HIGH or LOW is to be defaulted to the PSB pin of the LCD_128x64 - it is set to HIGH as this sems ot be the default for most programs 
