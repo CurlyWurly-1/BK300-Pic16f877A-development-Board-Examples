@@ -1,0 +1,1314 @@
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+                                                      Tue Apr 23 16:23:50 2013
+
+
+     1                           	processor	16F877A
+     2                           	opt	pw 79
+     3                           	psect	strings,global,class=STRING,delta=2
+     4                           	psect	const1,local,class=CONST,delta=2
+     5                           	psect	const2,local,class=CONST,delta=2
+     6                           	psect	text1,local,class=CODE,delta=2
+     7                           	psect	config,global,class=CONFIG,delta=2
+     8                           	psect	const3,local,class=CONST,delta=2
+     9                           	psect	const4,local,class=CONST,delta=2
+    10                           	psect	text10,local,class=CODE,delta=2
+    11                           	psect	intcode,global,class=CODE,delta=2
+    12                           	psect	intsave_0,global,ovrld,class=COMBANK,spa
+      +                          ce=1,delta=1
+    13                           	psect	intret,global,class=CODE,delta=2
+    14                           	psect	intentry,global,class=CODE,delta=2
+    15                           	psect	intsave,global,class=BANK0,space=1,delta
+      +                          =1
+    16                           	psect	text12,local,class=CODE,delta=2
+    17                           	psect	rbss_0,global,class=BANK0,space=1,delta=
+      +                          1
+    18  0000                     
+    19  0000                     
+    20  0000                     
+    21  0000                     
+    22  0000                     
+    23  0000                     
+    24  0000                     
+    25  0000                     
+    26  0000                     
+    27  0000                     
+    28                           
+    29                           	psect	const1
+    30  0277  0782               	addwf	2
+    31  0278                     _UnShifted
+    32  0278  341C               	retlw	28
+    33  0279  3461               	retlw	97
+    34  027A  3432               	retlw	50
+    35  027B  3462               	retlw	98
+    36  027C  3421               	retlw	33
+    37  027D  3463               	retlw	99
+    38  027E  3423               	retlw	35
+    39  027F  3464               	retlw	100
+    40  0280  3424               	retlw	36
+    41  0281  3465               	retlw	101
+    42  0282  342B               	retlw	43
+    43  0283  3466               	retlw	102
+    44  0284  3434               	retlw	52
+    45  0285  3467               	retlw	103
+    46  0286  3433               	retlw	51
+    47  0287  3468               	retlw	104
+    48  0288  3443               	retlw	67
+    49  0289  3469               	retlw	105
+    50  028A  343B               	retlw	59
+    51  028B  346A               	retlw	106
+    52  028C  3442               	retlw	66
+    53  028D  346B               	retlw	107
+    54  028E  344B               	retlw	75
+    55  028F  346C               	retlw	108
+    56  0290  343A               	retlw	58
+    57  0291  346D               	retlw	109
+    58  0292  3431               	retlw	49
+    59  0293  346E               	retlw	110
+    60  0294  3444               	retlw	68
+    61  0295  346F               	retlw	111
+    62  0296  344D               	retlw	77
+    63  0297  3470               	retlw	112
+    64  0298  3415               	retlw	21
+    65  0299  3471               	retlw	113
+    66  029A  342D               	retlw	45
+    67  029B  3472               	retlw	114
+    68  029C  341B               	retlw	27
+    69  029D  3473               	retlw	115
+    70  029E  342C               	retlw	44
+    71  029F  3474               	retlw	116
+    72  02A0  343C               	retlw	60
+    73  02A1  3475               	retlw	117
+    74  02A2  342A               	retlw	42
+    75  02A3  3476               	retlw	118
+    76  02A4  341D               	retlw	29
+    77  02A5  3477               	retlw	119
+    78  02A6  3422               	retlw	34
+    79  02A7  3478               	retlw	120
+    80  02A8  3435               	retlw	53
+    81  02A9  3479               	retlw	121
+    82  02AA  341A               	retlw	26
+    83  02AB  347A               	retlw	122
+    84  02AC  3445               	retlw	69
+    85  02AD  3430               	retlw	48
+    86  02AE  3416               	retlw	22
+    87  02AF  3431               	retlw	49
+    88  02B0  341E               	retlw	30
+    89  02B1  3432               	retlw	50
+    90  02B2  3426               	retlw	38
+    91  02B3  3433               	retlw	51
+    92  02B4  3425               	retlw	37
+    93  02B5  3434               	retlw	52
+    94  02B6  342E               	retlw	46
+    95  02B7  3435               	retlw	53
+    96  02B8  3436               	retlw	54
+    97  02B9  3436               	retlw	54
+    98  02BA  343D               	retlw	61
+    99  02BB  3437               	retlw	55
+   100  02BC  343E               	retlw	62
+   101  02BD  3438               	retlw	56
+   102  02BE  3446               	retlw	70
+   103  02BF  3439               	retlw	57
+   104  02C0  340E               	retlw	14
+   105  02C1  3460               	retlw	96
+   106  02C2  344E               	retlw	78
+   107  02C3  342D               	retlw	45
+   108  02C4  3455               	retlw	85
+   109  02C5  343D               	retlw	61
+   110  02C6  345D               	retlw	93
+   111  02C7  345C               	retlw	92
+   112  02C8  3429               	retlw	41
+   113  02C9  3420               	retlw	32
+   114  02CA  3454               	retlw	84
+   115  02CB  345B               	retlw	91
+   116  02CC  345B               	retlw	91
+   117  02CD  345D               	retlw	93
+   118  02CE  344C               	retlw	76
+   119  02CF  343B               	retlw	59
+   120  02D0  3452               	retlw	82
+   121  02D1  3427               	retlw	39
+   122  02D2  3441               	retlw	65
+   123  02D3  342C               	retlw	44
+   124  02D4  3449               	retlw	73
+   125  02D5  342E               	retlw	46
+   126  02D6  344A               	retlw	74
+   127  02D7  342F               	retlw	47
+   128  02D8  3471               	retlw	113
+   129  02D9  342E               	retlw	46
+   130  02DA  3470               	retlw	112
+   131  02DB  3430               	retlw	48
+   132  02DC  3469               	retlw	105
+   133  02DD  3431               	retlw	49
+   134  02DE  3472               	retlw	114
+   135  02DF  3432               	retlw	50
+   136  02E0  347A               	retlw	122
+   137  02E1  3433               	retlw	51
+   138  02E2  346B               	retlw	107
+   139  02E3  3434               	retlw	52
+   140  02E4  3473               	retlw	115
+   141  02E5  3435               	retlw	53
+   142  02E6  3474               	retlw	116
+   143  02E7  3436               	retlw	54
+   144  02E8  346C               	retlw	108
+   145  02E9  3437               	retlw	55
+   146  02EA  3475               	retlw	117
+   147  02EB  3438               	retlw	56
+   148  02EC  347D               	retlw	125
+   149  02ED  3439               	retlw	57
+   150                           
+   151                           	psect	const2
+   152  0200  0782               	addwf	2
+   153  0201                     _Shifted
+   154  0201  341C               	retlw	28
+   155  0202  3441               	retlw	65
+   156  0203  3432               	retlw	50
+   157  0204  3442               	retlw	66
+   158  0205  3421               	retlw	33
+   159  0206  3443               	retlw	67
+   160  0207  3423               	retlw	35
+   161  0208  3444               	retlw	68
+   162  0209  3424               	retlw	36
+   163  020A  3445               	retlw	69
+   164  020B  342B               	retlw	43
+   165  020C  3446               	retlw	70
+   166  020D  3434               	retlw	52
+   167  020E  3447               	retlw	71
+   168  020F  3433               	retlw	51
+   169  0210  3448               	retlw	72
+   170  0211  3443               	retlw	67
+   171  0212  3449               	retlw	73
+   172  0213  343B               	retlw	59
+   173  0214  344A               	retlw	74
+   174  0215  3442               	retlw	66
+   175  0216  344B               	retlw	75
+   176  0217  344B               	retlw	75
+   177  0218  344C               	retlw	76
+   178  0219  343A               	retlw	58
+   179  021A  344D               	retlw	77
+   180  021B  3431               	retlw	49
+   181  021C  344E               	retlw	78
+   182  021D  3444               	retlw	68
+   183  021E  344F               	retlw	79
+   184  021F  344D               	retlw	77
+   185  0220  3450               	retlw	80
+   186  0221  3415               	retlw	21
+   187  0222  3451               	retlw	81
+   188  0223  342D               	retlw	45
+   189  0224  3452               	retlw	82
+   190  0225  341B               	retlw	27
+   191  0226  3453               	retlw	83
+   192  0227  342C               	retlw	44
+   193  0228  3454               	retlw	84
+   194  0229  343C               	retlw	60
+   195  022A  3455               	retlw	85
+   196  022B  342A               	retlw	42
+   197  022C  3456               	retlw	86
+   198  022D  341D               	retlw	29
+   199  022E  3457               	retlw	87
+   200  022F  3422               	retlw	34
+   201  0230  3458               	retlw	88
+   202  0231  3435               	retlw	53
+   203  0232  3459               	retlw	89
+   204  0233  341A               	retlw	26
+   205  0234  345A               	retlw	90
+   206  0235  3445               	retlw	69
+   207  0236  3430               	retlw	48
+   208  0237  3416               	retlw	22
+   209  0238  3431               	retlw	49
+   210  0239  341E               	retlw	30
+   211  023A  3432               	retlw	50
+   212  023B  3426               	retlw	38
+   213  023C  3433               	retlw	51
+   214  023D  3425               	retlw	37
+   215  023E  3434               	retlw	52
+   216  023F  342E               	retlw	46
+   217  0240  3435               	retlw	53
+   218  0241  3436               	retlw	54
+   219  0242  3436               	retlw	54
+   220  0243  343D               	retlw	61
+   221  0244  3437               	retlw	55
+   222  0245  343E               	retlw	62
+   223  0246  3438               	retlw	56
+   224  0247  3446               	retlw	70
+   225  0248  3439               	retlw	57
+   226  0249  340E               	retlw	14
+   227  024A  347E               	retlw	126
+   228  024B  344E               	retlw	78
+   229  024C  345F               	retlw	95
+   230  024D  3455               	retlw	85
+   231  024E  342B               	retlw	43
+   232  024F  345D               	retlw	93
+   233  0250  347C               	retlw	124
+   234  0251  3429               	retlw	41
+   235  0252  3420               	retlw	32
+   236  0253  3454               	retlw	84
+   237  0254  347B               	retlw	123
+   238  0255  345B               	retlw	91
+   239  0256  347D               	retlw	125
+   240  0257  344C               	retlw	76
+   241  0258  343A               	retlw	58
+   242  0259  3452               	retlw	82
+   243  025A  3422               	retlw	34
+   244  025B  3441               	retlw	65
+   245  025C  343C               	retlw	60
+   246  025D  3449               	retlw	73
+   247  025E  343E               	retlw	62
+   248  025F  344A               	retlw	74
+   249  0260  343F               	retlw	63
+   250  0261  3471               	retlw	113
+   251  0262  342E               	retlw	46
+   252  0263  3470               	retlw	112
+   253  0264  3430               	retlw	48
+   254  0265  3469               	retlw	105
+   255  0266  3431               	retlw	49
+   256  0267  3472               	retlw	114
+   257  0268  3432               	retlw	50
+   258  0269  347A               	retlw	122
+   259  026A  3433               	retlw	51
+   260  026B  346B               	retlw	107
+   261  026C  3434               	retlw	52
+   262  026D  3473               	retlw	115
+   263  026E  3435               	retlw	53
+   264  026F  3474               	retlw	116
+   265  0270  3436               	retlw	54
+   266  0271  346C               	retlw	108
+   267  0272  3437               	retlw	55
+   268  0273  3475               	retlw	117
+   269  0274  3438               	retlw	56
+   270  0275  347D               	retlw	125
+   271  0276  3439               	retlw	57	;#
+   272                           
+   273                           	psect	text1
+   274  0056                     _Delay5Ms
+   275                           ;	_TempCyc assigned to ?a_Delay5Ms+0
+   276  0000                     _Delay5Ms$TempCyc	set	?a_Delay5Ms
+   277                           ;Experiment22_ps2.c: 59: void Delay5Ms(void)
+   278  0056  30B0               	movlw	176
+   279  0057  0183               	clrf	3	;select bank 0
+   280  0058  00A6               	movwf	?a_Delay5Ms
+   281  0059  3015               	movlw	21
+   282  005A  00A7               	movwf	?a_Delay5Ms+1
+   283                           ;Experiment22_ps2.c: 62: while(TempCyc--){;}
+   284  005B                     l3
+   285  005B  0826               	movf	?a_Delay5Ms,w
+   286  005C  1903               	btfsc	3,2
+   287  005D  03A7               	decf	?a_Delay5Ms+1
+   288  005E  03A6               	decf	?a_Delay5Ms
+   289  005F  0A26               	incf	?a_Delay5Ms,w
+   290  0060  1903               	btfsc	3,2
+   291  0061  0A27               	incf	?a_Delay5Ms+1,w
+   292  0062  1903               	btfsc	3,2
+   293  0063  0008               	return
+   294  0064  285B               	goto	l3
+   295  0065                     _check_busy
+   296                           ;Experiment22_ps2.c: 91: void check_busy(void)
+   297  0065  30FF               	movlw	-1
+   298  0066  0183               	clrf	3	;select bank 0
+   299  0067  0088               	movwf	8	;volatile
+   300                           ;Experiment22_ps2.c: 94: TRISD=0XFF;
+   301  0068  1683               	bsf	3,5
+   302  0069  0088               	movwf	8	;volatile
+   303                           ;Experiment22_ps2.c: 95: RC3 = 0;
+   304  006A  1283               	bcf	3,5
+   305  006B  1187               	bcf	7,3
+   306                           ;Experiment22_ps2.c: 96: RC4 = 1;
+   307  006C  1607               	bsf	7,4
+   308  006D                     l15
+   309                           ;Experiment22_ps2.c: 97: while(1)
+   310                           ;Experiment22_ps2.c: 98: {
+   311  006D  1687               	bsf	7,5
+   312                           ;Experiment22_ps2.c: 101: RC5=0;
+   313  006E  1287               	bcf	7,5
+   314                           ;Experiment22_ps2.c: 100: if(RD7==0){break;}
+   315  006F  1B88               	btfsc	8,7
+   316  0070  286D               	goto	l15
+   317                           ;Experiment22_ps2.c: 102: }
+   318                           ;Experiment22_ps2.c: 104: TRISD=0X00;
+   319  0071  1683               	bsf	3,5
+   320  0072  0188               	clrf	8	;volatile
+   321                           ;Experiment22_ps2.c: 105: }
+   322  0073  1283               	bcf	3,5
+   323  0074  0008               	return	;W free
+   324  0075                     _WriteDataLCM
+   325                           ;	_data assigned to ?a_WriteDataLCM+0
+   326  0000                     _WriteDataLCM$data	set	?a_WriteDataLCM
+   327                           ;_data stored from w
+   328  0075  0183               	clrf	3	;select bank 0
+   329  0076  00B1               	movwf	?a_WriteDataLCM
+   330                           ;Experiment22_ps2.c: 115: void WriteDataLCM(uns
+      +                          igned char data)
+   331  0077  2065               	fcall	_check_busy
+   332                           ;Experiment22_ps2.c: 118: RC3 = 1;
+   333  0078  1587               	bsf	7,3
+   334                           ;Experiment22_ps2.c: 119: RC4 = 0;
+   335  0079  1207               	bcf	7,4
+   336                           ;Experiment22_ps2.c: 120: RC5 = 1;
+   337  007A  1687               	bsf	7,5
+   338                           ;Experiment22_ps2.c: 121: PORTD = data;
+   339  007B  0831               	movf	?a_WriteDataLCM,w
+   340  007C  0088               	movwf	8	;volatile
+   341                           ;Experiment22_ps2.c: 122: RC5 = 0;
+   342  007D  1287               	bcf	7,5
+   343                           ;Experiment22_ps2.c: 123: }
+   344  007E  0008               	return	;W free
+   345  007F                     _WriteCommandLCM
+   346                           ;	_command assigned to ?a_WriteCommandLCM+0
+   347  0000                     _WriteCommandLCM$command	set	?a_WriteCommandLCM
+   348                           ;_command stored from w
+   349  007F  0183               	clrf	3	;select bank 0
+   350  0080  00B1               	movwf	?a_WriteCommandLCM
+   351                           ;Experiment22_ps2.c: 133: void WriteCommandLCM(
+      +                          unsigned char command)
+   352  0081  2065               	fcall	_check_busy
+   353                           ;Experiment22_ps2.c: 136: RC3 = 0;
+   354  0082  1187               	bcf	7,3
+   355                           ;Experiment22_ps2.c: 137: RC4 = 0;
+   356  0083  1207               	bcf	7,4
+   357                           ;Experiment22_ps2.c: 138: RC5 = 1;
+   358  0084  1687               	bsf	7,5
+   359                           ;Experiment22_ps2.c: 139: PORTD = command;
+   360  0085  0831               	movf	?a_WriteCommandLCM,w
+   361  0086  0088               	movwf	8	;volatile
+   362                           ;Experiment22_ps2.c: 140: RC5 = 0;
+   363  0087  1287               	bcf	7,5
+   364                           ;Experiment22_ps2.c: 141: }
+   365  0088  0008               	return	;W free
+   366  0089                     _LCMInit
+   367                           ;Experiment22_ps2.c: 151: void LCMInit(void)
+   368  0089  0183               	clrf	3	;select bank 0
+   369  008A  0188               	clrf	8	;volatile
+   370                           ;Experiment22_ps2.c: 154: WriteCommandLCM(0x38)
+      +                          ;
+   371  008B  3038               	movlw	56
+   372  008C  207F  120A  118A   	fcall	_WriteCommandLCM
+   373                           ;Experiment22_ps2.c: 155: WriteCommandLCM(0x08)
+      +                          ;
+   374  008F  3008               	movlw	8
+   375  0090  207F  120A  118A   	fcall	_WriteCommandLCM
+   376                           ;Experiment22_ps2.c: 156: WriteCommandLCM(0x01)
+      +                          ;
+   377  0093  3001               	movlw	1
+   378  0094  207F  120A  118A   	fcall	_WriteCommandLCM
+   379                           ;Experiment22_ps2.c: 157: WriteCommandLCM(0x06)
+      +                          ;
+   380  0097  3006               	movlw	6
+   381  0098  207F  120A  118A   	fcall	_WriteCommandLCM
+   382                           ;Experiment22_ps2.c: 158: WriteCommandLCM(0x0F)
+      +                          ;
+   383  009B  300F               	movlw	15
+   384  009C  287F               	ljmp	_WriteCommandLCM
+   385  009D                     _Delay400Ms
+   386                           ;	_TempCycA assigned to ?a_Delay400Ms+0
+   387  0000                     _Delay400Ms$TempCycA	set	?a_Delay400Ms
+   388                           ;	_TempCycB assigned to ?a_Delay400Ms+1
+   389  0000                     _Delay400Ms$TempCycB	set	?a_Delay400Ms+1
+   390                           ;Experiment22_ps2.c: 72: void Delay400Ms(void)
+   391  009D  3005               	movlw	5
+   392  009E  0183               	clrf	3	;select bank 0
+   393  009F  00A6               	movwf	?a_Delay400Ms
+   394                           ;Experiment22_ps2.c: 75: unsigned int TempCycB;
+   395  00A0  28AE               	goto	l7
+   396  00A1                     l8
+   397                           ;Experiment22_ps2.c: 77: {
+   398  00A1  3065               	movlw	101
+   399  00A2  00A7               	movwf	?a_Delay400Ms+1
+   400  00A3  301C               	movlw	28
+   401  00A4  00A8               	movwf	?a_Delay400Ms+2
+   402                           ;Experiment22_ps2.c: 79: while(TempCycB--){;}
+   403  00A5                     l10
+   404  00A5  0827               	movf	?a_Delay400Ms+1,w
+   405  00A6  1903               	btfsc	3,2
+   406  00A7  03A8               	decf	?a_Delay400Ms+2
+   407  00A8  03A7               	decf	?a_Delay400Ms+1
+   408  00A9  0A27               	incf	?a_Delay400Ms+1,w
+   409  00AA  1903               	btfsc	3,2
+   410  00AB  0A28               	incf	?a_Delay400Ms+2,w
+   411  00AC  1D03               	btfss	3,2
+   412  00AD  28A5               	goto	l10
+   413  00AE                     l7
+   414  00AE  03A6               	decf	?a_Delay400Ms
+   415  00AF  0F26               	incfsz	?a_Delay400Ms,w
+   416  00B0  28A1               	goto	l8
+   417  00B1  0008               	return
+   418  00B2                     _Board_init
+   419                           ;BoardConfig.h: 17: void Board_init(void)
+   420  00B2  1683               	bsf	3,5
+   421  00B3  1303               	bcf	3,6	;carry unused
+   422  00B4  0185               	clrf	5	;volatile
+   423                           ;BoardConfig.h: 22: TRISB=0x00;
+   424  00B5  0186               	clrf	6	;volatile
+   425                           ;BoardConfig.h: 23: TRISC=0x00;
+   426  00B6  0187               	clrf	7	;volatile
+   427                           ;BoardConfig.h: 24: TRISD=0x00;
+   428  00B7  0188               	clrf	8	;volatile
+   429                           ;BoardConfig.h: 25: TRISE=0X00;
+   430  00B8  0189               	clrf	9	;volatile
+   431                           ;BoardConfig.h: 30: PORTD=0XFF;
+   432  00B9  30FF               	movlw	-1
+   433  00BA  1283               	bcf	3,5
+   434  00BB  0088               	movwf	8	;volatile
+   435                           ;BoardConfig.h: 31: RA3=0;
+   436  00BC  1185               	bcf	5,3
+   437                           ;BoardConfig.h: 32: RC5=1;
+   438  00BD  1687               	bsf	7,5
+   439                           ;BoardConfig.h: 33: asm ("NOP");
+   440  00BE  0000               	nop	;#
+   441                           ;BoardConfig.h: 34: asm ("NOP");
+   442  00BF  0000               	nop	;#
+   443                           ;BoardConfig.h: 35: RC5=0;
+   444  00C0  1287               	bcf	7,5
+   445                           ;BoardConfig.h: 39: RC3=1;
+   446  00C1  1587               	bsf	7,3
+   447                           ;BoardConfig.h: 40: asm ("NOP");
+   448  00C2  0000               	nop	;#
+   449                           ;BoardConfig.h: 41: asm ("NOP");
+   450  00C3  0000               	nop	;#
+   451                           ;BoardConfig.h: 42: RC3=0;
+   452  00C4  1187               	bcf	7,3
+   453                           ;BoardConfig.h: 46: RC4=1;
+   454  00C5  1607               	bsf	7,4
+   455                           ;BoardConfig.h: 47: PORTD=0X00;
+   456  00C6  0188               	clrf	8	;volatile
+   457                           ;BoardConfig.h: 48: asm ("NOP");
+   458  00C7  0000               	nop	;#
+   459                           ;BoardConfig.h: 49: asm ("NOP");
+   460  00C8  0000               	nop	;#
+   461                           ;BoardConfig.h: 50: RC4=0;
+   462  00C9  1207               	bcf	7,4
+   463                           ;BoardConfig.h: 52: PORTD=0XFF;
+   464  00CA  0088               	movwf	8	;volatile
+   465                           ;BoardConfig.h: 54: RC2=1;
+   466  00CB  1507               	bsf	7,2
+   467                           ;BoardConfig.h: 56: RE0=0;
+   468  00CC  1009               	bcf	9,0
+   469                           ;BoardConfig.h: 57: RE1=0;
+   470  00CD  1089               	bcf	9,1
+   471                           ;BoardConfig.h: 58: RE2=0;
+   472  00CE  1109               	bcf	9,2
+   473                           ;BoardConfig.h: 59: }
+   474  00CF  0008               	return	;W free
+   475  00D0                     _main
+   476                           ;Experiment22_ps2.c: 310: void main(void)
+   477  00D0  3007               	movlw	7
+   478  00D1  1683               	bsf	3,5
+   479  00D2  1303               	bcf	3,6	;carry unused
+   480  00D3  009F               	movwf	31	;volatile
+   481                           ;Experiment22_ps2.c: 314: Board_init();
+   482  00D4  20B2               	fcall	_Board_init
+   483                           ;Experiment22_ps2.c: 315: RA3=1;
+   484  00D5  1585               	bsf	5,3
+   485                           ;Experiment22_ps2.c: 317: TRISB0=1;
+   486  00D6  1683               	bsf	3,5
+   487  00D7  1406               	bsf	6,0
+   488                           ;Experiment22_ps2.c: 318: TRISB1=1;
+   489  00D8  1486               	bsf	6,1
+   490                           ;Experiment22_ps2.c: 321: Delay400Ms();
+   491  00D9  209D               	fcall	_Delay400Ms
+   492                           ;Experiment22_ps2.c: 322: LCMInit();
+   493  00DA  2089  120A  118A   	fcall	_LCMInit
+   494                           ;Experiment22_ps2.c: 323: Delay5Ms();
+   495  00DD  2056               	fcall	_Delay5Ms
+   496                           ;Experiment22_ps2.c: 324: DisplayListChar(0, 0,
+      +                           model_name);
+   497  00DE  01A8               	clrf	?_DisplayListChar
+   498  00DF  30DE               	movlw	low _model_name
+   499  00E0  00A9               	movwf	?_DisplayListChar+1
+   500  00E1  3001               	movlw	high _model_name
+   501  00E2  00AA               	movwf	?_DisplayListChar+2
+   502  00E3  3000               	movlw	0
+   503  00E4  210E               	fcall	_DisplayListChar
+   504                           ;Experiment22_ps2.c: 326: Delay400Ms();
+   505  00E5  209D               	fcall	_Delay400Ms
+   506                           ;Experiment22_ps2.c: 327: DisplayListChar(0, 1,
+      +                           Cls);
+   507  00E6  01A8               	clrf	?_DisplayListChar
+   508  00E7  0AA8               	incf	?_DisplayListChar
+   509  00E8  30CC               	movlw	low _Cls
+   510  00E9  00A9               	movwf	?_DisplayListChar+1
+   511  00EA  3001               	movlw	high _Cls
+   512  00EB  00AA               	movwf	?_DisplayListChar+2
+   513  00EC  3000               	movlw	0
+   514  00ED  210E               	fcall	_DisplayListChar
+   515                           ;Experiment22_ps2.c: 328: INTEDG= 0;
+   516  00EE  1683               	bsf	3,5
+   517  00EF  1301               	bcf	1,6
+   518                           ;Experiment22_ps2.c: 329: INTF=0;
+   519  00F0  108B               	bcf	11,1
+   520                           ;Experiment22_ps2.c: 330: INTE = 1;
+   521  00F1  160B               	bsf	11,4
+   522                           ;Experiment22_ps2.c: 331: GIE = 1;
+   523  00F2  178B               	bsf	11,7
+   524  00F3                     l65
+   525                           ;Experiment22_ps2.c: 332: do
+   526                           ;Experiment22_ps2.c: 333: {
+   527  00F3  1283               	bcf	3,5
+   528  00F4  08A0               	movf	_B_F
+   529  00F5  1903               	btfsc	3,2
+   530  00F6  28FA               	goto	l66
+   531  00F7  0823               	movf	_KeyV,w
+   532  00F8  2141               	fcall	_Decode
+   533  00F9  28F3               	goto	l65
+   534  00FA                     l66
+   535                           ;Experiment22_ps2.c: 335: else {INTE = 1;}
+   536  00FA  160B               	bsf	11,4
+   537                           ;Experiment22_ps2.c: 336: }while(1);
+   538  00FB  28F3               	goto	l65
+   539  00FC                     _DisplayOneChar
+   540                           ;	_X assigned to ?a_DisplayOneChar+0
+   541  0000                     _DisplayOneChar$X	set	?a_DisplayOneChar
+   542                           ;_X stored from w
+   543  00FC  0183               	clrf	3	;select bank 0
+   544  00FD  00B0               	movwf	?a_DisplayOneChar
+   545                           ;Experiment22_ps2.c: 169: void DisplayOneChar(u
+      +                          nsigned char X, unsigned char Y, unsigned char 
+      +                          DData)
+   546  00FE  3001               	movlw	1
+   547  00FF  05AE               	andwf	?_DisplayOneChar
+   548                           ;Experiment22_ps2.c: 172: X &= 0xF;
+   549  0100  300F               	movlw	15
+   550  0101  05B0               	andwf	?a_DisplayOneChar
+   551                           ;Experiment22_ps2.c: 173: if (Y) X |= 0xC0;
+   552  0102  08AE               	movf	?_DisplayOneChar
+   553  0103  1903               	btfsc	3,2
+   554  0104  2907               	goto	l22
+   555  0105  30C0               	movlw	-64
+   556  0106  04B0               	iorwf	?a_DisplayOneChar
+   557  0107                     l22
+   558                           ;Experiment22_ps2.c: 174: X |= 0x80;
+   559  0107  17B0               	bsf	?a_DisplayOneChar,7
+   560                           ;Experiment22_ps2.c: 175: WriteCommandLCM(X);
+   561  0108  0830               	movf	?a_DisplayOneChar,w
+   562  0109  207F  120A  118A   	fcall	_WriteCommandLCM
+   563                           ;Experiment22_ps2.c: 176: WriteDataLCM(DData);
+   564  010C  082F               	movf	?_DisplayOneChar+1,w
+   565  010D  2875               	ljmp	_WriteDataLCM
+   566  010E                     _DisplayListChar
+   567                           ;	_ListLength assigned to ?a_DisplayListChar+0
+   568  0000                     _DisplayListChar$ListLength	set	?a_DisplayListC
+      +                          har
+   569                           ;	_X assigned to ?a_DisplayListChar+1
+   570  0000                     _DisplayListChar$X	set	?a_DisplayListChar+1
+   571                           ;_X stored from w
+   572  010E  0183               	clrf	3	;select bank 0
+   573  010F  00AC               	movwf	?a_DisplayListChar+1
+   574                           ;Experiment22_ps2.c: 187: void DisplayListChar(
+      +                          unsigned char X, unsigned char Y, const unsigne
+      +                          d char *DData)
+   575  0110  01AB               	clrf	?a_DisplayListChar
+   576                           ;Experiment22_ps2.c: 191: Y &= 0x1;
+   577  0111  3001               	movlw	1
+   578  0112  05A8               	andwf	?_DisplayListChar
+   579                           ;Experiment22_ps2.c: 192: X &= 0xF;
+   580  0113  300F               	movlw	15
+   581  0114  05AC               	andwf	?a_DisplayListChar+1
+   582                           ;Experiment22_ps2.c: 193: while (DData[ListLeng
+      +                          th]>0x19)
+   583  0115  292E               	goto	l24
+   584  0116                     l25
+   585                           ;Experiment22_ps2.c: 194: {
+   586  0116  3010               	movlw	16
+   587  0117  022C               	subwf	?a_DisplayListChar+1,w
+   588  0118  1803               	btfsc	3,0
+   589  0119  292E               	goto	l24
+   590                           ;Experiment22_ps2.c: 196: {
+   591  011A  0828               	movf	?_DisplayListChar,w
+   592  011B  00AE               	movwf	?_DisplayOneChar
+   593  011C  082B               	movf	?a_DisplayListChar,w
+   594  011D  0729               	addwf	?_DisplayListChar+1,w
+   595  011E  00B4               	movwf	code_ptr
+   596  011F  082A               	movf	?_DisplayListChar+2,w
+   597  0120  00B5               	movwf	code_ptr+1
+   598  0121  0834               	movf	code_ptr,w
+   599  0122  1803               	btfsc	3,0
+   600  0123  0AB5               	incf	code_ptr+1
+   601  0124  120A  118A  2040   	fcall	string_table
+      +       120A  118A         
+   602  0129  00AF               	movwf	?_DisplayOneChar+1
+   603  012A  082C               	movf	?a_DisplayListChar+1,w
+   604  012B  20FC               	fcall	_DisplayOneChar
+   605                           ;Experiment22_ps2.c: 198: ListLength++;
+   606  012C  0AAB               	incf	?a_DisplayListChar
+   607                           ;Experiment22_ps2.c: 199: X++;
+   608  012D  0AAC               	incf	?a_DisplayListChar+1
+   609  012E                     l24
+   610  012E  082B               	movf	?a_DisplayListChar,w
+   611  012F  0729               	addwf	?_DisplayListChar+1,w
+   612  0130  00B4               	movwf	code_ptr
+   613  0131  082A               	movf	?_DisplayListChar+2,w
+   614  0132  00B5               	movwf	code_ptr+1
+   615  0133  0834               	movf	code_ptr,w
+   616  0134  1803               	btfsc	3,0
+   617  0135  0AB5               	incf	code_ptr+1
+   618  0136  120A  118A  2040   	fcall	string_table
+      +       120A  118A         
+   619  013B  00AD               	movwf	?a_DisplayListChar+2
+   620  013C  301A               	movlw	26
+   621  013D  022D               	subwf	?a_DisplayListChar+2,w
+   622  013E  1C03               	btfss	3,0
+   623  013F  0008               	return
+   624  0140  2916               	goto	l25
+   625  0141                     _Decode
+   626                           ;	_ScanCode assigned to ?a_Decode+0
+   627  0000                     _Decode$ScanCode	set	?a_Decode
+   628                           ;	_TempCyc assigned to ?a_Decode+1
+   629  0000                     _Decode$TempCyc	set	?a_Decode+1
+   630                           ;_ScanCode stored from w
+   631  0141  0183               	clrf	3	;select bank 0
+   632  0142  00A6               	movwf	?a_Decode
+   633                           ;Experiment22_ps2.c: 213: void Decode(unsigned 
+      +                          char ScanCode)
+   634  0143  08A4               	movf	_Key_UP
+   635  0144  1903               	btfsc	3,2
+   636  0145  29B3               	goto	l31
+   637  0146  29BE               	goto	l29
+   638                           ;Experiment22_ps2.c: 217: {
+   639  0147                     l32
+   640                           ;Experiment22_ps2.c: 219: {
+   641  0147  01A4               	clrf	_Key_UP
+   642  0148  0AA4               	incf	_Key_UP
+   643  0149  29C9               	goto	l49
+   644                           ;Experiment22_ps2.c: 224: case 0x12 : Shift = 1
+      +                          ; break;
+   645  014A                     l34
+   646                           ;Experiment22_ps2.c: 227: case 0x59 : Shift = 1
+      +                          ; break;
+   647  014A  01A5               	clrf	_Shift
+   648  014B  0AA5               	incf	_Shift
+   649  014C  29C9               	goto	l49
+   650  014D                     l35
+   651                           ;Experiment22_ps2.c: 229: default:
+   652                           ;Experiment22_ps2.c: 230: if (DisNum > 15)
+   653  014D  3010               	movlw	16
+   654  014E  0221               	subwf	_DisNum,w
+   655  014F  1C03               	btfss	3,0
+   656  0150  295A               	goto	l36
+   657                           ;Experiment22_ps2.c: 231: {
+   658  0151  01A8               	clrf	?_DisplayListChar
+   659  0152  0AA8               	incf	?_DisplayListChar
+   660  0153  30CC               	movlw	low _Cls
+   661  0154  00A9               	movwf	?_DisplayListChar+1
+   662  0155  3001               	movlw	high _Cls
+   663  0156  00AA               	movwf	?_DisplayListChar+2
+   664  0157  3000               	movlw	0
+   665  0158  210E               	fcall	_DisplayListChar
+   666                           ;Experiment22_ps2.c: 233: DisNum = 0;
+   667  0159  01A1               	clrf	_DisNum
+   668  015A                     l36
+   669                           ;Experiment22_ps2.c: 234: }
+   670  015A  08A5               	movf	_Shift
+   671  015B  1D03               	btfss	3,2
+   672  015C  2988               	goto	l37
+   673                           ;Experiment22_ps2.c: 236: {
+   674  015D  01A7               	clrf	?a_Decode+1
+   675                           ;Experiment22_ps2.c: 238: &&(TempCyc<59); TempC
+      +                          yc++);
+   676  015E  2960               	goto	l41
+   677  015F                     l38
+   678  015F  0AA7               	incf	?a_Decode+1
+   679  0160                     l41
+   680  0160  3002               	movlw	_UnShifted shr (0+8)
+   681  0161  008A               	movwf	10
+   682  0162  0827               	movf	?a_Decode+1,w
+   683  0163  0727               	addwf	?a_Decode+1,w
+   684  0164  2277               	call	((_UnShifted+-1)& (0+2047))| (($)& (0+-20
+      +                          48))
+   685  0165  120A  118A         	pagesel	$
+   686  0167  0626               	xorwf	?a_Decode,w
+   687  0168  1903               	btfsc	3,2
+   688  0169  296E               	goto	l39
+   689  016A  303B               	movlw	59
+   690  016B  0227               	subwf	?a_Decode+1,w
+   691  016C  1C03               	btfss	3,0
+   692  016D  295F               	goto	l38
+   693  016E                     l39
+   694                           ;Experiment22_ps2.c: 239: if (UnShifted[TempCyc
+      +                          ][0] == ScanCode)
+   695  016E  3002               	movlw	_UnShifted shr (0+8)
+   696  016F  008A               	movwf	10
+   697  0170  0827               	movf	?a_Decode+1,w
+   698  0171  0727               	addwf	?a_Decode+1,w
+   699  0172  2277               	call	((_UnShifted+-1)& (0+2047))| (($)& (0+-20
+      +                          48))
+   700  0173  120A  118A         	pagesel	$
+   701  0175  0626               	xorwf	?a_Decode,w
+   702  0176  1D03               	btfss	3,2
+   703  0177  29C9               	goto	l49
+   704                           ;Experiment22_ps2.c: 240: {
+   705  0178  01AE               	clrf	?_DisplayOneChar
+   706  0179  0AAE               	incf	?_DisplayOneChar
+   707  017A  3002               	movlw	_UnShifted shr (0+8)
+   708  017B  008A               	movwf	10
+   709  017C  1403               	bsf	3,0
+   710  017D  0D27               	rlf	?a_Decode+1,w
+   711  017E  2277               	call	((_UnShifted+-1)& (0+2047))| (($)& (0+-20
+      +                          48))
+   712  017F  00AF               	movwf	?_DisplayOneChar+1
+   713  0180  0821               	movf	_DisNum,w
+   714  0181  120A  118A  20FC   	fcall	_DisplayOneChar
+      +       120A  118A         
+   715                           ;Experiment22_ps2.c: 242: DisNum++;
+   716  0186  0AA1               	incf	_DisNum
+   717                           ;Experiment22_ps2.c: 243: }
+   718  0187  29C9               	goto	l49
+   719  0188                     l37
+   720                           ;Experiment22_ps2.c: 245: else
+   721  0188  01A7               	clrf	?a_Decode+1
+   722                           ;Experiment22_ps2.c: 248: (TempCyc<59); TempCyc
+      +                          ++);
+   723  0189  298B               	goto	l47
+   724  018A                     l44
+   725  018A  0AA7               	incf	?a_Decode+1
+   726  018B                     l47
+   727  018B  3002               	movlw	_Shifted shr (0+8)
+   728  018C  008A               	movwf	10
+   729  018D  0827               	movf	?a_Decode+1,w
+   730  018E  0727               	addwf	?a_Decode+1,w
+   731  018F  2200               	call	((_Shifted+-1)& (0+2047))| (($)& (0+-2048
+      +                          ))
+   732  0190  120A  118A         	pagesel	$
+   733  0192  0626               	xorwf	?a_Decode,w
+   734  0193  1903               	btfsc	3,2
+   735  0194  2999               	goto	l45
+   736  0195  303B               	movlw	59
+   737  0196  0227               	subwf	?a_Decode+1,w
+   738  0197  1C03               	btfss	3,0
+   739  0198  298A               	goto	l44
+   740  0199                     l45
+   741                           ;Experiment22_ps2.c: 249: if (Shifted[TempCyc][
+      +                          0] == ScanCode)
+   742  0199  3002               	movlw	_Shifted shr (0+8)
+   743  019A  008A               	movwf	10
+   744  019B  0827               	movf	?a_Decode+1,w
+   745  019C  0727               	addwf	?a_Decode+1,w
+   746  019D  2200               	call	((_Shifted+-1)& (0+2047))| (($)& (0+-2048
+      +                          ))
+   747  019E  120A  118A         	pagesel	$
+   748  01A0  0626               	xorwf	?a_Decode,w
+   749  01A1  1D03               	btfss	3,2
+   750  01A2  29C9               	goto	l49
+   751                           ;Experiment22_ps2.c: 250: {
+   752  01A3  01AE               	clrf	?_DisplayOneChar
+   753  01A4  0AAE               	incf	?_DisplayOneChar
+   754  01A5  3002               	movlw	_Shifted shr (0+8)
+   755  01A6  008A               	movwf	10
+   756  01A7  1403               	bsf	3,0
+   757  01A8  0D27               	rlf	?a_Decode+1,w
+   758  01A9  2200               	call	((_Shifted+-1)& (0+2047))| (($)& (0+-2048
+      +                          ))
+   759  01AA  00AF               	movwf	?_DisplayOneChar+1
+   760  01AB  0821               	movf	_DisNum,w
+   761  01AC  120A  118A  20FC   	fcall	_DisplayOneChar
+      +       120A  118A         
+   762                           ;Experiment22_ps2.c: 252: DisNum++;
+   763  01B1  0AA1               	incf	_DisNum
+   764                           ;Experiment22_ps2.c: 253: }
+   765  01B2  29C9               	goto	l49
+   766  01B3                     l31
+   767  01B3  0826               	movf	?a_Decode,w
+   768  01B4  3A12               	xorlw	18
+   769  01B5  1903               	btfsc	3,2
+   770  01B6  294A               	goto	l34
+   771  01B7  3A4B               	xorlw	75
+   772  01B8  1903               	btfsc	3,2
+   773  01B9  294A               	goto	l34
+   774  01BA  3AA9               	xorlw	169
+   775  01BB  1903               	btfsc	3,2
+   776  01BC  2947               	goto	l32
+   777  01BD  294D               	goto	l35
+   778                           ;Experiment22_ps2.c: 257: }
+   779  01BE                     l29
+   780                           ;Experiment22_ps2.c: 259: else
+   781  01BE  01A4               	clrf	_Key_UP
+   782                           ;Experiment22_ps2.c: 262: switch (ScanCode)
+   783  01BF  29C2               	goto	l51
+   784                           ;Experiment22_ps2.c: 263: {
+   785  01C0                     l53
+   786                           ;Experiment22_ps2.c: 268: case 0x59 : Shift = 0
+      +                          ; break;
+   787  01C0  01A5               	clrf	_Shift
+   788  01C1  29C9               	goto	l49
+   789  01C2                     l51
+   790  01C2  0826               	movf	?a_Decode,w
+   791  01C3  3A12               	xorlw	18
+   792  01C4  1903               	btfsc	3,2
+   793  01C5  29C0               	goto	l53
+   794  01C6  3A4B               	xorlw	75
+   795  01C7  1903               	btfsc	3,2
+   796  01C8  29C0               	goto	l53
+   797  01C9                     l49
+   798                           ;Experiment22_ps2.c: 270: }
+   799  01C9  01A0               	clrf	_B_F
+   800                           ;Experiment22_ps2.c: 272: }
+   801  01CA  0008               	return	;W free
+   802                           
+   803                           	psect	config
+   804  2007  3F32               	dw	16178	;#
+   805                           
+   806                           	psect	const3
+   807  01CB  0782               	addwf	2
+   808  01CC                     _Cls
+   809  01CC  3420               	retlw	32
+   810  01CD  3420               	retlw	32
+   811  01CE  3420               	retlw	32
+   812  01CF  3420               	retlw	32
+   813  01D0  3420               	retlw	32
+   814  01D1  3420               	retlw	32
+   815  01D2  3420               	retlw	32
+   816  01D3  3420               	retlw	32
+   817  01D4  3420               	retlw	32
+   818  01D5  3420               	retlw	32
+   819  01D6  3420               	retlw	32
+   820  01D7  3420               	retlw	32
+   821  01D8  3420               	retlw	32
+   822  01D9  3420               	retlw	32
+   823  01DA  3420               	retlw	32
+   824  01DB  3420               	retlw	32
+   825  01DC  3400               	retlw	0
+   826                           
+   827                           	psect	const4
+   828  01DD  0782               	addwf	2
+   829  01DE                     _model_name
+   830  01DE  3420               	retlw	32
+   831  01DF  3420               	retlw	32
+   832  01E0  3450               	retlw	80
+   833  01E1  3453               	retlw	83
+   834  01E2  3432               	retlw	50
+   835  01E3  3420               	retlw	32
+   836  01E4  346B               	retlw	107
+   837  01E5  3465               	retlw	101
+   838  01E6  3479               	retlw	121
+   839  01E7  3462               	retlw	98
+   840  01E8  346F               	retlw	111
+   841  01E9  3461               	retlw	97
+   842  01EA  3472               	retlw	114
+   843  01EB  3464               	retlw	100
+   844  01EC  3400               	retlw	0
+   845                           
+   846                           	psect	intcode
+   847  000B                     _Keyboard_out
+   848  000B                     int_func
+   849                           ;Experiment22_ps2.c: 281: void interrupt Keyboa
+      +                          rd_out(void)
+   850  000B  1A0B               	btfsc	11,4
+   851  000C  1C8B               	btfss	11,1
+   852  000D  2828               	goto	l54
+   853                           ;Experiment22_ps2.c: 284: {
+   854  000E  1283               	bcf	3,5
+   855  000F  1303               	bcf	3,6	;carry unused
+   856  0010  08A2               	movf	_IntNum
+   857  0011  1903               	btfsc	3,2
+   858  0012  281C               	goto	l56
+   859  0013  3009               	movlw	9
+   860  0014  0222               	subwf	_IntNum,w
+   861  0015  1803               	btfsc	3,0
+   862  0016  281C               	goto	l56
+   863                           ;Experiment22_ps2.c: 286: {
+   864  0017  1003               	bcf	3,0
+   865  0018  0CA3               	rrf	_KeyV
+   866                           ;Experiment22_ps2.c: 288: if(RB1)
+   867  0019  1C86               	btfss	6,1
+   868  001A  281C               	goto	l56
+   869                           ;Experiment22_ps2.c: 289: KeyV=KeyV|0x80;
+   870  001B  17A3               	bsf	_KeyV,7
+   871  001C                     l56
+   872                           ;Experiment22_ps2.c: 290: }
+   873  001C  0AA2               	incf	_IntNum
+   874                           ;Experiment22_ps2.c: 292: while (!RB0){;}
+   875  001D                     l58
+   876  001D  1C06               	btfss	6,0
+   877  001E  281D               	goto	l58
+   878                           ;Experiment22_ps2.c: 293: if (IntNum > 10)
+   879  001F  300B               	movlw	11
+   880  0020  0222               	subwf	_IntNum,w
+   881  0021  1C03               	btfss	3,0
+   882  0022  2827               	goto	l61
+   883                           ;Experiment22_ps2.c: 294: {
+   884  0023  01A2               	clrf	_IntNum
+   885                           ;Experiment22_ps2.c: 296: B_F = 1;
+   886  0024  01A0               	clrf	_B_F
+   887  0025  0AA0               	incf	_B_F
+   888                           ;Experiment22_ps2.c: 297: INTE = 0;
+   889  0026  120B               	bcf	11,4
+   890  0027                     l61
+   891                           ;Experiment22_ps2.c: 298: }
+   892  0027  108B               	bcf	11,1
+   893                           ;Experiment22_ps2.c: 300: }
+   894  0028                     l54
+   895  0028  1303               	bcf	3,6	;carry unused
+   896  0029  1283               	bcf	3,5
+   897                           
+   898                           	psect	intsave_0
+   899  007F                     saved_w
+                     saved_w
+   900  007F                     	ds	1
+   901                           
+   902                           	psect	intret
+   903  002A  0833               	movf	saved_pclath,w
+   904  002B  008A               	movwf	10
+   905  002C                     int_restore
+   906  002C  0832               	movf	saved_status,w
+   907  002D  0083               	movwf	3
+   908  002E  0EFF               	swapf	saved_w
+   909  002F  0E7F               	swapf	saved_w,w
+   910  0030  0009               	retfie
+   911                           
+   912                           	psect	intentry
+   913  0004                     int_entry
+   914  0004  00FF               	movwf	saved_w
+   915  0005  0803               	movf	3,w
+   916  0006  0183               	clrf	3
+   917  0007  00B2               	movwf	saved_status
+   918  0008  080A               	movf	10,w
+   919  0009  00B3               	movwf	saved_pclath
+   920  000A  018A               	clrf	10
+   921                           
+   922                           	psect	intsave
+   923  0032                     saved_status
+                     saved_status
+   924  0032                     	ds	1
+   925  0033                     saved_pclath
+                     saved_pclath
+   926  0033                     	ds	1
+   927                           
+   928                           	psect	text12
+   929  0000                     
+   930  0000                     
+   931  0000                     
+   932  0000                     
+   933  0000                     
+   934  0000                     
+   935  0000                     
+   936  0000                     
+   937  0000                     
+   938  0000                     
+   939  0000                     
+   940  0000                     
+   941  0000                     
+   942  0000                     
+   943  0000                     
+   944  0000                     
+   945  0000                     
+   946  0000                     
+   947  0000                     
+   948  0000                     
+   949  0000                     
+   950  0000                     
+   951  0000                     
+   952  0000                     
+   953  0000                     
+   954  0000                     
+   955  0000                     
+   956  0000                     
+   957  0000                     
+   958  0000                     
+   959  0000                     
+   960  0000                     
+   961  0000                     
+   962  0000                     
+   963  0000                     
+   964  0000                     
+   965  0000                     
+   966  0000                     
+   967  0000                     
+   968  0000                     
+   969  0000                     
+   970  0000                     
+   971  0000                     
+   972  0000                     
+   973  0000                     
+   974  0000                     
+   975  0000                     
+   976  0000                     
+   977  0000                     
+   978  0000                     
+   979  0000                     
+   980  0000                     
+   981  0000                     
+   982  0000                     
+   983  0000                     
+   984  0000                     
+   985  0000                     
+   986  0000                     
+   987  0000                     
+   988  0000                     
+   989  0000                     
+   990  0000                     
+   991  0000                     
+   992  0000                     
+   993  0000                     
+   994  0000                     
+   995  0000                     
+   996  0000                     
+   997  0000                     
+   998  0000                     
+   999  0000                     
+  1000  0000                     
+  1001  0000                     
+  1002  0000                     
+  1003  0000                     
+  1004  0000                     
+  1005  0000                     
+  1006  0000                     
+  1007  0000                     
+  1008  0000                     
+  1009  0000                     
+  1010  0000                     
+  1011  0000                     
+  1012  0000                     
+  1013  0000                     
+  1014  0000                     
+  1015  0000                     
+  1016  0000                     
+  1017  0000                     
+  1018  0000                     
+  1019  0000                     
+  1020  0000                     
+  1021  0000                     
+  1022  0000                     
+  1023  0000                     
+  1024  0000                     
+  1025  0000                     
+  1026  0000                     
+  1027  0000                     
+  1028  0000                     
+  1029  0000                     
+  1030  0000                     
+  1031  0000                     
+  1032  0000                     
+  1033  0000                     
+  1034  0000                     
+  1035  0000                     
+  1036  0000                     
+  1037  0000                     
+  1038  0000                     
+  1039  0000                     
+  1040  0000                     
+  1041  0000                     
+  1042  0000                     
+  1043  0000                     
+  1044  0000                     
+  1045  0000                     
+  1046  0000                     
+  1047  0000                     
+  1048  0000                     
+  1049  0000                     
+  1050  0000                     
+  1051  0000                     
+  1052  0000                     
+  1053  0000                     
+  1054  0000                     
+  1055  0000                     
+  1056  0000                     
+  1057  0000                     
+  1058  0000                     
+  1059  0000                     
+  1060  0000                     
+  1061  0000                     
+  1062  0000                     
+  1063  0000                     
+  1064  0000                     
+  1065  0000                     
+  1066  0000                     
+  1067  0000                     
+  1068  0000                     
+  1069  0000                     
+  1070  0000                     
+  1071  0000                     
+  1072  0000                     
+  1073  0000                     
+  1074  0000                     
+  1075  0000                     
+  1076  0000                     
+  1077  0000                     
+  1078  0000                     
+  1079  0000                     
+  1080  0000                     
+  1081  0000                     
+  1082  0000                     
+  1083  0000                     
+  1084  0000                     
+  1085  0000                     
+  1086  0000                     
+  1087  0000                     
+  1088  0000                     
+  1089  0000                     
+  1090  0000                     
+  1091  0000                     
+  1092  0000                     
+  1093  0000                     
+  1094  0000                     
+  1095  0000                     
+  1096  0000                     
+  1097  0000                     
+  1098  0000                     
+  1099  0000                     
+  1100  0000                     
+  1101  0000                     
+  1102  0000                     
+  1103  0000                     
+  1104  0000                     
+  1105  0000                     
+  1106  0000                     
+  1107  0000                     
+  1108  0000                     
+  1109  0000                     
+  1110  0000                     
+  1111  0000                     
+  1112  0000                     
+  1113  0000                     
+  1114  0000                     
+  1115  0000                     
+  1116  0000                     
+  1117  0000                     
+  1118  0000                     
+  1119  0000                     
+  1120  0000                     
+  1121  0000                     
+  1122  0000                     
+  1123  0000                     
+  1124  0000                     
+  1125  0000                     
+  1126  0000                     
+  1127  0000                     
+  1128  0000                     
+  1129  0000                     
+  1130  0000                     
+  1131  0000                     
+  1132  0000                     
+  1133  0000                     
+  1134  0000                     
+  1135  0000                     
+  1136  0000                     
+  1137  0000                     
+  1138  0000                     
+  1139  0000                     
+  1140  0000                     
+  1141  0000                     
+  1142  0000                     
+  1143  0000                     
+  1144  0000                     
+  1145  0000                     
+  1146  0000                     
+  1147  0000                     
+  1148  0000                     
+  1149  0000                     
+  1150  0000                     
+  1151  0000                     
+  1152                           
+  1153                           	psect	rbss_0
+  1154  0020                     _B_F
+                     _B_F
+  1155  0020                     	ds	1
+  1156  0000                     
+  1157  0000                     
+  1158  0000                     
+  1159  0000                     
+  1160  0000                     
+  1161  0000                     
+  1162  0000                     
+  1163  0000                     
+  1164  0021                     _DisNum
+                     _DisNum
+  1165  0021                     	ds	1
+  1166  0000                     
+  1167  0000                     
+  1168  0000                     
+  1169  0000                     
+  1170  0000                     
+  1171  0000                     
+  1172  0000                     
+  1173  0000                     
+  1174  0000                     
+  1175  0000                     
+  1176  0022                     _IntNum
+                     _IntNum
+  1177  0022                     	ds	1
+  1178  0023                     _KeyV
+                     _KeyV
+  1179  0023                     	ds	1
+  1180  0024                     _Key_UP
+                     _Key_UP
+  1181  0024                     	ds	1
+  1182  0000                     
+  1183  0000                     
+  1184  0000                     
+  1185  0000                     
+  1186  0000                     
+  1187  0000                     
+  1188  0000                     
+  1189  0000                     
+  1190  0000                     
+  1191  0000                     
+  1192  0000                     
+  1193  0000                     
+  1194  0000                     
+  1195  0000                     
+  1196  0000                     
+  1197  0000                     
+  1198  0000                     
+  1199  0000                     
+  1200  0000                     
+  1201  0000                     
+  1202  0000                     
+  1203  0000                     
+  1204  0000                     
+  1205  0025                     _Shift
+                     _Shift
+  1206  0025                     	ds	1
+  1207  0000                     
+  1208  0000                     
+  1209  0000                     
+  1210  0000                     
+  1211  0000                     
+  1212  0000                     
+  1213  0000                     
+  1214  0000                     
+  1215  0000                     
+  1216  0000                     
+  1217  0000                     
+  1218  0000                     
+  1219  0000                     
+
+
+HI-TECH Software PICC Macro Assembler V9.60
+Symbol Table                                          Tue Apr 23 16:23:50 2013
+
+                ?a_Delay5Ms 0026                  _check_busy 0065  
+                         l3 005B                           l7 00AE  
+                         l8 00A1                           pc 0002  
+              _WriteDataLCM 0075                          l10 00A5  
+                        l22 0107                          l31 01B3  
+                        l15 006D                          l32 0147  
+                        l24 012E                          l41 0160  
+                        l25 0116                          l34 014A  
+                        l51 01C2                          l35 014D  
+                        l44 018A                          l36 015A  
+                        l61 0027                          l53 01C0  
+                        l45 0199                          l37 0188  
+                        l29 01BE                          l54 0028  
+                        l38 015F                          l47 018B  
+                        l39 016E                          l56 001C  
+                        l65 00F3                          l49 01C9  
+                        l66 00FA                          l58 001D  
+          ?a_DisplayOneChar 0030                         _B_F 0020  
+                       _Cls 01CC                      _Decode 0141  
+                    _DisNum 0021                      _Key_UP 0024  
+           ?_DisplayOneChar 002E                     _LCMInit 0089  
+                    _IntNum 0022           ?a_DisplayListChar 002B  
+                      f2963 002D                        _KeyV 0023  
+         ?a_WriteCommandLCM 0031                        _main 00D0  
+                _Delay400Ms 009D                        start 0031  
+          ?_DisplayListChar 0028                      saved_w 007F  
+                   _Shifted 0201                    int_entry 0004  
+                _Board_init 00B2                    _Delay5Ms 0056  
+                     _Shift 0025              ?a_WriteDataLCM 0031  
+                   code_ptr 0034                 string_table 0040  
+                 _UnShifted 0278                 saved_pclath 0033  
+                     pclath 000A                 saved_status 0032  
+                     status 0003                  _model_name 01DE  
+                   int_func 000B             _DisplayListChar 010E  
+           _WriteCommandLCM 007F              _DisplayOneChar 00FC  
+              used_code_ptr 0001                  int_restore 002C  
+              ?a_Delay400Ms 0026                _Keyboard_out 000B  
+                  ?a_Decode 0026  

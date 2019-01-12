@@ -1,0 +1,39 @@
+[Header]
+MagicCookie={0b13fe8c-dfe0-40eb-8900-6712719559a7}
+Version=1.0
+[File000]
+Location=F:\BK300 Example program\Experiment_1\led.obj
+Folder=Intermediary
+[File001]
+Location=F:\BK300 Example program\Experiment_1\led.sdb
+Folder=Intermediary
+[File002]
+Location=F:\BK300 Example program\Experiment_1\led.rlf
+Folder=Intermediary
+[File003]
+Location=F:\BK300 Example program\Experiment_1\led.lst
+Folder=Intermediary
+[File004]
+Location=F:\BK300 Example program\Experiment_1\Experiment_1.cof
+Folder=Output
+[File005]
+Location=F:\BK300 Example program\Experiment_1\Experiment_1.hex
+Folder=Output
+[File006]
+Location=F:\BK300 Example program\Experiment_1\Experiment_1.sym
+Folder=Output
+[File007]
+Location=F:\BK300 Example program\Experiment_1\Experiment_1.map
+Folder=Output
+[File008]
+Location=F:\BK300 Example program\Experiment_1\Experiment_1.hxl
+Folder=Output
+[File009]
+Location=F:\BK300 Example program\Experiment_1\startup.lst
+Folder=Output
+[File010]
+Location=F:\BK300 Example program\Experiment_1\startup.rlf
+Folder=Output
+[File011]
+Location=F:\BK300 Example program\Experiment_1\startup.as
+Folder=Output
