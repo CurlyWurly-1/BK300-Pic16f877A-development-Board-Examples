@@ -1,0 +1,345 @@
+/********************************************************************************************
+* DS1302
+*********************************************************************************************/
+#include <xc.h>   
+#include <stdio.h>
+#include <stdlib.h>
+#include "BoardConfig.h" 
+
+#pragma config FOSC  = XT       // Oscillator Selection bits (XT oscillator)
+#pragma config WDTE  = OFF      // Watchdog Timer Enable bit (WDT enabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = OFF      // Brown-out Reset Enable bit (BOR disabled)
+#pragma config LVP   = OFF      // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3 is digital I/O, HV on MCLR must be used for programming)
+#pragma config CPD   = OFF      // Data EEPROM Memory Code Protection bit (Data EEPROM code protection off)
+#pragma config WRT   = OFF      // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
+#pragma config CP    = OFF      // Flash Program Memory Code Protection bit (Code protection off)
+
+// Unless specified elsewhere, 4MHz system frequency is assumed
+#ifndef _XTAL_FREQ
+ #define _XTAL_FREQ 4000000
+#endif
+
+#define ds1302_rst  RC2                 
+#define ds1302_io   RC1                    
+#define ds1302_sclk RC0                   
+#define set_ds1302_rst_ddr() TRISC2=0       
+#define set_ds1302_rst() ds1302_rst=1      
+#define clr_ds1302_rst() ds1302_rst=0      
+#define set_ds1302_io_ddr() TRISC1=0        
+#define set_ds1302_io() ds1302_io=1         
+#define clr_ds1302_io() ds1302_io=0        
+
+#define clr_ds1302_io_ddr() TRISC1=1       
+#define in_ds1302_io() PORTC&0X02           
+#define set_ds1302_sclk_ddr() TRISC0=0    
+#define set_ds1302_sclk() ds1302_sclk=1     
+#define clr_ds1302_sclk() ds1302_sclk=0      
+
+#define ds1302_sec_add 0x80            
+#define ds1302_min_add 0x82             
+#define ds1302_hr_add 0x84               
+#define ds1302_date_add 0x86             
+#define ds1302_month_add 0x88           
+#define ds1302_day_add 0x8a                
+#define ds1302_year_add 0x8c                
+#define ds1302_control_add 0x8e             
+#define ds1302_charger_add 0x90       
+#define ds1302_clkburst_add 0xbe
+
+uchar timer[8];   
+uchar Table[]={0xc0,0xf9,0xa4,0xb0,0x99,
+               0x92,0x82,0xf8,0x80,0x90,0xff};      
+uchar s[4];
+uchar sel=0;
+uchar temp_pa=0xFF;
+
+void ds1302_write(uchar add,uchar data);
+uchar ds1302_read(uchar add); 
+uchar check_ds1302(void);
+void ds1302_write_time(void);
+void ds1302_read_time(void);
+void delay_us(uchar i);
+void delay(uint i);
+void timer0_init(void);
+void __interrupt() TMR0INT();
+void Process(void);
+  
+
+/********************************************************************************************
+* main 
+*********************************************************************************************/
+void main(void)
+{
+    uint n;
+    uint m=0;
+     
+    ADCON1=0X07;      
+
+    Board_init();             
+
+    timer[1]=0x09; 
+    timer[2]=0x08; 
+    timer[3]=0x20;  
+    timer[4]=0x12; 
+    timer[5]=0x12;  
+    timer[6]=0x00;  
+    timer[7]=0x04;   
+    ds1302_write_time();   
+   
+    timer0_init();        
+
+    while(1)
+    {
+        ds1302_read_time();    
+        Process();            
+        delay(100);           
+	}
+}
+
+/********************************************************************************************
+* void timer0_init(void)
+*********************************************************************************************/
+void timer0_init(void)
+{
+     OPTION_REG = 0x07;   
+     INTCON=0XA0;    
+     TMR0=0xE8;     
+}
+
+/********************************************************************************************
+* void ds1302_write_time(void) 
+*********************************************************************************************/
+void ds1302_write_time(void) 
+{ 
+    ds1302_write(ds1302_control_add,0x00);   
+    ds1302_write(ds1302_sec_add,0x80);       
+    ds1302_write(ds1302_charger_add,0xa9);   
+    ds1302_write(ds1302_year_add,timer[1]);   
+    ds1302_write(ds1302_month_add,timer[2]); 
+    ds1302_write(ds1302_date_add,timer[3]);   
+    ds1302_write(ds1302_day_add,timer[7]);    
+    ds1302_write(ds1302_hr_add,timer[4]);    
+    ds1302_write(ds1302_min_add,timer[5]);   
+    ds1302_write(ds1302_sec_add,timer[6]);    
+    ds1302_write(ds1302_control_add,0x80);   
+}
+
+/********************************************************************************************
+* void ds1302_write(uchar add,uchar data) 
+*********************************************************************************************/
+void ds1302_write(uchar add,uchar data) 
+{ 
+    uchar i=0; 
+    set_ds1302_io_ddr();    
+    NOP();
+    NOP();  
+    clr_ds1302_rst();       
+    NOP();
+    NOP();  
+    clr_ds1302_sclk();       
+    NOP();
+    NOP();  
+    set_ds1302_rst();       
+    NOP();
+    NOP();  
+    for(i=8; i>0; i--)       
+    { 
+        if(add&0x01)
+        {
+            set_ds1302_io();     
+        }
+        else
+        {
+            clr_ds1302_io();    
+        }
+        NOP();
+        NOP();  
+        set_ds1302_sclk(); 
+        NOP();
+        NOP();  
+        clr_ds1302_sclk(); 
+        NOP();
+        NOP();  
+        add>>=1;           
+    } 
+    
+    for(i=8; i>0; i--)        
+    { 
+        if(data&0x01)
+        {
+            set_ds1302_io(); 
+        }
+        else
+        {
+            clr_ds1302_io(); 
+        }
+        NOP();
+        NOP(); 
+        set_ds1302_sclk(); 
+        NOP();
+        NOP();  
+        clr_ds1302_sclk(); 
+        NOP();
+        NOP();  
+        data>>=1; 
+    } 
+    clr_ds1302_rst(); 
+    NOP();
+    NOP();  
+    clr_ds1302_io_ddr();   
+    NOP();
+    NOP();  
+}
+
+/********************************************************************************************
+* uchar ds1302_read(uchar add) 
+*********************************************************************************************/
+uchar ds1302_read(uchar add) 
+{ 
+    uchar data=0; 
+    uchar i=0; 
+    add+=1;             
+    set_ds1302_io_ddr();   
+    NOP();
+    NOP(); 
+    clr_ds1302_rst();     
+    NOP();
+    NOP(); 
+    clr_ds1302_sclk();    
+    NOP();
+    NOP();  
+    set_ds1302_rst();      
+    NOP();
+    NOP(); 
+    for(i=8; i>0; i--)    
+    { 
+        if(add&0x01)
+        {
+            set_ds1302_io();
+        } 
+        else
+        {
+            clr_ds1302_io();
+        }
+  
+        NOP();
+        NOP(); 
+        set_ds1302_sclk(); 
+        NOP();
+        NOP();  
+        clr_ds1302_sclk(); 
+        NOP();
+        NOP(); 
+        add>>=1; 
+    } 
+    clr_ds1302_io_ddr();   
+    NOP();
+    NOP(); 
+    for(i=8; i>0; i--)       
+    { 
+        data>>=1; 
+        if(in_ds1302_io())
+        {
+            data|=0x80;
+        }
+        NOP();
+        NOP(); 
+        set_ds1302_sclk(); 
+        NOP();
+        NOP(); 
+        clr_ds1302_sclk(); 
+        NOP();
+        NOP(); 
+    } 
+    clr_ds1302_rst(); 
+    NOP();
+    NOP();
+    return(data); 
+} 
+
+/********************************************************************************************
+* uchar check_ds1302(void) 
+*********************************************************************************************/
+uchar check_ds1302(void) 
+{ 
+    ds1302_write(ds1302_control_add,0x80); 
+    if(ds1302_read(ds1302_control_add)==0x80) 
+    {
+        return 1; 
+    }
+    return 0; 
+} 
+
+/********************************************************************************************
+* void ds1302_read_time(void) 
+*********************************************************************************************/
+void ds1302_read_time(void) 
+{ 
+    timer[1]=ds1302_read(ds1302_year_add);   
+    timer[2]=ds1302_read(ds1302_month_add);  
+    timer[3]=ds1302_read(ds1302_date_add);  
+    timer[7]=ds1302_read(ds1302_day_add);   
+    timer[4]=ds1302_read(ds1302_hr_add);    
+    timer[5]=ds1302_read(ds1302_min_add);   
+    timer[6]=ds1302_read(ds1302_sec_add);    
+}
+
+/********************************************************************************************
+* void delay_us(uchar i)
+*********************************************************************************************/
+void delay_us(uchar i)
+{
+     for(; i; i--);    
+}
+
+/********************************************************************************************
+* void delay(uint i)  
+*********************************************************************************************/
+void delay(uint i)  
+{
+    uchar j;
+    for(; i; i--)
+    for(j=220; j; j--);    
+}
+
+/********************************************************************************************
+* void __interrupt() TMR0INT()
+*********************************************************************************************/
+void __interrupt() TMR0INT()
+{
+    T0IF=0;
+    TMR0=0xE8;	
+    RC4=1;
+    PORTD=0X00;
+    RC4=0; 
+    RC3=1;
+    PORTD=s[sel];
+    RC3=0;
+    RC4=1;                  
+	switch(sel)
+	{
+        case 0x00: PORTD=0X10;break;    
+	    case 0x01: PORTD=0X20;break;
+	    case 0x02: PORTD=0X40;break;
+		case 0x03: PORTD=0X80;break;           
+	}
+
+    RC4=0;                      
+
+    if(++sel>3)
+    {    
+        sel=0;   
+    }
+}
+    
+/********************************************************************************************
+* void Process(void)
+*********************************************************************************************/
+void Process(void)
+{
+    s[3]=Table[(timer[5]&0xF0)>>4];
+    s[2]=Table[(timer[5]&0x0F)]&0x7F;  
+    s[1]=Table[(timer[6]&0xF0)>>4];
+    s[0]=Table[(timer[6]&0x0F)];
+}
