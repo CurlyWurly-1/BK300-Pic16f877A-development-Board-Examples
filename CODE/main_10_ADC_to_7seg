@@ -1,0 +1,108 @@
+/********************************************************************************************
+* PIC16F877A 
+*********************************************************************************************/
+#include <stdio.h>
+#include <stdlib.h>
+#include <xc.h>
+#include "BoardConfig.h" 
+
+#pragma config FOSC  = XT       // Oscillator Selection bits (XT oscillator)
+#pragma config WDTE  = OFF      // Watchdog Timer Enable bit (WDT enabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = OFF      // Brown-out Reset Enable bit (BOR disabled)
+#pragma config LVP   = OFF      // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3 is digital I/O, HV on MCLR must be used for programming)
+#pragma config CPD   = OFF      // Data EEPROM Memory Code Protection bit (Data EEPROM code protection off)
+#pragma config WRT   = OFF      // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
+#pragma config CP    = OFF      // Flash Program Memory Code Protection bit (Code protection off)
+
+// Unless specified elsewhere, 4MHz system frequency is assumed
+#ifndef _XTAL_FREQ
+ #define _XTAL_FREQ 4000000
+#endif
+
+#define hundreds    0
+#define tens        1
+#define ones        2
+
+uchar   units7seg[3]={0,0,0};
+const   uchar	table[12]={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,0x80,0x90,0xff,0xbf}; 
+int     adc_value;
+
+void adc_get_value(void);
+void value_7seg_display(void);
+
+/****************************************************************************
+* main()
+****************************************************************************/
+void main()
+{    
+    Board_init();  
+    TRISA0 = 1; 
+    while(1)
+    {
+        adc_get_value();      
+        value_7seg_display();      
+    }
+}
+
+/****************************************************************************
+* void adc_get_value(void)
+****************************************************************************/
+void adc_get_value(void)
+{    
+    int	AD;
+    adc_value = 0;		     
+    TRISA     = 0X01;		    
+    PORTA     = 0X0F;	                
+    ADCON1    = 0x0e;		     
+    ADCON0    = 0x41;
+    __delay_ms(1);
+    GO = 1;                 
+    while(GO);            
+    adc_value           = ADRESH;
+    adc_value           = (adc_value<<2) + (ADRESL>>6);
+    AD                  = adc_value * 0.489;	 
+    units7seg[hundreds] = AD       / 100; // Divide by 100 (to get Quotient)
+    units7seg[tens]     = AD % 100 / 10;  // (Modulus of line 1 above) divided by 10
+    units7seg[ones]     = AD % 100 % 10;  // (Modulus of line 1 above) with the modulus when divided by 10  
+}
+
+/****************************************************************************
+* void value_7seg_display(void)
+****************************************************************************/
+void value_7seg_display(void)
+{   
+    uchar k;
+    uchar j;
+    uchar tempValue;
+ 
+    RA3=0;                   
+    tempValue=0X80;                    
+     
+    for(k=0; k<3; k++)
+    {	
+        RC4   = 1;                    
+        PORTD = tempValue;                
+        RC4   = 0;           
+        RC3   = 1;
+        if(k==0)
+        {    
+// Display "decimal point" with number in 7 segment display 
+            PORTD = table[units7seg[k]]&0x7f;		
+        }
+        else 
+        {
+// Just display number in 7 segment display 
+            PORTD = table[units7seg[k]];
+        }
+        RC3   = 0;
+
+        tempValue>>= 1;            
+        __delay_ms(5);      
+   
+        RC4   = 1; 
+        PORTD = 0X00;
+        RC4   = 0;
+        __delay_ms(1); 
+    }
+}
