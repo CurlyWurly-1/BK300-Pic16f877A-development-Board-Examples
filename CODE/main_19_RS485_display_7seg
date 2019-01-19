@@ -1,0 +1,127 @@
+/********************************************************************************************
+* PIC16F877A 
+* RS485  - Displays the ASCII HEX value (on two 7segment displays) 
+*          for the character sent via the serial port from the PC to the PIC
+*          The PIC will also send the character back to the PC 
+* N.B. If more than one character is sent, only the last one is displayed on the 7segment displays
+* N.B. The Code ignores Ascii codes sent for line feed (10 = 0x0A) and Carriage return (13 = 0x0D) 
+* N.B. If the Character 'K' is sent, the code will replace 'K' with '/' instead
+*
+* Connect a serial cable to your PC and use terminal software (e.g. "Termite")
+* and configure it with the following setup:
+* - Port             = COM1  (Usually)
+* - baud rate        = 9600
+* - Data Bits        = 8
+* - Stop Bits        = 1
+* - Parity           = none 
+* - flow control     = RTS/CTS
+* - Forward          = none  
+*********************************************************************************************/
+#include <xc.h>   
+#include <stdio.h>
+#include <stdlib.h>
+#include "BoardConfig.h" 
+
+#pragma config FOSC  = XT       // Oscillator Selection bits (XT oscillator)
+#pragma config WDTE  = OFF      // Watchdog Timer Enable bit (WDT enabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = OFF      // Brown-out Reset Enable bit (BOR disabled)
+#pragma config LVP   = OFF      // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3 is digital I/O, HV on MCLR must be used for programming)
+#pragma config CPD   = OFF      // Data EEPROM Memory Code Protection bit (Data EEPROM code protection off)
+#pragma config WRT   = OFF      // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
+#pragma config CP    = OFF      // Flash Program Memory Code Protection bit (Code protection off)
+
+// Unless specified elsewhere, 4MHz system frequency is assumed
+#ifndef _XTAL_FREQ
+ #define _XTAL_FREQ 4000000
+#endif
+
+#define  RE_DE    RE2
+#define  LED_DATA PORTD
+#define  LED_CTRL PORTA
+
+uchar Dat_buff; 
+uchar countVal;
+uchar LED_DIS[] ={0xc0,0xf9,0xa4,0xb0,0x99,0x92,0x82,0xf8,
+                  0x80,0x90,0X88,0X83,0XC6,0XA1,0X86,0X8E,0XFF};
+
+void mcu_init(void);
+void __interrupt() usart(void);
+
+
+/********************************************************************************************
+* void main()
+*********************************************************************************************/
+void main()
+{
+    Board_init();    
+    mcu_init();          
+    while(1);  
+}
+
+/********************************************************************************************
+* mcu_init(void)
+*********************************************************************************************/
+void mcu_init(void)
+{
+    OPTION_REG  = 0x06;   
+    INTCON      = 0XA0;     
+    TMR0        = 0xC8;  
+    TRISC       = 0X80;   
+    SPBRG       = 0X19;  
+    TXSTA       = 0X24;  
+    RCSTA       = 0X90;  
+    RCIE        = 0X1;  
+    GIE         = 0X1;   
+    PEIE        = 0X1;   
+    RE_DE       = 0;  
+}
+
+/********************************************************************************************
+* void __interrupt() usart()
+*********************************************************************************************/
+void __interrupt() usart()
+{
+    if(RCIE && RCIF)   
+    {
+        RE_DE        = 1;    
+        __delay_us(100);
+        if (RCREG != 0x0A && RCREG != 0x0D )  
+        {
+            Dat_buff     = RCREG;  
+            if (Dat_buff == 0x4b) { Dat_buff = 0x2F; }; // If 'K', replace with '/'
+            TXREG        = Dat_buff;  
+        }
+        else
+        {
+            TXREG        = RCREG;  
+        };
+        __delay_us(200);
+        RE_DE        = 0;       
+        __delay_us(100);
+    } 
+    else if(T0IF)
+    {
+        T0IF = 0;
+        TMR0 = 0xc8;
+        if(++countVal == 2)
+        {           
+            countVal = 0;
+            RC3      = 1; 
+            PORTD    = LED_DIS[(Dat_buff >> 4) & 0X0F];
+            RC3      = 0;
+            RC4      = 1;        
+            PORTD    = 0X20;  
+            RC4      = 0;         
+        }
+        else
+        {  
+            RC3      = 1;
+            PORTD    = LED_DIS[Dat_buff & 0x0F];
+            RC3      = 0;          
+            RC4      = 1;                   
+            PORTD    = 0X10;               
+            RC4      = 0;               
+        }       
+    }  
+}
