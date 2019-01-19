@@ -62,4 +62,4 @@ N.B. The original programs are in folder "BK300_original_code" and are as follow
    - Latch 3 - Latched via RC5
      - PORTD pins RD0 to RD7  - used for driving the eight LEDS 
  - Not that it is required to do so, but if all 3 latches above are disabled for output by pin RA3 being HIGH, then the eight data pins of PORTD are available for use for anything else. However, if you were to mix output enabling with the strobing of data on PORTD, you could make it appear that all three sets of output devices are used with the use of PORTD only  - but uniquely controlling each latch very quickly one after the other
- - Jumper J16 is used for when you use a LCD_128x64 only. The position of the jumper determines if a HIGH or LOW is to be defaulted to the PSB pin of the LCD_128x64 - it is set to HIGH as this sems ot be the default for most programs 
+ - Jumper J16 is used for when you use a LCD_128x64 only. The position of the jumper determines if a HIGH or LOW is to be defaulted to the PSB pin of the LCD_128x64 - it is set to HIGH as this seems to be the default for most programs 
