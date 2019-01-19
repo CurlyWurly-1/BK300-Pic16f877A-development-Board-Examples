@@ -1,7 +1,6 @@
 /********************************************************************************************
 * PIC16F877A 
-* PS2 Keyboard - Whatever is keyed on the PS2 keyboard, it is shown on the
-* second line of the LCD 
+* PS2 Keyboard - shows on the LCD16x2 what has been pressed on the keyboard
  *********************************************************************************************/
 #include <xc.h>   
 #include <stdio.h>
@@ -61,17 +60,15 @@ void main(void)
     RA3     = 1;                        // "Output Enable" latch for 7seg display 
     TRISB0  = 1;                        // Set RB0 for input (Clock line of PS2 Keyboard)
     TRISB1  = 1;                        // Set RB1 for input (Data  line of PS2 Keyboard) 
-    __delay_ms(400);                    // Give keyboard time to settle
+//    __delay_ms(400);                  // Give keyboard time to settle - not needed?
     LCMInit();                          // Initialise LCD
-    __delay_ms(5);          
+//    __delay_ms(5);                    // Give LCD time to settle - not needed?
     DisplayListChar(0, 0, line1);       // Output text to Row 1       
     DisplayListChar(0, 1, Cls);         // Clear out Row 2     
     INTEDG  = 0;                        // Set RB0 interrupt trigger on falling edge 
     INTF    = 0;                        // Clear "RB0 External Interrupt" Flag 
     INTE    = 1;                        // Enable the RB0/INT interrupt
     GIE     = 1;                        // Set All interrupts to be active 
-//    B_F     = 0;                        
-//    IntNum  = 0;  
     do         
     {                 
 // Process/Output the decoded character 
@@ -215,7 +212,8 @@ void check_busy(void)
 *********************************************************************************************/
 void WriteDataLCM(uchar data) 
 {         
-    check_busy();           
+    __delay_ms(2);
+//    check_busy();           
     LCM_RS   = 1;
     LCM_RW   = 0;
     LCM_E    = 1; 
@@ -228,6 +226,8 @@ void WriteDataLCM(uchar data)
 *********************************************************************************************/
 void WriteCommandLCM(uchar command) 
 {         
+//    check_busy();
+    __delay_ms(2);
     LCM_RS   = 0;  
     LCM_RW   = 0;  
     LCM_E    = 1;  
