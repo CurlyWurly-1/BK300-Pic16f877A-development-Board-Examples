@@ -1,0 +1,282 @@
+/********************************************************************************************
+* PIC16F877A 
+* PS2 Keyboard - Whatever is keyed on the PS2 keyboard, it is shown on the
+* second line of the LCD 
+ *********************************************************************************************/
+#include <xc.h>   
+#include <stdio.h>
+#include <stdlib.h>
+#include "BoardConfig.h" 
+#include "scancodes.h" 
+
+#pragma config FOSC  = XT       // Oscillator Selection bits (XT oscillator)
+#pragma config WDTE  = OFF      // Watchdog Timer Enable bit (WDT enabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = OFF      // Brown-out Reset Enable bit (BOR disabled)
+#pragma config LVP   = OFF      // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3 is digital I/O, HV on MCLR must be used for programming)
+#pragma config CPD   = OFF      // Data EEPROM Memory Code Protection bit (Data EEPROM code protection off)
+#pragma config WRT   = OFF      // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
+#pragma config CP    = OFF      // Flash Program Memory Code Protection bit (Code protection off)
+
+// Unless specified elsewhere, 4MHz system frequency is assumed
+#ifndef _XTAL_FREQ
+ #define _XTAL_FREQ 4000000
+#endif
+   
+#define LCM_RS    RC3  
+#define LCM_RW    RC4 
+#define LCM_E     RC5 
+#define LCM_Data  PORTD 
+#define Key_CLK   RB0  
+#define Key_Data  RB1                              
+
+uchar CharOutput    = 0;  
+uchar InterruptCnt  = 0;  
+uchar CharVal       = 0; 
+uchar LCD_Position  = 0;
+uchar Key_UP        = 0;
+uchar Shift         = 0; 
+
+const uchar Cls[]   = {"                "}; 
+const uchar line1[] = {"  PS2 keyboard  "}; 
+
+
+void check_busy(void); 
+void WriteDataLCM(uchar data); 
+void WriteCommandLCM(uchar command); 
+void LCMInit(void);
+void DisplayOneChar(uchar X, uchar Y, uchar DData);
+void DisplayListChar(uchar X, uchar Y, const uchar *DData);
+void CharProcess(uchar ScanCode);
+void __interrupt() Keyboard_out(void);
+
+
+/********************************************************************************************
+* void main(void) 
+*********************************************************************************************/
+void main(void) 
+{         
+    ADCON1  = 0X07;                     // Set all PORTA pins as digital 
+    Board_init();  
+    RA3     = 1;                        // "Output Enable" latch for 7seg display 
+    TRISB0  = 1;                        // Set RB0 for input (Clock line of PS2 Keyboard)
+    TRISB1  = 1;                        // Set RB1 for input (Data  line of PS2 Keyboard) 
+    __delay_ms(400);                    // Give keyboard time to settle
+    LCMInit();                          // Initialise LCD
+    __delay_ms(5);          
+    DisplayListChar(0, 0, line1);       // Output text to Row 1       
+    DisplayListChar(0, 1, Cls);         // Clear out Row 2     
+    INTEDG  = 0;                        // Set RB0 interrupt trigger on falling edge 
+    INTF    = 0;                        // Clear "RB0 External Interrupt" Flag 
+    INTE    = 1;                        // Enable the RB0/INT interrupt
+    GIE     = 1;                        // Set All interrupts to be active 
+//    B_F     = 0;                        
+//    IntNum  = 0;  
+    do         
+    {                 
+// Process/Output the decoded character 
+        if (CharOutput)
+        {
+            CharProcess(CharVal);
+            CharOutput = 0;  
+        }                 
+// Enable RB0/INT Interrupt (program is waiting for character to be decoded) 
+        else
+        {
+            INTE = 1;                   // Re-Enable the RB0/INT interrupt
+        } 
+    }while(1); 
+} 
+
+/********************************************************************************************
+* void __interrupt() Keyboard_out(void)   
+*********************************************************************************************/
+void __interrupt() Keyboard_out(void) 
+{ 
+// If  "RB0/INT interrupt" is enabled (INTE=1) 
+// and "RB0 External Interrupt" Flag has been triggered (INTF=1)
+//    if(INTE && INTF && !CharOutput ) 
+    INTF = 0; 
+    if(!CharOutput) 
+    {         
+// Out of all the 11 interrupts, ignore the 1st, 10th and 11th interrupt 
+        if((InterruptCnt > 0)&&(InterruptCnt < 9))         
+        {                 
+// Shift scancode one bit to right
+            CharVal = CharVal>>1;     
+// If Data line is high, Set highest bit of byte 
+            if(Key_Data)
+            {    
+                CharVal = CharVal|0x80;  
+            }
+        }         
+// Increment Interrupt Counter
+        InterruptCnt++;         
+  
+// After 11 interrupts, reset flags 
+        if (InterruptCnt > 10)         
+        {                 
+            InterruptCnt = 0;   // Reset Pulse counter to zero  
+            CharOutput   = 1;   // Set Flag to process Character
+            INTE         = 0;   // Switch off RB0/INT interrupt
+        } 
+//        INTF = 0; 
+    } 
+} 
+
+/********************************************************************************************
+* void CharProcess 
+*********************************************************************************************/
+void CharProcess(uchar ScanCode) 
+{         
+    uchar TempCyc;                 
+    if (!Key_UP)  
+    {                 
+        switch (ScanCode)                 
+        {                         
+            case 0xF0 : 
+                Key_UP = 1; 
+                break;                             
+            // SHIFT                                               
+            case 0x12 : 
+                Shift = 1;  
+                break;                            
+            // SHIFT   
+            case 0x59 :
+                Shift = 1; 
+                break;
+            default:
+// If no more characters left on second row, clear out and repoint to first character position
+                if (LCD_Position > 15)
+                { 
+                    DisplayListChar(0, 1, Cls);
+                    LCD_Position = 0;
+                }
+                if(!Shift)    
+                {                                 
+                    for (TempCyc = 0; ((UnShifted[TempCyc][0] != ScanCode) && (TempCyc<59)); TempCyc++); 
+                    if (UnShifted[TempCyc][0] == ScanCode) 
+                    {  
+                        DisplayOneChar(LCD_Position, 1, UnShifted[TempCyc][1]);                                
+                        LCD_Position++; 
+                    } 
+                }                         
+                else                  
+                {                                 
+                    for(TempCyc = 0; ((Shifted[TempCyc][0]!=ScanCode)&& (TempCyc<59)); TempCyc++);                    
+                    if (Shifted[TempCyc][0] == ScanCode) 
+                    { 
+                        DisplayOneChar(LCD_Position, 1, Shifted[TempCyc][1]); 
+                        LCD_Position++;  
+                    } 
+                }                                                 
+                break;                 
+        }         
+    }         
+    else         
+    {                 
+        Key_UP = 0;                 
+        switch (ScanCode)  
+        {                         
+            // SHIFT     
+            case 0x12 : 
+                Shift = 0; 
+                break;                         
+            // SHIFT
+            case 0x59 : 
+                Shift = 0; 
+                break;                                                                                         
+        }         
+    }         
+    
+} 
+
+/********************************************************************************************
+* void check_busy(void) 
+*********************************************************************************************/
+void check_busy(void) 
+{         
+     LCM_Data = 0xFF; 
+     TRISD    = 0XFF;   
+     LCM_RS   = 0; 
+     LCM_RW   = 1; 
+     while(1)                   
+     { 
+         LCM_E  = 1;  
+         if(RD7 == 0){break;}
+         LCM_E  = 0;    
+     } 
+     LCM_E  = 0;  
+     TRISD  = 0X00;                
+} 
+
+/********************************************************************************************
+* void WriteDataLCM(uchar data) 
+*********************************************************************************************/
+void WriteDataLCM(uchar data) 
+{         
+    check_busy();           
+    LCM_RS   = 1;
+    LCM_RW   = 0;
+    LCM_E    = 1; 
+    LCM_Data = data; 
+    LCM_E    = 0;         
+} 
+
+/********************************************************************************************
+* void WriteCommandLCM(uchar command) 
+*********************************************************************************************/
+void WriteCommandLCM(uchar command) 
+{         
+    LCM_RS   = 0;  
+    LCM_RW   = 0;  
+    LCM_E    = 1;  
+    LCM_Data = command; 
+    LCM_E    = 0; 
+} 
+
+/********************************************************************************************
+* void LCMInit(void)  
+*********************************************************************************************/
+void LCMInit(void) 
+{         
+    LCM_Data = 0;                        
+    WriteCommandLCM(0x38);   
+    WriteCommandLCM(0x08);  
+    WriteCommandLCM(0x01); 
+    WriteCommandLCM(0x06);      
+    WriteCommandLCM(0x0F); 
+} 
+
+/********************************************************************************************
+* void DisplayOneChar(uchar X, uchar Y, uchar DData) 
+*********************************************************************************************/
+void DisplayOneChar(uchar X, uchar Y, uchar DData) 
+{         
+    Y        &= 0x1;         
+    X        &= 0xF;  
+    if (Y) X |= 0xC0;  
+    X        |= 0x80;
+    WriteCommandLCM(X);  
+    WriteDataLCM(DData);  
+} 
+
+/********************************************************************************************
+* void DisplayListChar(uchar X, uchar Y, const uchar *DData) 
+*********************************************************************************************/
+void DisplayListChar(uchar X, uchar Y, const uchar *DData) 
+{         
+    uchar ListLength;                 
+    ListLength  = 0;         
+    Y          &= 0x1;         
+    X          &= 0xF; 
+    while (DData[ListLength]>0x19) 
+    {                 
+        if (X <= 0xF)   
+        {                         
+            DisplayOneChar(X, Y, DData[ListLength]);         
+            ListLength++;                         
+            X++;                 
+        }         
+    } 
+} 
