@@ -3,7 +3,7 @@
 * PS2 Keyboard - shows on the LCD16x2 what has been pressed on the keyboard
 *
 *
-********** N.B. DON'T FORGET TO ADD "Scancodes.h" TO YOUR PROJECT !!! *********
+********** N.B. DON'T FORGET TO ADD "scancodes.h" TO YOUR PROJECT !!! *********
 *
 *
 *********************************************************************************************/
