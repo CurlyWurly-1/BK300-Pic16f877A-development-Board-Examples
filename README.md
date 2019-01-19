@@ -1,13 +1,13 @@
 # BK300-Pic16f877A-development-Board-Examples
 <img src="BK300.jpg" alt="BK300 Dev board"/>
 
-This repository is for collecting the programs as supplied with the BK300 Pic Development board as seen in the picture above
-I have recoded the examples and listed them in folder "CODE".
-To load any of the code, you have to do the following 
- - Create a new standalone project in MPLABx for PIC16F877A using the lastest XC8 compiler. Name the project as per the example you want to use
- - Add the header file called "BoardConfig.h" to the "header files" section. You create it from scratch and just copy the code  
- - Add the appropriate "main_xx_??.c" file you want to use into the "Source Files" section
- - Press "Make and Program"
+This repository is for collecting the programs that can be used with the BK300 Pic Development board as seen in the picture above. When you buy this board the supplied CD contains example code but it is quite old. To ensure they work OK with the MPLAB X IDE and the XC8 complier, I have recoded the examples and listed them in folder "CODE".
+
+To use any of the code, all you have to do is the following 
+ - Create a new standalone project in MPLABx for PIC16F877A using the lastest XC8 compiler and name the project as per the example you want to use e.g. "main_01_LED"
+ - Add a header file called "BoardConfig.h" to the "header files" section. N.B. You could just create it from scratch and copy the code  
+ - Add the appropriate "main_xx_??.c" file (that you want to use) into the "Source Files" section
+ - Press "Make and Program" to program the PIC using a Pickit 3 programmer
 
 N.B. The original programs are in folder "BK300_original_code" and are as follows
  - Experiment_01_LED  
