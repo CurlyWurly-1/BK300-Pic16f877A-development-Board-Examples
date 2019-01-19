@@ -1,0 +1,381 @@
+/********************************************************************************************
+* PIC16F877A 
+* AT24C02_2
+ *********************************************************************************************/
+#include <xc.h>   
+#include <stdio.h>
+#include <stdlib.h>
+#include "BoardConfig.h" 
+
+#pragma config FOSC  = XT       // Oscillator Selection bits (XT oscillator)
+#pragma config WDTE  = OFF      // Watchdog Timer Enable bit (WDT enabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = OFF      // Brown-out Reset Enable bit (BOR disabled)
+#pragma config LVP   = OFF      // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3 is digital I/O, HV on MCLR must be used for programming)
+#pragma config CPD   = OFF      // Data EEPROM Memory Code Protection bit (Data EEPROM code protection off)
+#pragma config WRT   = OFF      // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
+#pragma config CP    = OFF      // Flash Program Memory Code Protection bit (Code protection off)
+
+// Unless specified elsewhere, 4MHz system frequency is assumed
+#ifndef _XTAL_FREQ
+ #define _XTAL_FREQ 4000000
+#endif
+
+#define RSPIN  RC3 //Data or Instrument Select
+#define RWPIN  RC4 //Write or Read
+#define EPIN   RC5 //6800 mode Enable single
+#define sda    RA5
+#define scl    RA4
+
+__bit eepromdi;
+__bit eepromdo;
+unsigned char addressbuf;
+
+
+void delay1(unsigned int t);
+void lcd_wait_busy(void);
+void lcd_write_com(unsigned char combuf);
+void lcd_write_com_busy(unsigned char combuf);
+void lcd_write_data(unsigned char databuf);
+void lcd_write_address(unsigned char x,unsigned char y);
+void lcdreset(void);
+void lcd_write_char(unsigned char x,unsigned char y,unsigned char buf);
+void delay(void);
+void i2cstart(void);
+void i2cstop(void);
+void bitin(void);
+void bitout(void);
+void write(unsigned char address1,unsigned char byte);
+void i2cwrite(unsigned char sedata);
+unsigned char   i2cread(void);
+unsigned char   read(unsigned char address);
+
+/********************************************************************************************
+* void main(void)
+ *********************************************************************************************/
+void main(void)
+{
+	unsigned char buf;
+    ADCON1  = 0X07;
+	TRISC   = 0B11000111; 
+	TRISA   = 0B11001111;
+	TRISD   = 0B00000000; 
+	buf     = read(0x18); 
+  	buf++; 
+  	write(0x18, buf);	   
+	lcdreset();	 
+  	lcd_write_char( 0, 0, '-');   //-
+	lcd_write_char( 1, 0, '-');   //-
+	lcd_write_char( 2, 0, 'A');   //A
+	lcd_write_char( 3, 0, 'T');   //T
+	lcd_write_char( 4, 0, '2');   //2
+	lcd_write_char( 5, 0, '4');   //4   
+	lcd_write_char( 6, 0, 'C');   //C  	
+	lcd_write_char( 7, 0, '0');   //0
+	lcd_write_char( 8, 0, '2');   //2
+
+	lcd_write_char(10, 0, 'T');  //T
+	lcd_write_char(11, 0, 'E');  //E
+	lcd_write_char(12, 0, 'S');  //S
+	lcd_write_char(13, 0, 'T');  //T
+	lcd_write_char(14, 0, '-');   //-
+	lcd_write_char(15, 0, '-');   //-
+
+	lcd_write_char( 0, 1, 'B');   //B
+	lcd_write_char( 1, 1, 'o');   //o
+	lcd_write_char( 2, 1, 'o');   //o
+	lcd_write_char( 3, 1, 't');   //t
+   
+	lcd_write_char( 5, 1, 't');   //t  	
+	lcd_write_char( 6, 1, 'i');   //i
+	lcd_write_char( 7, 1, 'm');   //m
+	lcd_write_char( 8, 1, 'e');   //e
+	lcd_write_char( 9, 1, 's');   //s
+	lcd_write_char(10, 1, ':');   //:
+  
+	lcd_write_char(12, 1, buf/100+0x30);
+	lcd_write_char(13, 1, (buf%100)/10+0x30);
+	lcd_write_char(14, 1, buf%10+0x30);
+  	while(1)
+  	{    	  		  	    	
+  	}
+}
+
+/********************************************************************************************
+* void delay1(unsigned int t)
+ *********************************************************************************************/
+void delay1(unsigned int t)
+{
+	unsigned int i,j;
+	for(i=0; i<t; i++)
+	{
+		for(j=0; j<10; j++);
+	}
+}
+
+/********************************************************************************************
+* void lcd_wait_busy(void)
+ *********************************************************************************************/
+void lcd_wait_busy(void)
+{  
+	TRISD7 = 1;
+   	RSPIN  = 0;
+   	RWPIN  = 1;
+   	EPIN   = 1;	
+   	while(RD7 == 1); 
+   	EPIN   = 0;
+   	TRISD7 = 0;
+}
+
+/********************************************************************************************
+* void lcd_write_com(unsigned char combuf)
+ *********************************************************************************************/
+void lcd_write_com(unsigned char combuf)
+{  
+	RSPIN = 0;
+   	RWPIN = 0;
+   	PORTD = combuf;
+   	EPIN  = 1;
+   	asm("NOP");
+   	EPIN  = 0;	
+}
+
+/********************************************************************************************
+* void lcd_write_com_busy(unsigned char combuf)
+ *********************************************************************************************/
+void lcd_write_com_busy(unsigned char combuf)
+{  
+	lcd_wait_busy();
+   	lcd_write_com(combuf);
+}
+
+/********************************************************************************************
+* void lcd_write_data(unsigned char databuf)
+ *********************************************************************************************/
+void lcd_write_data(unsigned char databuf)
+{  
+	lcd_wait_busy();
+   	RSPIN = 1; 
+   	RWPIN = 0;
+   	PORTD = databuf; 
+   	EPIN  = 1;
+   	asm("NOP");
+   	EPIN  = 0;
+}
+
+/********************************************************************************************
+* void lcd_write_address(unsigned char x,unsigned char y)
+ *********************************************************************************************/
+void lcd_write_address(unsigned char x,unsigned char y)
+{  
+	x  &= 0x0f;
+   	y  &= 0x01;
+   	if(y == 0x00)
+      	lcd_write_com_busy(x | 0x80);
+   	else
+      	lcd_write_com_busy((x + 0x40) | 0x80);
+}
+
+/********************************************************************************************
+* void lcdreset(void)
+ *********************************************************************************************/
+void lcdreset(void)
+{  
+	delay1(150); 
+	lcd_write_com(0x38);
+   	delay1(50); 
+	lcd_write_com(0x38);
+   	delay1(50); 
+	lcd_write_com(0x38);
+   	lcd_write_com_busy(0x38);
+   	lcd_write_com_busy(0x08);
+   	lcd_write_com_busy(0x01);
+   	lcd_write_com_busy(0x06);
+   	lcd_write_com_busy(0x0c);
+}  	
+
+/********************************************************************************************
+* void lcd_write_char(unsigned char x,unsigned char y,unsigned char buf)
+ *********************************************************************************************/
+void lcd_write_char(unsigned char x,unsigned char y,unsigned char buf)
+{  		
+	lcd_write_address(x,y); 
+   	lcd_write_data(buf);
+} 
+
+/********************************************************************************************
+* void delay(void)
+ *********************************************************************************************/
+void delay(void)
+{
+	unsigned char k;
+	for(k=0; k<180; k++);
+}
+
+/********************************************************************************************
+* void i2cstart(void)
+ *********************************************************************************************/
+void i2cstart(void)
+{  	
+  	scl    = 1;
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	sda    = 1;
+  	delay();
+  	sda    = 0;
+  	delay();
+  	scl    = 0;
+  	delay();
+}
+
+/********************************************************************************************
+* void i2cstop(void)
+ *********************************************************************************************/
+void i2cstop(void)
+{
+  	sda    = 0;
+  	sda    = 0;  
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");	
+  	scl    = 1;
+  	delay();
+  	sda    = 1;
+  	delay();
+  	scl    = 0;
+  	delay();
+}
+
+/********************************************************************************************
+* void bitin(void)
+ *********************************************************************************************/
+void bitin(void)
+{
+  	eepromdi = 1;  	
+  	TRISA5   = 1;
+  	scl      = 1;
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	eepromdi = sda;
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	scl      = 0;
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	TRISA5   = 0;
+}
+
+/********************************************************************************************
+* void bitout(void)
+ *********************************************************************************************/
+void bitout(void)
+{
+  	sda = eepromdo;
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	scl=1;
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	scl=0;
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+  	asm("NOP");
+}
+
+/********************************************************************************************
+* void i2cwrite(unsigned char sedata)
+ *********************************************************************************************/
+void i2cwrite(unsigned char sedata)
+{
+  	unsigned char k;
+  	for(k=0; k<8; k++)
+  	{
+    	if(sedata & 0x80)
+    	{
+      		eepromdo = 1;
+    	}
+    	else
+    	{
+      		eepromdo = 0;
+    	}
+    	sedata = sedata<<1;
+    	bitout();
+  	}
+  	bitin();
+}
+
+/********************************************************************************************
+* unsigned char i2cread(void)
+ *********************************************************************************************/
+unsigned char i2cread(void)
+{
+  	unsigned char redata;
+  	unsigned char m;
+  	for(m=0; m<8; m++)
+  	{
+    	redata = redata<<1;
+    	bitin();
+    	if(eepromdi == 1)
+    	{
+      		redata |= 0x01;
+    	}
+    	else
+    	{
+      		redata &= 0xfe;
+    	}
+    	asm("NOP");
+  	}
+  	eepromdo=1;
+  	bitout();
+  	return redata;
+}
+
+/********************************************************************************************
+* unsigned char read(unsigned char address)
+ *********************************************************************************************/
+unsigned char read(unsigned char address)
+{
+	unsigned char eebuf3;
+  	i2cstart();
+  	i2cwrite(0xa0);
+  	i2cwrite(address);
+  	i2cstart();
+  	i2cwrite(0xa1);
+  	eebuf3 = i2cread();
+  	i2cstop();
+  	return eebuf3;
+}
+
+/********************************************************************************************
+* void write(unsigned char address1,unsigned char byte)
+ *********************************************************************************************/
+void write(unsigned char address1,unsigned char byte)
+{
+  	i2cstart();
+  	i2cwrite(0xa0);
+  	i2cwrite(address1);
+  	i2cwrite(byte);
+  	i2cstop();
+}
