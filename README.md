@@ -2,7 +2,14 @@
 <img src="BK300.jpg" alt="BK300 Dev board"/>
 
 This repository is for collecting the programs as supplied with the BK300 Pic Development board as seen in the picture above
-When time permits, I hope to load versions of these programs so that they can be easily used with the latest version of the MPLAB X and the XC8 compiler. The original programs are in folder "BK300_original_code" and are as follows
+I have recoded the examples and listed them in folder "CODE".
+To load any of the code, you have to do the following 
+ - Create a new standalone project in MPLABx for PIC16F877A using the lastest XC8 compiler. Name the project as per the example you want to use
+ - Add the header file called "BoardConfig.h" to the "header files" section. You create it from scratch and just copy the code  
+ - Add the appropriate "main_xx_??.c" file you want to use into the "Source Files" section
+ - Press "Make and Program"
+
+N.B. The original programs are in folder "BK300_original_code" and are as follows
  - Experiment_01_LED  
  - Experiment_02_4x4_Keyboard  
  - Experiment_03_LED 	 
