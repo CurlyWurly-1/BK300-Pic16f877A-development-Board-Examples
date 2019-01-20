@@ -1,0 +1,190 @@
+/********************************************************************************************
+* PIC16F877A 
+* LCD 16x2 or 20x4 will work
+*********************************************************************************************/
+#include <xc.h>   
+#include <stdio.h>
+#include <stdlib.h>
+#include "BoardConfig.h" 
+
+#pragma config FOSC  = XT       // Oscillator Selection bits (XT oscillator)
+#pragma config WDTE  = OFF      // Watchdog Timer Enable bit (WDT enabled)
+#pragma config PWRTE = OFF      // Power-up Timer Enable bit (PWRT disabled)
+#pragma config BOREN = OFF      // Brown-out Reset Enable bit (BOR disabled)
+#pragma config LVP   = OFF      // Low-Voltage (Single-Supply) In-Circuit Serial Programming Enable bit (RB3 is digital I/O, HV on MCLR must be used for programming)
+#pragma config CPD   = OFF      // Data EEPROM Memory Code Protection bit (Data EEPROM code protection off)
+#pragma config WRT   = OFF      // Flash Program Memory Write Enable bits (Write protection off; all program memory may be written to by EECON control)
+#pragma config CP    = OFF      // Flash Program Memory Code Protection bit (Code protection off)
+
+// Unless specified elsewhere, 4MHz system frequency is assumed
+#ifndef _XTAL_FREQ
+ #define _XTAL_FREQ 4000000
+#endif
+
+#define uchar  unsigned char
+#define uint   unsigned int
+#define ulint unsigned long int
+
+#define  LCD_DATA_PORT    PORTD      
+#define  LCD_DATA_POUT    TRISD  = 0x00 
+#define  LCD_DATA_PIN     TRISD  = 0xFF 
+#define  LCD_Control_IN   TRISC |= 0XFF
+#define  LCD_Control_OUT  TRISC &= 0X00
+#define  LCD_EN_1         RC5    = 1
+#define  LCD_EN_0         RC5    = 0
+#define  LCD_RW_1         RC4    = 1
+#define  LCD_RW_0         RC4    = 0
+#define  LCD_RS_1         RC3    = 1
+#define  LCD_RS_0         RC3    = 0
+
+void lcd_init(void);
+void LCD_en_write(void);
+void wait_LCD_Ready(void);
+
+void set_LCD_xy(uchar x, uchar y );
+void LCD_write_onechar(uchar COMM,uchar DAT);
+void LCD_write_string(uchar X,uchar Y,uchar *string);
+
+/********************************************************************************************
+* void main(void)
+*********************************************************************************************/
+void main(void)
+{
+    uchar START_DISPLAY1[]={"   PIC BK300  "};
+    uchar START_DISPLAY2[]={"   LCD162 TEST"};     
+    uchar START_DISPLAY3[]={"Line 3"};     
+    uchar START_DISPLAY4[]={"Line 4"};     
+    
+    Board_init(); 
+    RA3 = 1; 
+
+    lcd_init();
+    __delay_us(2);
+
+    while(1)
+    {
+        LCD_write_string(0, 0, START_DISPLAY1);
+        LCD_write_string(0, 1, START_DISPLAY2);
+        LCD_write_string(0, 2, START_DISPLAY3);   // Only for 20x4 
+        LCD_write_string(0, 3, START_DISPLAY4);   // Only for 20x4
+        __delay_ms(200);
+    }   	    		
+}
+
+/********************************************************************************************
+* void lcd_init(void)
+*********************************************************************************************/
+void lcd_init(void)
+{
+//    nms_delay(15);
+    LCD_DATA_POUT;     
+    LCD_Control_OUT;
+    LCD_write_onechar(0x38, 0);
+//    nms_delay(1);
+    LCD_write_onechar(0x38, 0);
+//    nms_delay(1);
+    LCD_write_onechar(0x38, 0);
+//    nms_delay(1);
+    LCD_write_onechar(0x38, 0);
+    LCD_write_onechar(0x08, 0);  
+    LCD_write_onechar(0x01, 0);
+    LCD_write_onechar(0x06, 0);
+//    nms_delay(1);  
+    LCD_write_onechar(0x0C, 0);   
+}
+
+/********************************************************************************************
+* void LCD_en_write(void)    
+*********************************************************************************************/
+void LCD_en_write(void)        
+{
+    LCD_EN_1;
+//    nus_delay(150); 
+    LCD_EN_0;
+}
+
+/********************************************************************************************
+* void wait_LCD_Ready(void)
+*********************************************************************************************/
+void wait_LCD_Ready(void)
+{
+    uchar temp1;
+    LCD_DATA_PORT = 0XFF;
+    LCD_DATA_PIN;  
+    LCD_RS_0;
+    LCD_RW_1; 
+    LCD_EN_1;
+//    nus_delay(2);
+    while((temp1 = PORTD & 0X80));
+    LCD_EN_0;
+    LCD_RS_1;
+    LCD_DATA_POUT;
+}
+
+/********************************************************************************************
+* void LCD_write_onechar(uchar COMM,uchar DAT)
+*********************************************************************************************/
+void LCD_write_onechar(uchar COMM,uchar DAT)
+{ 
+    wait_LCD_Ready();
+    LCD_RW_0; 
+    if(COMM == 0)
+    {
+        LCD_RS_1; 
+        LCD_DATA_PORT = DAT;
+    } 
+    else
+    {
+        LCD_RS_0;
+        LCD_DATA_PORT = COMM;
+    }
+    LCD_en_write(); 
+//    nus_delay(2);
+    LCD_RW_1;
+    LCD_RS_1;
+}
+
+/********************************************************************************************
+* void LCD_write_string(uchar X,uchar Y,uchar *string)
+*********************************************************************************************/
+void LCD_write_string(uchar X,uchar Y,uchar *string)
+{
+    set_LCD_xy( X, Y );
+    while (*string) 
+    {
+        LCD_write_onechar(0, *string );
+        string ++; 
+    }
+}
+
+/********************************************************************************************
+* void set_LCD_xy(uchar x, uchar y )
+*********************************************************************************************/
+void set_LCD_xy(uchar x, uchar y )
+{
+    uchar DIS_address;
+
+//    if (y == 0) 
+//        DIS_address = 0x80 + x; 
+//    else 
+//        DIS_address = 0xc0 + x;    
+    
+    
+    switch(y) 
+    { 
+        case 0 : 
+            DIS_address = 0x80 + x; 
+            break; 
+        case 1 : 
+            DIS_address = 0xc0 + x; 
+            break; 
+        case 2 : 
+            DIS_address = 0x94 + x; 
+            break; 
+        case 3 : 
+            DIS_address = 0xD4 + x; 
+            break; 
+    }        
+            
+    LCD_write_onechar( DIS_address, 0 ); 
+}
